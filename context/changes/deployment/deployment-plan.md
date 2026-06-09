@@ -8,6 +8,102 @@ The 10xCards project (Astro 6 SSR + React 19 + TypeScript + Supabase) is scaffol
 
 ---
 
+## Phase 0 — Prerequisites
+
+### 0a. Wrangler CLI
+
+Wrangler is already a devDependency (`wrangler@4.90.0`) — no global install needed. Use `npx wrangler` throughout.
+
+**Create a Cloudflare account** if you don't have one: https://dash.cloudflare.com/sign-up (free, no credit card for the free tier).
+
+**Authenticate:**
+```bash
+npx wrangler login    # opens browser OAuth — authorize in the browser
+npx wrangler whoami   # verify — output shows your email and Account ID; save the Account ID
+```
+
+Expected output of `whoami`:
+```
+ ⛅️ wrangler x.x.x
+Getting User settings...
+👋 You are logged in with an OAuth Token, associated with the email <your-email>!
+┌────────────────────────────┬──────────────────────────────────┐
+│ Account Name               │ Account ID                       │
+├────────────────────────────┼──────────────────────────────────┤
+│ Your Account               │ xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx │
+└────────────────────────────┴──────────────────────────────────┘
+```
+
+---
+
+### 0b. Supabase — Create Project and Get Credentials
+
+**Create a Supabase project** if you don't have one:
+
+1. Go to https://supabase.com/dashboard → "New project"
+2. Set project name: `10x-cards`, choose a region close to your users, set a database password (save it)
+3. Wait for provisioning (~2 minutes)
+
+**Get credentials** — from the Supabase dashboard:
+
+1. Open the project → Settings (gear icon) → **API**
+2. Copy two values:
+   - **Project URL** → this is `SUPABASE_URL` (format: `https://xxxxxxxxxxxx.supabase.co`)
+   - **Project API keys → `anon` `public`** → this is `SUPABASE_KEY`
+
+---
+
+### 0c. Supabase CLI — Authenticate and Link
+
+Supabase CLI is already a devDependency (`supabase@2.23.4`).
+
+**Authenticate:**
+```bash
+npx supabase login    # opens browser — generates a personal access token and stores it locally
+```
+
+**Link the local project to your remote Supabase project:**
+```bash
+npx supabase link --project-ref <project-ref>
+# project-ref is the ID in your Supabase dashboard URL:
+# https://supabase.com/dashboard/project/<project-ref>
+```
+
+Verify the link:
+```bash
+npx supabase status   # shows local stack status; "Linked project" confirms the remote is set
+```
+
+**Push migrations** (run this whenever `supabase/migrations/` has new files):
+```bash
+npx supabase db push  # applies all pending migrations to the remote project
+```
+
+Currently `supabase/migrations/` is empty — no push needed for the first deploy. The Supabase Auth tables are managed by Supabase automatically; they do not require a migration file.
+
+---
+
+### 0d. Local Dev — Wire `.dev.vars`
+
+`.dev.vars` is the Cloudflare-local equivalent of `.env` — read by `npm run dev` (workerd runtime), never committed, never deployed. Create it from the template:
+
+```bash
+cp .env.example .dev.vars
+```
+
+Edit `.dev.vars` and fill in the values from Step 0b:
+```
+SUPABASE_URL=https://xxxxxxxxxxxx.supabase.co
+SUPABASE_KEY=your-anon-public-key
+```
+
+Verify local dev works before deploying:
+```bash
+npm run dev   # should start at http://localhost:4321 with no "undefined" errors in the console
+```
+
+---
+
 ## Phase 1 — Automated File Changes
 
 ### 1a. Fix `wrangler.jsonc` ✅
@@ -190,19 +286,23 @@ Preview URLs (`*.10x-cards.pages.dev`) are public by default. Per the risk regis
 ## Sequencing Summary
 
 ```
+[PREREQ] Create Cloudflare account (free) → npx wrangler login → npx wrangler whoami
+[PREREQ] Create Supabase project → copy SUPABASE_URL + SUPABASE_KEY from Settings > API
+[PREREQ] npx supabase login → npx supabase link --project-ref <ref>
+[PREREQ] cp .env.example .dev.vars → fill values → npm run dev (verify locally)
+         ↓
 [AUTO]   Fix wrangler.jsonc (name="10x-cards", add disable_nodejs_process_v2) ✅
 [AUTO]   Create .github/workflows/deploy.yml ✅
          ↓
-[MANUAL] wrangler login → copy account ID
 [MANUAL] Create Cloudflare API token (Pages Edit + Account Settings Read)
 [MANUAL] Add 4 GitHub secrets (CLOUDFLARE_API_TOKEN, CLOUDFLARE_ACCOUNT_ID,
          SUPABASE_URL, SUPABASE_KEY)
-[MANUAL] wrangler pages secret put SUPABASE_URL + SUPABASE_KEY
+[MANUAL] npx wrangler pages secret put SUPABASE_URL + SUPABASE_KEY --project-name 10x-cards
          ↓
 [DEPLOY] git push origin master  (triggers Deploy workflow)
-         OR: npm run build && wrangler pages deploy ./dist --project-name 10x-cards
+         OR: npm run build && npx wrangler pages deploy ./dist --project-name 10x-cards
          ↓
-[VERIFY] wrangler tail + browser: auth flow + no 500 errors
+[VERIFY] npx wrangler tail + browser: auth flow + no 500 errors
          ↓
 [HARDEN] Cloudflare Access on *.10x-cards.pages.dev (before real user data)
 ```
