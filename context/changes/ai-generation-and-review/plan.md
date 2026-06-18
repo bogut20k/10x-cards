@@ -308,8 +308,8 @@ Extend `GenerateForm` to render generated cards below the form: dismissible AI w
 
 #### Automated
 
-- [x] 1.1 Type checking and linting passes: `npm run lint`
-- [x] 1.2 Production build succeeds: `npm run build`
+- [x] 1.1 Type checking and linting passes: `npm run lint` — 192345e
+- [x] 1.2 Production build succeeds: `npm run build` — 192345e
 
 #### Manual
 
@@ -322,8 +322,8 @@ Extend `GenerateForm` to render generated cards below the form: dismissible AI w
 
 #### Automated
 
-- [ ] 2.1 Type checking and linting passes: `npm run lint`
-- [ ] 2.2 Production build succeeds: `npm run build`
+- [x] 2.1 Type checking and linting passes: `npm run lint`
+- [x] 2.2 Production build succeeds: `npm run build`
 
 #### Manual
 
