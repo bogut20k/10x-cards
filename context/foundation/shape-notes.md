@@ -129,3 +129,4 @@ Wyjście widoczne dla użytkownika: kolejność fiszek w sesji powtórek jest wy
 ## Quality cross-check
 
 Wszystkie elementy obecne. Quality check status: accepted. Brak gaps — shape-notes finalizowane bez ostrzeżeń.
+
