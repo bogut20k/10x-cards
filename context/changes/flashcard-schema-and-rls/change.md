@@ -1,7 +1,7 @@
 ---
 change_id: flashcard-schema-and-rls
 title: Flashcard schema and row-level security in Supabase
-status: new
+status: implementing
 created: 2026-06-18
 updated: 2026-06-18
 archived_at: null
