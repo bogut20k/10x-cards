@@ -30,8 +30,8 @@ Student uczący się regularnie ma duże partie tekstu do przyswojenia i wie, ż
 | ID   | Change ID                | Outcome (user can …)                                         | Prerequisites | PRD refs                        | Status   |
 | ---- | ------------------------ | ------------------------------------------------------------ | ------------- | ------------------------------- | -------- |
 | F-00 | gate-product-routes      | (foundation) ochrona tras produktowych w middleware          | —             | NFR (bezpieczeństwo)            | done     |
-| F-01 | flashcard-schema-and-rls | (foundation) schemat fiszek i stanu SR w DB + RLS            | —             | NFR (prywatność), FR-002, FR-005 | ready    |
-| S-01 | ai-generation-and-review | wkleić tekst, dostać fiszki od AI i zaakceptować/edytować je | F-01          | FR-001, FR-002, FR-003, US-01   | blocked  |
+| F-01 | flashcard-schema-and-rls | (foundation) schemat fiszek i stanu SR w DB + RLS            | —             | NFR (prywatność), FR-002, FR-005 | done     |
+| S-01 | ai-generation-and-review | wkleić tekst, dostać fiszki od AI i zaakceptować/edytować je | F-01          | FR-001, FR-002, FR-003, US-01   | in progress |
 | S-02 | spaced-repetition-session| przeprowadzić sesję powtórek opartą na algorytmie SR         | F-01, S-01    | FR-005, US-01                   | proposed |
 | S-03 | manual-card-creation     | ręcznie utworzyć fiszkę (przód + tył)                        | F-01          | FR-004                          | proposed |
 | S-04 | flashcard-edit-and-delete| edytować i usuwać zapisane fiszki                            | F-01, S-01    | FR-006                          | proposed |
@@ -79,7 +79,7 @@ Foundations below assume these are present and do NOT re-scaffold them.
 - **Blockers:** —
 - **Unknowns:** —
 - **Risk:** Bez RLS od startu każdy nowy endpoint może ujawnić fiszki innego użytkownika; znacznie taniej zrobić to teraz niż naprawiać po S-01.
-- **Status:** ready
+- **Status:** done ✓
 
 ## Slices
 
@@ -94,7 +94,7 @@ Foundations below assume these are present and do NOT re-scaffold them.
 - **Unknowns:**
   - Który dostawca AI API zostanie użyty (OpenRouter, OpenAI, Anthropic itp.) i czy klucz API jest dostępny? — Owner: user. Block: yes.
 - **Risk:** Jedyna zewnętrzna zależność w MVP; prompt engineering może wymagać kilku iteracji zanim jakość fiszek będzie wystarczająca. Wczesne uruchomienie = czas na iteracje przed resztą slajsów.
-- **Status:** blocked
+- **Status:** in progress
 
 ### S-02: Sesja powtórek (spaced repetition)
 
