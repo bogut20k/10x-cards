@@ -99,14 +99,14 @@ Update `src/middleware.ts` to protect four page routes and all non-auth API rout
 
 #### Automated
 
-- [x] 1.1 Type checking and linting passes: `npm run lint`
-- [x] 1.2 Production build succeeds: `npm run build`
+- [x] 1.1 Type checking and linting passes: `npm run lint` — 129b203
+- [x] 1.2 Production build succeeds: `npm run build` — 129b203
 
 #### Manual
 
-- [x] 1.3 /flashcards logged out → redirect to /auth/signin
-- [x] 1.4 /generate logged out → redirect to /auth/signin
-- [x] 1.5 /review logged out → redirect to /auth/signin
-- [x] 1.6 fetch("/api/flashcards") logged out → 302 redirect
-- [x] 1.7 fetch("/api/auth/signin") logged out → NOT redirected
-- [x] 1.8 Logged-in user accesses all protected routes → no redirect
+- [x] 1.3 /flashcards logged out → redirect to /auth/signin — 129b203
+- [x] 1.4 /generate logged out → redirect to /auth/signin — 129b203
+- [x] 1.5 /review logged out → redirect to /auth/signin — 129b203
+- [x] 1.6 fetch("/api/flashcards") logged out → 302 redirect — 129b203
+- [x] 1.7 fetch("/api/auth/signin") logged out → NOT redirected — 129b203
+- [x] 1.8 Logged-in user accesses all protected routes → no redirect — 129b203
