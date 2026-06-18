@@ -148,12 +148,12 @@ FOR EACH ROW EXECUTE FUNCTION update_updated_at();
 
 #### Automated
 
-- [x] 1.1 Migration file exists at the correct path
-- [x] 1.2 `supabase db push` exits with code 0
+- [x] 1.1 Migration file exists at the correct path — 57ebcd0
+- [x] 1.2 `supabase db push` exits with code 0 — 57ebcd0
 
 #### Manual
 
-- [x] 1.3 flashcards table visible in Supabase Table Editor with all columns
-- [x] 1.4 RLS enabled on flashcards table with "Users own their flashcards" policy
-- [x] 1.5 INSERT with auth.uid() succeeds; SELECT returns only own rows
-- [x] 1.6 UPDATE changes updated_at value
+- [x] 1.3 flashcards table visible in Supabase Table Editor with all columns — 57ebcd0
+- [x] 1.4 RLS enabled on flashcards table with "Users own their flashcards" policy — 57ebcd0
+- [x] 1.5 INSERT with auth.uid() succeeds; SELECT returns only own rows — 57ebcd0
+- [x] 1.6 UPDATE changes updated_at value — 57ebcd0
