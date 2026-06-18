@@ -29,6 +29,7 @@ Student uczący się regularnie ma duże partie tekstu do przyswojenia i wie, ż
 
 | ID   | Change ID                | Outcome (user can …)                                         | Prerequisites | PRD refs                        | Status   |
 | ---- | ------------------------ | ------------------------------------------------------------ | ------------- | ------------------------------- | -------- |
+| F-00 | gate-product-routes      | (foundation) ochrona tras produktowych w middleware          | —             | NFR (bezpieczeństwo)            | done     |
 | F-01 | flashcard-schema-and-rls | (foundation) schemat fiszek i stanu SR w DB + RLS            | —             | NFR (prywatność), FR-002, FR-005 | ready    |
 | S-01 | ai-generation-and-review | wkleić tekst, dostać fiszki od AI i zaakceptować/edytować je | F-01          | FR-001, FR-002, FR-003, US-01   | blocked  |
 | S-02 | spaced-repetition-session| przeprowadzić sesję powtórek opartą na algorytmie SR         | F-01, S-01    | FR-005, US-01                   | proposed |
@@ -57,6 +58,15 @@ Foundations below assume these are present and do NOT re-scaffold them.
 - **Observability:** partial — Cloudflare native observability włączony (`wrangler.jsonc:12-14`); brak app-level logging / error tracking
 
 ## Foundations
+
+### F-00: Ochrona tras produktowych w middleware
+
+- **Outcome:** (foundation) middleware chroni `/flashcards`, `/generate`, `/review` i wszystkie `/api/*` (poza `/api/auth/*`) przed nieautoryzowanym dostępem — każdy przyszły slice dostaje ochronę trasy automatycznie bez per-route auth logiki.
+- **Change ID:** gate-product-routes
+- **PRD refs:** NFR (bezpieczeństwo)
+- **Unlocks:** S-01, S-02, S-03, S-04 (wszystkie slajsy mogą budować endpointy bez własnej auth logiki)
+- **Prerequisites:** —
+- **Status:** done ✓
 
 ### F-01: Schemat danych fiszek i algorytmu powtórek
 
