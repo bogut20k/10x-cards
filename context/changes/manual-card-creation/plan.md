@@ -188,16 +188,16 @@ Przekazać jako prop: `<ManualCardForm initialCards={flashcards ?? []} client:lo
 
 #### Automated
 
-- [x] 1.1 Type checking i linting: `npm run lint`
-- [x] 1.2 Production build: `npm run build`
+- [x] 1.1 Type checking i linting: `npm run lint` — e1c522a
+- [x] 1.2 Production build: `npm run build` — e1c522a
 
 #### Manual
 
-- [x] 1.3 Dashboard renderuje formularz z polami Przód i Tył
-- [x] 1.4 Oba pola puste → przycisk disabled
-- [x] 1.5 Submit z wypełnionymi polami → baner sukcesu, pola wyczyszczone
-- [x] 1.6 Pisanie po sukcesie → baner znika
-- [x] 1.7 Link "Generuj z AI" prowadzi do /generate
+- [x] 1.3 Dashboard renderuje formularz z polami Przód i Tył — e1c522a
+- [x] 1.4 Oba pola puste → przycisk disabled — e1c522a
+- [x] 1.5 Submit z wypełnionymi polami → baner sukcesu, pola wyczyszczone — e1c522a
+- [x] 1.6 Pisanie po sukcesie → baner znika — e1c522a
+- [x] 1.7 Link "Generuj z AI" prowadzi do /generate — e1c522a
 
 ### Phase 2: Dashboard Enhancement — Card List
 

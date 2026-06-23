@@ -38,7 +38,7 @@ export const POST: APIRoute = async (context) => {
   }
 
   try {
-    const client = new Anthropic({ apiKey: ANTHROPIC_API_KEY as string });
+    const client = new Anthropic({ apiKey: ANTHROPIC_API_KEY });
     const message = await client.messages.create({
       model: "claude-haiku-4-5-20251001",
       max_tokens: 2048,
