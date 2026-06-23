@@ -13,6 +13,9 @@ export default defineConfig({
   integrations: [react(), sitemap()],
   vite: {
     plugins: [tailwindcss()],
+    resolve: {
+      dedupe: ["react", "react-dom"],
+    },
   },
   adapter: cloudflare(),
   env: {
