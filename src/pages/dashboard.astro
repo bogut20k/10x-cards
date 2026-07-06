@@ -2,7 +2,6 @@
 import Layout from "@/layouts/Layout.astro";
 import ManualCardForm from "@/components/flashcards/ManualCardForm";
 
-const { user } = Astro.locals;
 const saved = Astro.url.searchParams.get("saved");
 ---
 
@@ -18,24 +17,7 @@ const saved = Astro.url.searchParams.get("saved");
         )
       }
 
-      <div class="rounded-2xl border border-white/10 bg-white/10 px-6 py-4 backdrop-blur-xl">
-        <div class="flex items-center justify-between">
-          <div>
-            <p class="text-sm text-blue-100/60">Zalogowany jako</p>
-            <p class="font-semibold text-white">{user?.email}</p>
-          </div>
-          <form method="POST" action="/api/auth/signout">
-            <button
-              type="submit"
-              class="rounded-lg border border-white/20 bg-white/10 px-4 py-2 text-sm text-white transition-colors hover:bg-white/20"
-            >
-              Wyloguj
-            </button>
-          </form>
-        </div>
-      </div>
-
-      <ManualCardForm client:only="react" />
+      <ManualCardForm client:load />
     </div>
   </div>
 </Layout>

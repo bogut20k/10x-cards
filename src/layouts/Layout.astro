@@ -8,6 +8,7 @@ interface Props {
 }
 
 const { title = "10x Astro Starter" } = Astro.props;
+const user = Astro.locals.user;
 ---
 
 <!doctype html>
@@ -34,6 +35,45 @@ const { title = "10x Astro Starter" } = Astro.props;
           )}
         </Banner>
       ))
+    }
+    {
+      user && (
+        <nav class="border-b border-white/10 bg-white/10 backdrop-blur-xl">
+          <div class="mx-auto flex max-w-2xl items-center justify-between px-4 py-3">
+            <div class="flex items-center gap-1">
+              <a
+                href="/dashboard"
+                class="rounded-lg px-3 py-1.5 text-sm font-medium text-blue-100/80 transition-colors hover:bg-white/10 hover:text-white"
+              >
+                Dashboard
+              </a>
+              <a
+                href="/generate"
+                class="rounded-lg px-3 py-1.5 text-sm font-medium text-blue-100/80 transition-colors hover:bg-white/10 hover:text-white"
+              >
+                Generuj
+              </a>
+              <a
+                href="/flashcards"
+                class="rounded-lg px-3 py-1.5 text-sm font-medium text-blue-100/80 transition-colors hover:bg-white/10 hover:text-white"
+              >
+                Moje fiszki
+              </a>
+            </div>
+            <div class="flex items-center gap-3">
+              <span class="hidden text-xs text-blue-100/40 sm:block">{user.email}</span>
+              <form method="POST" action="/api/auth/signout">
+                <button
+                  type="submit"
+                  class="rounded-lg border border-white/20 bg-white/10 px-3 py-1.5 text-xs font-medium text-white transition-colors hover:bg-white/20"
+                >
+                  Wyloguj
+                </button>
+              </form>
+            </div>
+          </div>
+        </nav>
+      )
     }
     <slot />
   </body>

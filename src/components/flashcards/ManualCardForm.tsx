@@ -3,6 +3,9 @@ import { Loader2, Plus, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { FlashcardDraft } from "@/types";
 
+const MAX_FRONT_CHARS = 500;
+const MAX_BACK_CHARS = 2000;
+
 export default function ManualCardForm() {
   const [front, setFront] = useState("");
   const [back, setBack] = useState("");
@@ -92,6 +95,7 @@ export default function ManualCardForm() {
               value={front}
               onChange={handleFrontChange}
               rows={3}
+              maxLength={MAX_FRONT_CHARS}
               placeholder="Pytanie lub pojęcie..."
               className="w-full resize-none rounded-lg border border-white/20 bg-white/10 px-4 py-3 text-sm text-white placeholder-blue-100/40 focus:border-blue-400/50 focus:ring-1 focus:ring-blue-400/50 focus:outline-none"
             />
@@ -106,6 +110,7 @@ export default function ManualCardForm() {
               value={back}
               onChange={handleBackChange}
               rows={4}
+              maxLength={MAX_BACK_CHARS}
               placeholder="Odpowiedź lub definicja..."
               className="w-full resize-none rounded-lg border border-white/20 bg-white/10 px-4 py-3 text-sm text-white placeholder-blue-100/40 focus:border-blue-400/50 focus:ring-1 focus:ring-blue-400/50 focus:outline-none"
             />
@@ -122,7 +127,7 @@ export default function ManualCardForm() {
             {isLoading ? (
               <>
                 <Loader2 className="size-4 animate-spin" />
-                Zapisuję...
+                Zapisz fiszkę
               </>
             ) : (
               <>

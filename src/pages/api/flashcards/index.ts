@@ -2,6 +2,41 @@ import type { APIRoute } from "astro";
 import { createClient } from "@/lib/supabase";
 import type { FlashcardDraft } from "@/types";
 
+export const GET: APIRoute = async (context) => {
+  const user = context.locals.user;
+  if (!user) {
+    return new Response(JSON.stringify({ error: "Unauthorized" }), {
+      status: 401,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+
+  const supabase = createClient(context.request.headers, context.cookies);
+  if (!supabase) {
+    return new Response(JSON.stringify({ error: "Błąd konfiguracji serwera." }), {
+      status: 500,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+
+  const { data, error } = await supabase
+    .from("flashcards")
+    .select("id, front, back, created_at, updated_at")
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    return new Response(JSON.stringify({ error: "Nie udało się pobrać fiszek." }), {
+      status: 500,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+
+  return new Response(JSON.stringify({ flashcards: data }), {
+    status: 200,
+    headers: { "Content-Type": "application/json" },
+  });
+};
+
 export const POST: APIRoute = async (context) => {
   const user = context.locals.user;
 
@@ -16,7 +51,7 @@ export const POST: APIRoute = async (context) => {
   let cards: FlashcardDraft[];
   try {
     const body = (await context.request.json()) as { cards?: unknown };
-    cards = body.cards as FlashcardDraft[];
+    cards = (body.cards ?? []) as FlashcardDraft[];
   } catch {
     return new Response(JSON.stringify({ error: "Nieprawidłowe dane." }), {
       status: 400,
