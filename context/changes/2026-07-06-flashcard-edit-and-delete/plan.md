@@ -252,8 +252,8 @@ Dodanie shared nav baru do `Layout.astro` widocznego gdy użytkownik jest zalogo
 
 #### Automatyczne
 
-- [x] 1.1 Type checking i linting: `npm run lint`
-- [x] 1.2 Build produkcyjny: `npm run build`
+- [x] 1.1 Type checking i linting: `npm run lint` — 6908e0a
+- [x] 1.2 Build produkcyjny: `npm run build` — 6908e0a
 
 #### Ręczne
 
@@ -269,8 +269,8 @@ Dodanie shared nav baru do `Layout.astro` widocznego gdy użytkownik jest zalogo
 
 #### Automatyczne
 
-- [x] 2.1 Type checking i linting: `npm run lint`
-- [x] 2.2 Build produkcyjny: `npm run build`
+- [x] 2.1 Type checking i linting: `npm run lint` — 6908e0a
+- [x] 2.2 Build produkcyjny: `npm run build` — 6908e0a
 
 #### Ręczne
 
@@ -288,8 +288,8 @@ Dodanie shared nav baru do `Layout.astro` widocznego gdy użytkownik jest zalogo
 
 #### Automatyczne
 
-- [x] 3.1 Type checking i linting: `npm run lint`
-- [x] 3.2 Build produkcyjny: `npm run build`
+- [x] 3.1 Type checking i linting: `npm run lint` — 6908e0a
+- [x] 3.2 Build produkcyjny: `npm run build` — 6908e0a
 
 #### Ręczne
 

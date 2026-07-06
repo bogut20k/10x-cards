@@ -1,7 +1,7 @@
 ---
 change_id: flashcard-edit-and-delete
 title: Flashcard edit and delete
-status: implementing
+status: implemented
 created: 2026-07-06
 updated: 2026-07-06
 archived_at: null
