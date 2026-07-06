@@ -1,9 +1,9 @@
 ---
 change_id: manual-card-creation
 title: Ręczne tworzenie fiszki (przód + tył)
-status: implementing
+status: impl_reviewed
 created: 2026-06-23
-updated: 2026-06-23
+updated: 2026-07-02
 archived_at: null
 ---
 

@@ -60,23 +60,27 @@ Three phases in dependency order:
 
 **Claude response format**: The endpoint must instruct Claude via system prompt to return ONLY a valid JSON array (no markdown, no prose). Parse with `JSON.parse()` in try/catch; on parse failure return 500. This is load-bearing — the UI depends on clean JSON.
 
+**Response language**: The system prompt must explicitly instruct the model to respond in the same language as the input text. Without this instruction, models default to English regardless of input language (confirmed bug: Polish input → English flashcards).
+
 ---
 
 ## Phase 1: AI Generation Endpoint
 
 ### Overview
 
-Install the Anthropic SDK, register ANTHROPIC_API_KEY in Astro's env schema and local secrets, define shared types, and build the POST `/api/flashcards/generate` endpoint that calls Claude Haiku and returns a JSON array of flashcard drafts.
+Install AI SDKs, register env vars in Astro's env schema and local secrets, define shared types, build an AI provider service layer, and build the POST `/api/flashcards/generate` endpoint. The provider layer supports two backends: Anthropic Claude (default) and OpenRouter (multi-model fallback for free-tier usage).
+
+> **Implementation note (post-plan)**: Original plan assumed Anthropic-only. During implementation a provider abstraction was added (`src/lib/services/ai-provider.ts`) to support OpenRouter as an alternative backend, with a fallback model list for resilience against per-model rate limits and availability changes.
 
 ### Changes Required:
 
-#### 1. Install Anthropic SDK
+#### 1. Install AI SDKs
 
 **File**: `package.json` (via npm install)
 
-**Intent**: Add `@anthropic-ai/sdk` as a production dependency for calling the Claude API from Cloudflare Workers.
+**Intent**: Add `@anthropic-ai/sdk` for the Anthropic backend and `openai` (OpenAI-compatible client) for calling OpenRouter.
 
-**Contract**: Run `npm install @anthropic-ai/sdk`. Updates `package.json` and `package-lock.json`.
+**Contract**: `npm install @anthropic-ai/sdk openai`. Updates `package.json` and `package-lock.json`. Add `openai` to `vite.optimizeDeps.exclude` in `astro.config.mjs` to prevent Vite from bundling it.
 
 #### 2. Shared types
 
@@ -99,40 +103,62 @@ export interface Flashcard extends FlashcardDraft {
 }
 ```
 
-#### 3. Env schema — ANTHROPIC_API_KEY
+#### 3. Env schema — AI provider vars
 
 **File**: `astro.config.mjs`
 
-**Intent**: Register `ANTHROPIC_API_KEY` as a server-only secret in Astro's env schema so it's importable via `astro:env/server`.
+**Intent**: Register all AI-related env vars as optional server secrets. All are `optional: true` because which vars are required depends on `AI_PROVIDER` — build-time enforcement would be too strict for a runtime-configurable provider.
 
-**Contract**: Add to the existing `env` → `schema` block alongside SUPABASE_URL/SUPABASE_KEY:
+**Contract**: Add to the existing `env` → `schema` block:
 ```typescript
-ANTHROPIC_API_KEY: envField.string({ context: "server", access: "secret" }),
+ANTHROPIC_API_KEY: envField.string({ context: "server", access: "secret", optional: true }),
+AI_PROVIDER: envField.string({ context: "server", access: "secret", optional: true }),
+OPENROUTER_API_KEY: envField.string({ context: "server", access: "secret", optional: true }),
+OPENROUTER_MODEL: envField.string({ context: "server", access: "secret", optional: true }),
 ```
 
-#### 4. Local env secret
+#### 4. Local env secrets
 
 **File**: `.dev.vars`
 
-**Intent**: Provide the actual Anthropic API key for Cloudflare workerd local dev. This file is gitignored.
+**Intent**: Provide actual keys for Cloudflare workerd local dev. File is gitignored.
 
-**Contract**: Add line `ANTHROPIC_API_KEY=<actual-key>`. Pattern matches existing SUPABASE_URL/SUPABASE_KEY entries.
+**Contract**:
+```
+AI_PROVIDER=openrouter          # or "anthropic"
+ANTHROPIC_API_KEY=<key>         # required if AI_PROVIDER=anthropic
+OPENROUTER_API_KEY=<key>        # required if AI_PROVIDER=openrouter
+OPENROUTER_MODEL=meta-llama/llama-3.3-70b-instruct:free,...  # comma-separated fallback list
+```
 
-#### 5. AI generation endpoint
+> **IMPORTANT**: Write `.dev.vars` without UTF-8 BOM. PowerShell's `Set-Content -Encoding utf8` adds BOM and breaks wrangler env parsing — use `[System.IO.File]::WriteAllText` with `UTF8Encoding($false)`.
+
+#### 5. AI provider service
+
+**File**: `src/lib/services/ai-provider.ts` (new)
+
+**Intent**: Provider abstraction that selects Anthropic or OpenRouter based on `AI_PROVIDER` env var and exposes a single `generateFlashcards(text)` function. OpenRouter path iterates a comma-separated model list and skips to the next model on any error except auth errors (401/403), providing resilience against model unavailability and rate limits.
+
+**Contract**:
+- Export: `export async function generateFlashcards(text: string): Promise<FlashcardDraft[]>`
+- `AI_PROVIDER === "openrouter"`: use `openai` package with `baseURL: "https://openrouter.ai/api/v1"`, iterate `OPENROUTER_MODEL` list; on `AuthenticationError` or `PermissionDeniedError` throw immediately; on any other error continue to next model
+- `AI_PROVIDER === "anthropic"` (default): use `@anthropic-ai/sdk`, model `claude-haiku-4-5-20251001`, max_tokens 2048
+- System prompt: return ONLY a valid JSON array of `{ "front": "...", "back": "..." }` objects; **always respond in the same language as the input text** (critical — prevents English output for Polish input)
+- Parse via `JSON.parse()` in `parseCards()` helper; throw if result is not a non-empty array
+
+#### 6. AI generation endpoint
 
 **File**: `src/pages/api/flashcards/generate.ts` (new)
 
-**Intent**: POST endpoint that validates the text input, calls Claude Haiku with a JSON-only prompt, parses the response, and returns `{ cards: FlashcardDraft[] }` to the client for review.
+**Intent**: Thin POST endpoint — validates input, delegates to `generateFlashcards()`, returns `{ cards }` or structured error.
 
 **Contract**:
 - Export: `export const POST: APIRoute`
-- Auth: `context.locals.user` guaranteed by middleware — no re-check needed
-- Request: `await context.request.json()` → extract `text: string`
-- Validation: `text` must be non-empty string, `text.length <= 2000`; return 400 with `{ error: string }` on failure
-- Claude call: model `claude-haiku-4-5-20251001`, max_tokens 2048; system prompt instructs Claude to return ONLY a JSON array of `{ "front": "...", "back": "..." }` objects with 3–20 items, no markdown or prose; user message is the input text
-- Parse: `JSON.parse()` the first content block text in try/catch; on failure return 500
-- Success: `new Response(JSON.stringify({ cards }), { status: 200, headers: { "Content-Type": "application/json" } })`
-- AI/network error: return 500 with `{ error: "Generowanie nie powiodło się. Spróbuj ponownie." }`
+- Validation: `text` non-empty string, `text.length <= 2000`; return 400 on failure
+- Call: `const cards = await generateFlashcards(text)`
+- Success: `{ cards }` with status 200
+- Error — `message.includes("not configured")` → 500 `{ error: "AI service is not configured." }`
+- Any other error → 500 `{ error: "Generowanie nie powiodło się. Spróbuj ponownie." }`
 
 ### Success Criteria:
 
@@ -313,10 +339,10 @@ Extend `GenerateForm` to render generated cards below the form: dismissible AI w
 
 #### Manual
 
-- [ ] 1.3 POST /api/flashcards/generate with valid text → 200 with cards array
-- [ ] 1.4 Response has 3–20 cards with non-empty front and back
-- [ ] 1.5 POST with text > 2000 chars → 400
-- [ ] 1.6 POST with empty text → 400
+- [x] 1.3 POST /api/flashcards/generate with valid text → 200 with cards array
+- [x] 1.4 Response has 3–20 cards with non-empty front and back
+- [x] 1.5 POST with text > 2000 chars → 400
+- [x] 1.6 POST with empty text → 400
 
 ### Phase 2: Generate Page + Form UI
 
@@ -327,12 +353,12 @@ Extend `GenerateForm` to render generated cards below the form: dismissible AI w
 
 #### Manual
 
-- [ ] 2.3 /generate page renders with textarea and Generuj button
-- [ ] 2.4 Char counter updates live; warning color at 1900+
-- [ ] 2.5 Empty textarea → Generuj button disabled
-- [ ] 2.6 Submit → spinner appears, button disabled
-- [ ] 2.7 Valid text → API succeeds, loading ends
-- [ ] 2.8 API error → error message above form, textarea filled
+- [x] 2.3 /generate page renders with textarea and Generuj button
+- [x] 2.4 Char counter updates live; warning color at 1900+
+- [x] 2.5 Empty textarea → Generuj button disabled
+- [x] 2.6 Submit → spinner appears, button disabled
+- [x] 2.7 Valid text → API succeeds, loading ends
+- [x] 2.8 API error → error message above form, textarea filled
 
 ### Phase 3: Review UI + Save
 
@@ -343,10 +369,10 @@ Extend `GenerateForm` to render generated cards below the form: dismissible AI w
 
 #### Manual
 
-- [ ] 3.3 Cards render below form after generation
-- [ ] 3.4 AI warning banner visible and dismissible
-- [ ] 3.5 Click card → inline textareas for front/back
-- [ ] 3.6 Delete card → card removed from list
-- [ ] 3.7 Zapisz wszystkie → redirect to /dashboard
-- [ ] 3.8 Dashboard shows "Zapisano N fiszek!" banner
-- [ ] 3.9 Cards in Supabase flashcards table with correct user_id
+- [x] 3.3 Cards render below form after generation
+- [x] 3.4 AI warning banner visible and dismissible
+- [x] 3.5 Click card → inline textareas for front/back
+- [x] 3.6 Delete card → card removed from list
+- [x] 3.7 Zapisz wszystkie → redirect to /dashboard
+- [x] 3.8 Dashboard shows "Zapisano N fiszek!" banner
+- [x] 3.9 Cards in Supabase flashcards table with correct user_id

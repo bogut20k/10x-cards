@@ -80,6 +80,8 @@ Nowy komponent React `ManualCardForm` z formularzem ręcznego tworzenia fiszki. 
 
 **Contract**: Import `ManualCardForm` z `@/components/flashcards/ManualCardForm`. Dodać `<ManualCardForm client:load />` w body dashboardu, poniżej istniejącego success bannera `?saved=N`, zastępując placeholder "This page is only for authenticated users."
 
+**Implementacja dodała (EXTRA, zaakceptowane)**: Panel user-info (email zalogowanego użytkownika + przycisk Wyloguj) powyżej `ManualCardForm`. Nie był w planie, ale logicznie spójny z dashboardem — zaakceptowany podczas przeglądu Phase 1 (2026-07-02).
+
 ### Success Criteria:
 
 #### Automated Verification:

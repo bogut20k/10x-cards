@@ -21,7 +21,7 @@ Student uczący się regularnie ma duże partie tekstu do przyswojenia i wie, ż
 
 ## North star
 
-**S-01 + S-02: Pierwsza pełna pętla generowania i powtórek** — jeśli użytkownik może w jednej sesji wkleić tekst, dostać fiszki od AI, zaakceptować je i natychmiast zacząć sesję powtórek, rdzeń hipotezy produktu jest zweryfikowany.
+**S-01 + S-04: Pierwsza pełna pętla generowania i powtórek** — jeśli użytkownik może w jednej sesji wkleić tekst, dostać fiszki od AI, zaakceptować je i natychmiast zacząć sesję powtórek, rdzeń hipotezy produktu jest zweryfikowany.
 
 > *Gwiazda przewodnia* (north star) oznacza tutaj: najmniejszy przepływ end-to-end, którego shipping udowadnia, że produkt robi to, do czego jest zbudowany. Umieszczona tak wcześnie jak pozwalają zależności — wszystkie inne slajsy mają sens tylko pod warunkiem, że ta pętla działa.
 
@@ -31,10 +31,10 @@ Student uczący się regularnie ma duże partie tekstu do przyswojenia i wie, ż
 | ---- | ------------------------ | ------------------------------------------------------------ | ------------- | ------------------------------- | -------- |
 | F-00 | gate-product-routes      | (foundation) ochrona tras produktowych w middleware          | —             | NFR (bezpieczeństwo)            | done     |
 | F-01 | flashcard-schema-and-rls | (foundation) schemat fiszek i stanu SR w DB + RLS            | —             | NFR (prywatność), FR-002, FR-005 | done     |
-| S-01 | ai-generation-and-review | wkleić tekst, dostać fiszki od AI i zaakceptować/edytować je | F-01          | FR-001, FR-002, FR-003, US-01   | in progress |
-| S-02 | spaced-repetition-session| przeprowadzić sesję powtórek opartą na algorytmie SR         | F-01, S-01    | FR-005, US-01                   | proposed |
+| S-01 | ai-generation-and-review | wkleić tekst, dostać fiszki od AI i zaakceptować/edytować je | F-01          | FR-001, FR-002, FR-003, US-01   | done        |
+| S-02 | flashcard-edit-and-delete| edytować i usuwać zapisane fiszki                            | F-01, S-01    | FR-006                          | proposed |
 | S-03 | manual-card-creation     | ręcznie utworzyć fiszkę (przód + tył)                        | F-01          | FR-004                          | proposed |
-| S-04 | flashcard-edit-and-delete| edytować i usuwać zapisane fiszki                            | F-01, S-01    | FR-006                          | proposed |
+| S-04 | spaced-repetition-session| przeprowadzić sesję powtórek opartą na algorytmie SR         | F-01, S-01    | FR-005, US-01                   | proposed |
 
 ## Streams
 
@@ -42,8 +42,8 @@ Navigation aid — groups items that share a Prerequisites chain. Canonical orde
 
 | Stream | Theme                   | Chain                     | Note                                                                              |
 | ------ | ----------------------- | ------------------------- | --------------------------------------------------------------------------------- |
-| A      | Core pętla              | `F-01` → `S-01` → `S-02` | Gwiazda przewodnia; shipping tej sekwencji = zweryfikowana hipoteza produktu.     |
-| B      | Tworzenie i zarządzanie | `S-03` / `S-04`           | Oba wymagają F-01 (Stream A); S-04 dodatkowo S-01 — dołącza do Streamu A po S-01. |
+| A      | Core pętla              | `F-01` → `S-01` → `S-04` | Gwiazda przewodnia; shipping tej sekwencji = zweryfikowana hipoteza produktu.     |
+| B      | Tworzenie i zarządzanie | `S-02` / `S-03`           | Oba wymagają F-01 (Stream A); S-02 dodatkowo S-01 — dołącza do Streamu A po S-01. |
 
 ## Baseline
 
@@ -94,19 +94,18 @@ Foundations below assume these are present and do NOT re-scaffold them.
 - **Unknowns:**
   - Który dostawca AI API zostanie użyty (OpenRouter, OpenAI, Anthropic itp.) i czy klucz API jest dostępny? — Owner: user. Block: yes.
 - **Risk:** Jedyna zewnętrzna zależność w MVP; prompt engineering może wymagać kilku iteracji zanim jakość fiszek będzie wystarczająca. Wczesne uruchomienie = czas na iteracje przed resztą slajsów.
-- **Status:** in progress
+- **Status:** done ✓
 
-### S-02: Sesja powtórek (spaced repetition)
+### S-02: Edycja i usuwanie zapisanych fiszek
 
-- **Outcome:** użytkownik może przeprowadzić sesję powtórek swoich fiszek, gdzie algorytm spaced repetition (metoda optymalizująca harmonogram powtórek — decyduje kiedy pokazać każdą fiszkę, minimalizując liczbę sesji potrzebnych do zapamiętania) wyznacza kolejność, a użytkownik ocenia każdą fiszkę (łatwa / trudna / nie pamiętam).
-- **Change ID:** spaced-repetition-session
-- **PRD refs:** FR-005, US-01
+- **Outcome:** użytkownik może edytować przód lub tył zapisanej fiszki oraz usunąć ją z kolekcji.
+- **Change ID:** flashcard-edit-and-delete
+- **PRD refs:** FR-006
 - **Prerequisites:** F-01, S-01
-- **Parallel with:** S-04
+- **Parallel with:** S-04, S-03
 - **Blockers:** —
-- **Unknowns:**
-  - Która gotowa biblioteka SR zostanie użyta (np. `ts-fsrs` dla FSRS, implementacja SM-2)? — Owner: user. Block: no.
-- **Risk:** Sesja powtórek musi działać gdy AI API jest niedostępne (NFR); implementacja nie może być sprzężona z logiką S-01 — osobny endpoint, osobny flow.
+- **Unknowns:** —
+- **Risk:** Usunięcie fiszki powinno usunąć też jej stan SR (orphan records); wymagana kaskada w migracji lub soft delete — szczegół do rozstrzygnięcia w `/10x-plan flashcard-edit-and-delete`.
 - **Status:** proposed
 
 ### S-03: Ręczne tworzenie fiszek
@@ -121,16 +120,17 @@ Foundations below assume these are present and do NOT re-scaffold them.
 - **Risk:** Prosta funkcja CRUD; niskie ryzyko. Może być budowana równolegle z S-01 w osobnym agent run po ukończeniu F-01.
 - **Status:** proposed
 
-### S-04: Edycja i usuwanie zapisanych fiszek
+### S-04: Sesja powtórek (spaced repetition)
 
-- **Outcome:** użytkownik może edytować przód lub tył zapisanej fiszki oraz usunąć ją z kolekcji.
-- **Change ID:** flashcard-edit-and-delete
-- **PRD refs:** FR-006
+- **Outcome:** użytkownik może przeprowadzić sesję powtórek swoich fiszek, gdzie algorytm spaced repetition (metoda optymalizująca harmonogram powtórek — decyduje kiedy pokazać każdą fiszkę, minimalizując liczbę sesji potrzebnych do zapamiętania) wyznacza kolejność, a użytkownik ocenia każdą fiszkę (łatwa / trudna / nie pamiętam).
+- **Change ID:** spaced-repetition-session
+- **PRD refs:** FR-005, US-01
 - **Prerequisites:** F-01, S-01
-- **Parallel with:** S-02, S-03
+- **Parallel with:** S-02
 - **Blockers:** —
-- **Unknowns:** —
-- **Risk:** Usunięcie fiszki powinno usunąć też jej stan SR (orphan records); wymagana kaskada w migracji lub soft delete — szczegół do rozstrzygnięcia w `/10x-plan flashcard-edit-and-delete`.
+- **Unknowns:**
+  - Która gotowa biblioteka SR zostanie użyta (np. `ts-fsrs` dla FSRS, implementacja SM-2)? — Owner: user. Block: no.
+- **Risk:** Sesja powtórek musi działać gdy AI API jest niedostępne (NFR); implementacja nie może być sprzężona z logiką S-01 — osobny endpoint, osobny flow.
 - **Status:** proposed
 
 ## Backlog Handoff
@@ -139,9 +139,9 @@ Foundations below assume these are present and do NOT re-scaffold them.
 | ---------- | ------------------------- | ---------------------------------------------------- | --------------------- | ------------------------------------------------------------ |
 | F-01       | flashcard-schema-and-rls  | Schemat danych fiszek i RLS w Supabase               | yes                   | Run `/10x-plan flashcard-schema-and-rls`                     |
 | S-01       | ai-generation-and-review  | Generowanie fiszek przez AI + przegląd przed zapisem | no                    | Zablokowane: wybór dostawcy AI API (Q-01)                    |
-| S-02       | spaced-repetition-session | Sesja powtórek (algorytm spaced repetition)          | no                    | Wymaga ukończenia S-01                                       |
+| S-02       | flashcard-edit-and-delete | Edycja i usuwanie zapisanych fiszek                  | no                    | Wymaga ukończenia F-01 + S-01                                |
 | S-03       | manual-card-creation      | Ręczne tworzenie fiszki (przód + tył)                | no                    | Wymaga ukończenia F-01; może być planowane równolegle z S-01 |
-| S-04       | flashcard-edit-and-delete | Edycja i usuwanie zapisanych fiszek                  | no                    | Wymaga ukończenia F-01 + S-01                                |
+| S-04       | spaced-repetition-session | Sesja powtórek (algorytm spaced repetition)          | no                    | Wymaga ukończenia S-01                                       |
 
 ## Open Roadmap Questions
 
