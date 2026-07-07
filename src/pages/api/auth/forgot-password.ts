@@ -3,7 +3,7 @@ import { createClient } from "@/lib/supabase";
 
 export const POST: APIRoute = async ({ request, cookies, redirect, url }) => {
   const formData = await request.formData();
-  const email = formData.get("email")?.toString().trim() ?? "";
+  const email = ((formData.get("email") as string | null) ?? "").trim();
 
   if (!email) {
     return redirect("/auth/forgot-password?error=Email+is+required");

@@ -3,8 +3,8 @@ import { createClient } from "@/lib/supabase";
 
 export const POST: APIRoute = async ({ request, cookies, redirect }) => {
   const formData = await request.formData();
-  const password = formData.get("password")?.toString() ?? "";
-  const confirm = formData.get("confirm")?.toString() ?? "";
+  const password = (formData.get("password") as string | null) ?? "";
+  const confirm = (formData.get("confirm") as string | null) ?? "";
 
   if (!password || password.length < 8) {
     return redirect("/auth/reset-password?error=Password+must+be+at+least+8+characters");

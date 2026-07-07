@@ -9,7 +9,6 @@ interface Props {
 }
 
 const { title = "10x Astro Starter" } = Astro.props;
-const user = Astro.locals.user;
 const showTopbar = !Astro.url.pathname.startsWith("/auth/");
 ---
 
@@ -38,13 +37,15 @@ const showTopbar = !Astro.url.pathname.startsWith("/auth/");
         </Banner>
       ))
     }
-    {showTopbar && (
-      <div class="bg-slate-900 px-4 py-2">
-        <div class="mx-auto max-w-4xl">
-          <Topbar />
+    {
+      showTopbar && (
+        <div class="bg-slate-900 px-4 py-2">
+          <div class="mx-auto max-w-4xl">
+            <Topbar />
+          </div>
         </div>
-      </div>
-    )}
+      )
+    }
     <slot />
   </body>
 </html>

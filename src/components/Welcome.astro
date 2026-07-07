@@ -2,7 +2,6 @@
 const { user } = Astro.locals;
 ---
 
-
 <div class="bg-cosmic relative min-h-screen w-full overflow-hidden">
   <!-- Cosmic orbs -->
   <div
@@ -53,14 +52,16 @@ const { user } = Astro.locals;
         10xCards zamyka cały przepływ w jednym miejscu: wklej tekst, AI generuje gotowe fiszki, przejrzyj je i zacznij
         powtarzać — wszystko w kilka minut.
       </p>
-      {!user && (
-        <a
-          href="/auth/signup"
-          class="inline-flex items-center justify-center rounded-lg bg-purple-600 px-8 py-3 text-base font-medium text-white transition-colors hover:bg-purple-500"
-        >
-          Zacznij za darmo
-        </a>
-      )}
+      {
+        !user && (
+          <a
+            href="/auth/signup"
+            class="inline-flex items-center justify-center rounded-lg bg-purple-600 px-8 py-3 text-base font-medium text-white transition-colors hover:bg-purple-500"
+          >
+            Zacznij za darmo
+          </a>
+        )
+      }
     </div>
 
     <!-- How it works -->
@@ -253,21 +254,23 @@ const { user } = Astro.locals;
     </div>
 
     <!-- CTA bottom -->
-    {!user && (
-      <div class="mx-auto max-w-2xl px-4 pb-24 text-center">
-        <div class="rounded-2xl border border-white/10 bg-white/5 p-10 backdrop-blur-xl">
-          <h2 class="mb-3 text-2xl font-bold text-white sm:text-3xl">Gotowy żeby uczyć się szybciej?</h2>
-          <p class="mb-8 leading-relaxed text-blue-100/60">
-            Dołącz i przetestuj generowanie fiszek już teraz. Konto jest darmowe.
-          </p>
-          <a
-            href="/auth/signup"
-            class="inline-flex items-center justify-center rounded-lg bg-purple-600 px-8 py-3 text-base font-medium text-white transition-colors hover:bg-purple-500"
-          >
-            Utwórz konto
-          </a>
+    {
+      !user && (
+        <div class="mx-auto max-w-2xl px-4 pb-24 text-center">
+          <div class="rounded-2xl border border-white/10 bg-white/5 p-10 backdrop-blur-xl">
+            <h2 class="mb-3 text-2xl font-bold text-white sm:text-3xl">Gotowy żeby uczyć się szybciej?</h2>
+            <p class="mb-8 leading-relaxed text-blue-100/60">
+              Dołącz i przetestuj generowanie fiszek już teraz. Konto jest darmowe.
+            </p>
+            <a
+              href="/auth/signup"
+              class="inline-flex items-center justify-center rounded-lg bg-purple-600 px-8 py-3 text-base font-medium text-white transition-colors hover:bg-purple-500"
+            >
+              Utwórz konto
+            </a>
+          </div>
         </div>
-      </div>
-    )}
+      )
+    }
   </div>
 </div>
