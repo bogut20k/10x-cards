@@ -293,7 +293,7 @@ Dodanie shared nav baru do `Layout.astro` widocznego gdy użytkownik jest zalogo
 
 #### Ręczne
 
-- [x] 3.3 Nav bar widoczny na `/dashboard`, `/generate`, `/flashcards`
-- [x] 3.4 Nav bar niewidoczny na `/auth/signin`
-- [x] 3.5 Wylogowanie z nav baru działa
-- [x] 3.6 Dashboard nie pokazuje duplikatu emaila/logout
+- [x] 3.3 Nav bar widoczny na `/dashboard`, `/generate`, `/flashcards` — 026787c
+- [x] 3.4 Nav bar niewidoczny na `/auth/signin` — 026787c
+- [x] 3.5 Wylogowanie z nav baru działa — 026787c
+- [x] 3.6 Dashboard nie pokazuje duplikatu emaila/logout — 026787c
