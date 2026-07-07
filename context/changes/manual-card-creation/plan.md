@@ -195,11 +195,11 @@ Przekazać jako prop: `<ManualCardForm initialCards={flashcards ?? []} client:lo
 
 #### Manual
 
-- [x] 1.3 Dashboard renderuje formularz z polami Przód i Tył — e1c522a
-- [x] 1.4 Oba pola puste → przycisk disabled — e1c522a
-- [x] 1.5 Submit z wypełnionymi polami → baner sukcesu, pola wyczyszczone — e1c522a
-- [x] 1.6 Pisanie po sukcesie → baner znika — e1c522a
-- [x] 1.7 Link "Generuj z AI" prowadzi do /generate — e1c522a
+- [x] 1.3 Dashboard renderuje formularz z polami Przód i Tył — e1c522a, verified a40a6ba
+- [x] 1.4 Oba pola puste → przycisk disabled — e1c522a, verified a40a6ba
+- [x] 1.5 Submit z wypełnionymi polami → baner sukcesu, pola wyczyszczone — e1c522a, verified a40a6ba
+- [x] 1.6 Pisanie po sukcesie → baner znika — e1c522a, verified a40a6ba
+- [x] 1.7 Link "Generuj z AI" prowadzi do /generate — e1c522a, verified a40a6ba
 
 ### Phase 2: Dashboard Enhancement — Card List
 
