@@ -1,23 +1,57 @@
 ---
 import Layout from "@/layouts/Layout.astro";
-import ManualCardForm from "@/components/flashcards/ManualCardForm";
+import { createClient } from "@/lib/supabase";
 
-const saved = Astro.url.searchParams.get("saved");
+const { user } = Astro.locals;
+const supabase = createClient(Astro.request.headers, Astro.cookies);
+const { count: flashcardCount } = supabase
+  ? await supabase.from("flashcards").select("*", { count: "exact", head: true }).eq("user_id", user.id)
+  : { count: 0 };
 ---
 
 <Layout title="Dashboard">
   <div class="bg-cosmic min-h-screen p-4 sm:p-8">
-    <div class="mx-auto max-w-2xl space-y-4">
-      {
-        saved && (
-          <div class="rounded-xl border border-green-400/30 bg-green-500/15 px-4 py-3 text-center text-sm text-green-200 backdrop-blur-xl">
-            Zapisano <strong>{saved}</strong> {Number(saved) === 1 ? "fiszkę" : Number(saved) < 5 ? "fiszki" : "fiszek"}
-            !
-          </div>
-        )
-      }
+    <div class="mx-auto max-w-2xl space-y-6">
 
-      <ManualCardForm client:load />
+      <div class="rounded-2xl border border-white/10 bg-white/5 px-6 py-5 backdrop-blur-xl">
+        <p class="text-sm text-blue-100/50">Witaj,</p>
+        <p class="mt-0.5 truncate text-lg font-semibold text-white">{user.email}</p>
+      </div>
+
+      <div class="rounded-2xl border border-purple-400/20 bg-purple-500/10 px-6 py-5 backdrop-blur-xl">
+        <p class="text-sm text-blue-100/50">Twoje fiszki</p>
+        <p class="mt-1 text-4xl font-bold text-white">{flashcardCount ?? 0}</p>
+      </div>
+
+      <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
+        <a
+          href="/generate"
+          class="flex flex-col gap-2 rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-xl transition-colors hover:border-purple-400/30 hover:bg-purple-500/10"
+        >
+          <span class="text-2xl">✨</span>
+          <span class="font-semibold text-white">Generuj z AI</span>
+          <span class="text-xs text-blue-100/50">Wklej tekst i dostań fiszki automatycznie</span>
+        </a>
+
+        <a
+          href="/flashcards/new"
+          class="flex flex-col gap-2 rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-xl transition-colors hover:border-purple-400/30 hover:bg-purple-500/10"
+        >
+          <span class="text-2xl">✏️</span>
+          <span class="font-semibold text-white">Utwórz ręcznie</span>
+          <span class="text-xs text-blue-100/50">Dodaj fiszkę z własnym przód i tyłem</span>
+        </a>
+
+        <a
+          href="/flashcards"
+          class="flex flex-col gap-2 rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-xl transition-colors hover:border-purple-400/30 hover:bg-purple-500/10"
+        >
+          <span class="text-2xl">📚</span>
+          <span class="font-semibold text-white">Moje fiszki</span>
+          <span class="text-xs text-blue-100/50">Przeglądaj, edytuj i usuwaj kolekcję</span>
+        </a>
+      </div>
+
     </div>
   </div>
 </Layout>
