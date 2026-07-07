@@ -16,20 +16,21 @@ Użytkownik wchodzi na `/flashcards` (dostępne z globalnego nav baru), widzi sw
 
 ## Kluczowe podjęte decyzje
 
-| Decyzja | Wybór | Dlaczego (1 zdanie) | Źródło |
-|---------|-------|---------------------|--------|
-| Gdzie lista | Dedykowana `/flashcards` | Czyste rozdzielenie odpowiedzialności + baza dla S-04 | Plan |
-| Undo delete | Optimistic UI, DELETE po 5s | Brak zmian schematu DB; wystarczające dla MVP | Plan |
-| Edit UX | Inline edit (jak GenerateForm) | Użytkownik zna wzorzec z przeglądu AI | Plan |
-| Sortowanie | User-selectable (3 opcje) | Flexibilność bez komplikowania API | Plan |
-| Paginacja | Brak (load all) | MVP zakłada dziesiątki kart | Plan |
-| Nav bar | Globalny w Layout.astro | Dostępny z każdego miejsca w aplikacji | Plan |
-| Char limits | Front 500 / Back 2000 | Spójność z ManualCardForm | Plan |
-| Error handling | Toast + rollback UI | Użytkownik nie traci danych przy błędzie API | Plan |
+| Decyzja        | Wybór                          | Dlaczego (1 zdanie)                                   | Źródło |
+| -------------- | ------------------------------ | ----------------------------------------------------- | ------ |
+| Gdzie lista    | Dedykowana `/flashcards`       | Czyste rozdzielenie odpowiedzialności + baza dla S-04 | Plan   |
+| Undo delete    | Optimistic UI, DELETE po 5s    | Brak zmian schematu DB; wystarczające dla MVP         | Plan   |
+| Edit UX        | Inline edit (jak GenerateForm) | Użytkownik zna wzorzec z przeglądu AI                 | Plan   |
+| Sortowanie     | User-selectable (3 opcje)      | Flexibilność bez komplikowania API                    | Plan   |
+| Paginacja      | Brak (load all)                | MVP zakłada dziesiątki kart                           | Plan   |
+| Nav bar        | Globalny w Layout.astro        | Dostępny z każdego miejsca w aplikacji                | Plan   |
+| Char limits    | Front 500 / Back 2000          | Spójność z ManualCardForm                             | Plan   |
+| Error handling | Toast + rollback UI            | Użytkownik nie traci danych przy błędzie API          | Plan   |
 
 ## Zakres
 
 **W zakresie:**
+
 - GET/PATCH/DELETE endpointy dla fiszek
 - Strona `/flashcards` z listą i sortowaniem
 - Inline edit z walidacją znaków
@@ -39,6 +40,7 @@ Użytkownik wchodzi na `/flashcards` (dostępne z globalnego nav baru), widzi sw
 - Empty state z linkami do tworzenia
 
 **Poza zakresem:**
+
 - Paginacja / infinite scroll
 - Wyszukiwanie i filtrowanie tekstu
 - Bulk delete / bulk edit
@@ -51,11 +53,11 @@ Nowy endpoint `[id].ts` obok istniejącego `index.ts` (Astro dynamic route). Rea
 
 ## Fazy w skrócie
 
-| Faza | Co dostarcza | Kluczowe ryzyko |
-|------|-------------|-----------------|
-| 1. API endpoints | GET list + PATCH/DELETE per-karta | RLS musi blokować cudze fiszki (test 1.9) |
-| 2. FlashcardList island | Pełny UI listy z edit/delete/undo | Timer Undo + concurrent edit edge cases |
-| 3. Global nav bar | Shared nav we wszystkich stronach | Layout.astro dotyka każdej strony — regresja |
+| Faza                    | Co dostarcza                      | Kluczowe ryzyko                              |
+| ----------------------- | --------------------------------- | -------------------------------------------- |
+| 1. API endpoints        | GET list + PATCH/DELETE per-karta | RLS musi blokować cudze fiszki (test 1.9)    |
+| 2. FlashcardList island | Pełny UI listy z edit/delete/undo | Timer Undo + concurrent edit edge cases      |
+| 3. Global nav bar       | Shared nav we wszystkich stronach | Layout.astro dotyka każdej strony — regresja |
 
 **Wymagania wstępne:** F-01 (tabela flashcards) ✓, S-01 (zapis fiszek) ✓  
 **Szacowany nakład pracy:** ~2-3 sesje implementacyjne, 3 fazy

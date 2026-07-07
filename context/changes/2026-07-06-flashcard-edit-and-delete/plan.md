@@ -53,6 +53,7 @@ Dodanie `GET` do istniejącego `index.ts` oraz nowego pliku `[id].ts` z `PATCH` 
 **Cel**: Dodać handler `GET` zwracający wszystkie fiszki zalogowanego użytkownika, posortowane `created_at DESC`.
 
 **Kontrakt**:
+
 - Export: `export const GET: APIRoute`
 - Auth: `context.locals.user` — jeśli brak, 401 `{ error: "Unauthorized" }`
 - Query: `.from("flashcards").select("id, front, back, created_at, updated_at").order("created_at", { ascending: false })`
@@ -67,6 +68,7 @@ Dodanie `GET` do istniejącego `index.ts` oraz nowego pliku `[id].ts` z `PATCH` 
 **Cel**: Edycja i usuwanie pojedynczej fiszki identyfikowanej przez `id` z URL. RLS gwarantuje że użytkownik może modyfikować tylko swoje fiszki.
 
 **Kontrakt PATCH**:
+
 - Export: `export const PATCH: APIRoute`
 - Params: `context.params.id`
 - Body: `{ front: string, back: string }`
@@ -76,6 +78,7 @@ Dodanie `GET` do istniejącego `index.ts` oraz nowego pliku `[id].ts` z `PATCH` 
 - Not found (RLS zablokował lub zły id): 404 `{ error: "Fiszka nie istnieje." }`
 
 **Kontrakt DELETE**:
+
 - Export: `export const DELETE: APIRoute`
 - Params: `context.params.id`
 - Query: `.from("flashcards").delete().eq("id", id)`
@@ -128,6 +131,7 @@ Nowa strona `/flashcards.astro` + React island `FlashcardList.tsx` z pełną log
 **Kontrakt**:
 
 Stan komponentu:
+
 - `flashcards: Flashcard[]` — lista załadowana z API
 - `loading: boolean` — stan ładowania przy fetch
 - `error: string | null` — błąd globalny (fetch failure)
@@ -138,6 +142,7 @@ Stan komponentu:
 - `toast: string | null` — komunikat toastu
 
 Zachowanie:
+
 - `useEffect` na mount: `fetch GET /api/flashcards` → ustaw `flashcards`
 - Sortowanie: obliczone z `flashcards` + `sortBy` (client-side, bez re-fetchu); `"newest"` = `created_at DESC`, `"oldest"` = `created_at ASC`, `"az"` = `front ASC`
 - Inline edit: klik w kartę (nie w przycisk delete) → `editingId = card.id`, `editFront/Back = card.front/back`; textarea z licznikiem znaków (500/2000); Zapisz → `PATCH`, optymistyczna aktualizacja w `flashcards`, błąd → przywróć + toast; Anuluj → `editingId = null`
@@ -146,6 +151,7 @@ Zachowanie:
 - Toast: `position: fixed, bottom`, auto-hide po 4s (z wyjątkiem Undo-toast który żyje przez 5s)
 
 Walidacja inline przed PATCH:
+
 - `editFront.trim().length === 0` → zablokuj Zapisz + komunikat pod polem
 - `editFront.length > 500` → zablokuj Zapisz + licznik zmienia kolor (jak w ManualCardForm)
 - Analogicznie dla `editBack` z limitem 2000
@@ -188,6 +194,7 @@ Dodanie shared nav baru do `Layout.astro` widocznego gdy użytkownik jest zalogo
 **Cel**: Dodać responsywny nav bar wyświetlany gdy `Astro.locals.user` istnieje. Nav zawiera linki nawigacyjne i przycisk wylogowania.
 
 **Kontrakt**:
+
 - W frontmatter: `const user = Astro.locals.user;`
 - Warunkowo renderuj `<nav>` jeśli `user` jest truthy
 - Linki: Dashboard (`/dashboard`), Generuj (`/generate`), Moje fiszki (`/flashcards`)

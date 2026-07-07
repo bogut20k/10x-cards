@@ -1,4 +1,5 @@
 <!-- PLAN-REVIEW-REPORT -->
+
 # Przegląd planu: AI Flashcard Generation and Review
 
 - **Plan**: `context/changes/ai-generation-and-review/plan.md`
@@ -9,13 +10,13 @@
 
 ## Werdykty
 
-| Wymiar | Werdykt |
-|---|---|
-| Zgodność ze stanem końcowym | ZALICZONY ✅ |
-| Oszczędne wykonanie | ZALICZONY ✅ (F1 naprawione) |
-| Dopasowanie architektoniczne | ZALICZONY ✅ |
-| Martwe punkty | ZALICZONY ✅ (F2, F4 naprawione) |
-| Kompletność planu | ZALICZONY ✅ (F3 zaakceptowane, F5 pominięte) |
+| Wymiar                       | Werdykt                                       |
+| ---------------------------- | --------------------------------------------- |
+| Zgodność ze stanem końcowym  | ZALICZONY ✅                                  |
+| Oszczędne wykonanie          | ZALICZONY ✅ (F1 naprawione)                  |
+| Dopasowanie architektoniczne | ZALICZONY ✅                                  |
+| Martwe punkty                | ZALICZONY ✅ (F2, F4 naprawione)              |
+| Kompletność planu            | ZALICZONY ✅ (F3 zaakceptowane, F5 pominięte) |
 
 ## Ugruntowanie
 

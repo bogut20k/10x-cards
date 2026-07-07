@@ -39,7 +39,7 @@ Change-id musi być:
 - unikalny w `context/changes/` i `context/archive/`
 ```
 
-   Następnie **poczekaj**, aż użytkownik poda argument.
+Następnie **poczekaj**, aż użytkownik poda argument.
 
 ## Analiza argumentów
 
@@ -54,13 +54,13 @@ Podziel surowy ciąg argumentów na pierwszym ciągu białych znaków:
 
 Przykłady:
 
-| Surowe dane wejściowe | `<change-id>` | Zamiar |
-|-----------|---------------|--------|
-| `feature-x` | `feature-x` | (pusty) |
-| `oauth-login add Google sign-in for faster onboarding` | `oauth-login` | `add Google sign-in for faster onboarding` |
-| `@context/changes/oauth-login/` | `oauth-login` | (pusty) |
-| `@context/changes/oauth-login/ revisit the token-refresh edge case` | `oauth-login` | `revisit the token-refresh edge case` |
-| `My Feature add OAuth` | `My Feature` (nie przejdzie kontroli kebab-case) | `add OAuth` |
+| Surowe dane wejściowe                                               | `<change-id>`                                    | Zamiar                                     |
+| ------------------------------------------------------------------- | ------------------------------------------------ | ------------------------------------------ |
+| `feature-x`                                                         | `feature-x`                                      | (pusty)                                    |
+| `oauth-login add Google sign-in for faster onboarding`              | `oauth-login`                                    | `add Google sign-in for faster onboarding` |
+| `@context/changes/oauth-login/`                                     | `oauth-login`                                    | (pusty)                                    |
+| `@context/changes/oauth-login/ revisit the token-refresh edge case` | `oauth-login`                                    | `revisit the token-refresh edge case`      |
+| `My Feature add OAuth`                                              | `My Feature` (nie przejdzie kontroli kebab-case) | `add OAuth`                                |
 
 ## Walidacja
 
@@ -79,7 +79,7 @@ Przed utworzeniem czegokolwiek:
 1. Utwórz katalog `context/changes/<change-id>/`.
 2. Wyprowadź `<title>`:
    - Jeśli ciąg zamiaru jest pusty, uczłowiecz change-id: zastąp myślniki spacjami i napisz pierwszą literę wielką (np. `multi-course-access` → `Multi course access`).
-   - Jeśli ciąg zamiaru nie jest pusty, napisz zwięzły, czytelny dla człowieka tytuł (≤ 80 znaków, wielkość liter zdania, bez kropki na końcu), który oddaje istotę zmiany. Zamiar jest *wskazówką*, a nie dosłownością — możesz go przeformułować. Nie wrzucaj całego akapitu do tytułu.
+   - Jeśli ciąg zamiaru nie jest pusty, napisz zwięzły, czytelny dla człowieka tytuł (≤ 80 znaków, wielkość liter zdania, bez kropki na końcu), który oddaje istotę zmiany. Zamiar jest _wskazówką_, a nie dosłownością — możesz go przeformułować. Nie wrzucaj całego akapitu do tytułu.
 3. Wyprowadź treść `## Notes`:
    - Jeśli ciąg zamiaru jest pusty, wyemituj komentarz z podpowiedzią: `<!-- Free-form notes for this change: links, ad-hoc context, decisions that don't belong in research/frame/plan. -->`
    - Jeśli ciąg zamiaru nie jest pusty, wstaw go dosłownie jako treść Notatek — słowa użytkownika są zalążkiem. W takim przypadku nie emituj również komentarza z podpowiedzią (użytkownik pokazał, że wie, do czego służą Notatki).

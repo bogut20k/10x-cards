@@ -40,10 +40,10 @@ A solo developer shipping a 3-week after-hours MVP with auth and AI-powered flas
 
 ## Pre-scaffold verification
 
-| Signal      | Value    | Severity    | Notes                                                                    |
-| ----------- | -------- | ----------- | ------------------------------------------------------------------------ |
-| npm package | not run  | n/a         | cmd_template uses `git clone`; no npm create CLI to resolve              |
-| GitHub repo | not run  | unavailable | network unreachable from sandbox environment (port 443 to github.com blocked) |
+| Signal      | Value   | Severity    | Notes                                                                         |
+| ----------- | ------- | ----------- | ----------------------------------------------------------------------------- |
+| npm package | not run | n/a         | cmd_template uses `git clone`; no npm create CLI to resolve                   |
+| GitHub repo | not run | unavailable | network unreachable from sandbox environment (port 443 to github.com blocked) |
 
 ## Scaffold log
 
@@ -64,6 +64,7 @@ A solo developer shipping a 3-week after-hours MVP with auth and AI-powered flas
 #### HIGH findings
 
 **`devalue` v5.6.3–5.8.0**
+
 - Advisory: GHSA-77vg-94rm-hx3p — "Svelte devalue: DoS via sparse array deserialization"
 - CVSS: 7.5 (AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H)
 - CWE: CWE-770 (Allocation of Resources Without Limits)
@@ -107,6 +108,7 @@ A solo developer shipping a 3-week after-hours MVP with auth and AI-powered flas
 Next: a future skill will set up agent context (CLAUDE.md, AGENTS.md). For now, your project is scaffolded and verified — happy hacking.
 
 Useful manual steps in the meantime:
+
 - `git init` (if you haven't already) to start your own repo history.
 - Review `CLAUDE.md.scaffold` — this is the starter's CLAUDE.md; diff it against your existing `CLAUDE.md` to decide which sections to merge in.
 - Copy `.env.example` → `.dev.vars` for local Cloudflare dev and add your `SUPABASE_URL` and `SUPABASE_KEY`.

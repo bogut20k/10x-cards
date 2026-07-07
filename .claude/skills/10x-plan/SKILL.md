@@ -66,22 +66,24 @@ Przed jakimkolwiek czytaniem, zidentyfikuj, jakie rodzaje artefaktów nadrzędny
 
 **Liczba pytań i skala skupienia w zależności od dostarczonych informacji:**
 
-| Artefakty nadrzędne         | NISKI | ŚREDNI | WYSOKI | Co zmienia się w porównaniu do bazowego                                                                                                              |
-| --------------------------- | ----- | ------ | ----- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Tylko zadanie (bazowe)      | 4–6   | 7–10   | 11–15 | Pełne pytania we wszystkich istotnych kategoriach.                                                                                                    |
-| Zadanie + badanie           | 3–5   | 5–7    | 8–11  | Pomiń pytania, których odpowiedź znajduje się już w dokumencie badawczym. Nie odtwarzaj podagentów, aby znaleźć to, co już zostało zmapowane w badaniu. |
-| Zadanie + ramka             | 2–3   | 4–6    | 7–9   | Pomiń kategorie [D]iagnostyczne — ramka ustaliła sformułowanie problemu. Traktuj Przeformułowane (lub Potwierdzone) Oświadczenie o Problemie jako autorytatywne. |
-| Zadanie + ramka + badanie   | 1–2   | 3–5    | 5–7   | Pomiń oba. Zadawaj tylko pytania dotyczące projektowania rozwiązania [S], które naprawdę wymagają wkładu użytkownika.                                  |
+| Artefakty nadrzędne       | NISKI | ŚREDNI | WYSOKI | Co zmienia się w porównaniu do bazowego                                                                                                                          |
+| ------------------------- | ----- | ------ | ------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Tylko zadanie (bazowe)    | 4–6   | 7–10   | 11–15  | Pełne pytania we wszystkich istotnych kategoriach.                                                                                                               |
+| Zadanie + badanie         | 3–5   | 5–7    | 8–11   | Pomiń pytania, których odpowiedź znajduje się już w dokumencie badawczym. Nie odtwarzaj podagentów, aby znaleźć to, co już zostało zmapowane w badaniu.          |
+| Zadanie + ramka           | 2–3   | 4–6    | 7–9    | Pomiń kategorie [D]iagnostyczne — ramka ustaliła sformułowanie problemu. Traktuj Przeformułowane (lub Potwierdzone) Oświadczenie o Problemie jako autorytatywne. |
+| Zadanie + ramka + badanie | 1–2   | 3–5    | 5–7    | Pomiń oba. Zadawaj tylko pytania dotyczące projektowania rozwiązania [S], które naprawdę wymagają wkładu użytkownika.                                            |
 
 **Zasada**: każdy przekazany artefakt jest źródłem już podjętych decyzji. Czytanie ich liczy się jako słuchanie użytkownika. Nie pytaj użytkownika o to, co już napisał.
 
 **Gdy obecna jest ramka**, przeczytaj ją W CAŁOŚCI i traktuj jako autorytatywną:
+
 - Skopiuj **Zgłoszoną Obserwację** + **Przeformułowane (lub Potwierdzone) Oświadczenie o Problemie** jako definicję zadania. Nie kwestionuj ponownie sformułowania.
 - Przenieś tabelę **Badanie Hipotez** i **Sygnały Zwężające** do swojej "Analizy Stanu Obecnego" — ta praca jest już wykonana.
 - Jeśli ramka **Pewność: NISKA** jest oznaczona, uwzględnij to w "Otwartych Ryzykach i Założeniach" planu i zadaj JEDNO pytanie wyjaśniające, jak postępować (najpierw zweryfikuj, lub planuj z uznanym ryzykiem).
 - NIE badaj ponownie sformułowania. Ramka odpowiada za sformułowanie problemu; Ty odpowiadasz za projektowanie rozwiązania.
 
 **Gdy obecne jest badanie**, przeczytaj je W CAŁOŚCI i użyj jako bazowego kodu:
+
 - Sekcja "Odnośniki do kodu" JEST Twoim ugruntowaniem kodu — nie odtwarzaj agentów Explore, aby znaleźć te same pliki.
 - "Wnioski architektoniczne" bezpośrednio zasilają "Analizę Stanu Obecnego".
 - Uruchamiaj podagentów tylko w celu uzupełnienia konkretnych luk, których badanie nie objęło (np. dokładne pliki, które ten plan zmodyfikuje, jeśli badanie było szersze).
@@ -164,10 +166,10 @@ Przed jakimkolwiek czytaniem, zidentyfikuj, jakie rodzaje artefaktów nadrzędny
 
    **Skala złożoności:**
 
-   | Poziom     | Pytania | Kiedy używać                                                                                                                                                                                                                                                                                                           |
-   | ---------- | ------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-   | **NISKI**  | 4-6     | Proste zadanie z jasnymi wymaganiami. Niewiele ruchomych części, zgodne z ustalonymi wzorcami lub konwencjami, ograniczone niewiadome. Przykłady oprogramowania: zmiana pojedynczego pliku, drobna zmiana konfiguracji. Przykłady poza oprogramowaniem: zarys pojedynczego tematu, prosta zmiana procesu.                 |
-   | **ŚREDNI** | 7-10    | Wiele komponentów lub rozważań, które współdziałają. Wymaga decyzji projektowych, ma przypadki brzegowe warte omówienia, pewna niejednoznaczność w podejściu. Przykłady oprogramowania: funkcja wieloplikowa, nowy punkt końcowy API. Przykłady poza oprogramowaniem: wieloczęściowy plan treści, przeprojektowanie przepływu pracy, moduł kursu. |
+   | Poziom     | Pytania | Kiedy używać                                                                                                                                                                                                                                                                                                                                                                                    |
+   | ---------- | ------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+   | **NISKI**  | 4-6     | Proste zadanie z jasnymi wymaganiami. Niewiele ruchomych części, zgodne z ustalonymi wzorcami lub konwencjami, ograniczone niewiadome. Przykłady oprogramowania: zmiana pojedynczego pliku, drobna zmiana konfiguracji. Przykłady poza oprogramowaniem: zarys pojedynczego tematu, prosta zmiana procesu.                                                                                       |
+   | **ŚREDNI** | 7-10    | Wiele komponentów lub rozważań, które współdziałają. Wymaga decyzji projektowych, ma przypadki brzegowe warte omówienia, pewna niejednoznaczność w podejściu. Przykłady oprogramowania: funkcja wieloplikowa, nowy punkt końcowy API. Przykłady poza oprogramowaniem: wieloczęściowy plan treści, przeprojektowanie przepływu pracy, moduł kursu.                                               |
    | **WYSOKI** | 11-15   | Zagadnienia przekrojowe, znaczące niewiadome, wielu interesariuszy lub ograniczeń. Wymaga myślenia architektonicznego, wiąże się z ryzykiem kosztownej przeróbki, jeśli jest błędne. Przykłady oprogramowania: przeprojektowanie systemu, migracja danych. Przykłady poza oprogramowaniem: strategia uruchomienia wielokanałowego, przegląd programu nauczania, zmiana procesu organizacyjnego. |
 
    Po potwierdzeniu (lub dostosowaniu) przez użytkownika, przejdź do zadawania pytań.
@@ -277,7 +279,7 @@ Przed jakimkolwiek czytaniem, zidentyfikuj, jakie rodzaje artefaktów nadrzędny
    - Pytania z oczywistymi odpowiedziami, biorąc pod uwagę już dostarczony kontekst
    - Preferencje, które nie wpływają na strukturę ani sukces planu
 
-   **KRYTYCZNE**: MUSISZ zadać liczbę pytań odpowiednią do potwierdzonego poziomu złożoności *i* skalowania artefaktów nadrzędnych z Kroku 1.0. Nie skracaj tego, gdy nie dostarczono żadnych artefaktów nadrzędnych — dokładne pytania zapobiegają kosztownym przeróbkom. Równie ważne jest, aby nie dodawać pytań, gdy ramka lub badanie już obejmuje dany obszar — ponowne pytanie podważa zaufanie do artefaktu nadrzędnego. Każde pytanie powinno wymuszać prawdziwą decyzję, a nie potwierdzać coś oczywistego.
+   **KRYTYCZNE**: MUSISZ zadać liczbę pytań odpowiednią do potwierdzonego poziomu złożoności _i_ skalowania artefaktów nadrzędnych z Kroku 1.0. Nie skracaj tego, gdy nie dostarczono żadnych artefaktów nadrzędnych — dokładne pytania zapobiegają kosztownym przeróbkom. Równie ważne jest, aby nie dodawać pytań, gdy ramka lub badanie już obejmuje dany obszar — ponowne pytanie podważa zaufanie do artefaktu nadrzędnego. Każde pytanie powinno wymuszać prawdziwą decyzję, a nie potwierdzać coś oczywistego.
 
 ### Krok 2: Badania i odkrycia
 
@@ -399,7 +401,7 @@ Po zatwierdzeniu struktury:
    - Zaktualizuj `change.md`: ustaw `status: planned` i `updated: <dzisiaj>`.
 2. **Użyj tej struktury szablonu** (bloki faz zawierają zwykłe punktorzy — `- ` a nie `- [ ]` — i pojedynczą kanoniczną sekcję `## Postęp` na dole, która odpowiada za stan pola wyboru, patrz `references/progress-format.md` dla umowy):
 
-````markdown
+```markdown
 # [Nazwa funkcji/zadania] Plan implementacji
 
 ## Przegląd
@@ -537,7 +539,7 @@ Fragment kodu pojawia się tutaj TYLKO wtedy, gdy zmiana jest nieoczywista — t
 #### Automatyczne
 
 - [ ] 2.1 <…>
-````
+```
 
 Sekcja Postęp jest mechaniczna — emituj jeden `### Faza N: <nazwa>` na fazę, z podsekcjami `#### Automatyczne` / `#### Ręczne` wyliczającymi każdy punkt Kryteriów Sukcesu z tej fazy jako `- [ ] <faza>.<indeks> <tytuł>`. Pomiń puste podsekcje. Same bloki faz zawierają zwykłe punktorzy `- ` (bez pól wyboru); sekcja `## Postęp` jest jedynym miejscem, gdzie pojawiają się `[ ]` / `[x]`.
 
@@ -572,11 +574,11 @@ Po napisaniu pełnego planu, wygeneruj zwięzły brief, który da czytelnikowi o
 
 Gdy brief ramowy lub dokument badawczy był danymi wejściowymi, oznacz kolumnę **Źródło**, aby pokazać, skąd pochodzi decyzja. Pozwala to czytelnikom zobaczyć pochodzenie: co zostało ustalone wcześniej, a co zostało zdecydowane podczas tej sesji planowania.
 
-| Decyzja                       | Wybór            | Dlaczego (1 zdanie) | Źródło           |
-| ------------------------------ | ----------------- | ----------------- | ---------------- |
-| [Obszar decyzji]               | [Co wybrano]      | [Główne uzasadnienie] | Ramka / Badania / Plan |
-| [Obszar decyzji]               | [Wybór]           | [Uzasadnienie]    | Ramka / Badania / Plan |
-| ...                            | ...               | ...               | ...              |
+| Decyzja          | Wybór        | Dlaczego (1 zdanie)   | Źródło                 |
+| ---------------- | ------------ | --------------------- | ---------------------- |
+| [Obszar decyzji] | [Co wybrano] | [Główne uzasadnienie] | Ramka / Badania / Plan |
+| [Obszar decyzji] | [Wybór]      | [Uzasadnienie]        | Ramka / Badania / Plan |
+| ...              | ...          | ...                   | ...                    |
 
 (Pomiń kolumnę `Źródło`, jeśli nie dostarczono żadnych artefaktów nadrzędnych — każdy wiersz byłby `Plan`.)
 
@@ -594,11 +596,11 @@ Dla zadań poza oprogramowaniem: struktura, przepływ pracy, kluczowe zależnoś
 
 ## Fazy w skrócie
 
-| Faza      | Co dostarcza            | Kluczowe ryzyko           |
-| --------- | ----------------------- | ------------------------- |
+| Faza       | Co dostarcza              | Kluczowe ryzyko           |
+| ---------- | ------------------------- | ------------------------- |
 | 1. [Nazwa] | [Jednowierszowy rezultat] | [Główne ryzyko lub obawa] |
 | 2. [Nazwa] | [Jednowierszowy rezultat] | [Główne ryzyko]           |
-| ...       | ...                     | ...                       |
+| ...        | ...                       | ...                       |
 
 **Wymagania wstępne:** [Co musi być prawdą przed rozpoczęciem — zależności, dostęp, wcześniejsze prace]
 **Szacowany nakład pracy:** [Przybliżony rozmiar: np. "~2-3 sesje w 3 fazach" lub "8 tygodni, zespół 2-osobowy"]

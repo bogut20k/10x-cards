@@ -16,19 +16,21 @@ A logged-out user hitting any of `/flashcards`, `/generate`, `/review`, or any `
 
 ## Key Decisions Made
 
-| Decision | Choice | Why |
-|---|---|---|
-| Page route structure | Top-level (`/flashcards`, `/generate`, `/review`) | User preference — cleaner URLs |
-| API protection | All `/api/*` except `/api/auth/*` | Secure-by-default for domain endpoints |
-| API response on unauth | Redirect (302) to `/auth/signin` | Consistent with current page behavior; no JSON 401 |
+| Decision               | Choice                                            | Why                                                |
+| ---------------------- | ------------------------------------------------- | -------------------------------------------------- |
+| Page route structure   | Top-level (`/flashcards`, `/generate`, `/review`) | User preference — cleaner URLs                     |
+| API protection         | All `/api/*` except `/api/auth/*`                 | Secure-by-default for domain endpoints             |
+| API response on unauth | Redirect (302) to `/auth/signin`                  | Consistent with current page behavior; no JSON 401 |
 
 ## Scope
 
 **In scope:**
+
 - Extend `PROTECTED_PAGE_ROUTES` to 4 entries: `/dashboard`, `/flashcards`, `/generate`, `/review`
 - Add API route guard: `/api/*` minus `/api/auth/*` → redirect if unauthenticated
 
 **Out of scope:**
+
 - New page or API files (those come in S-01–S-04)
 - 401 JSON responses for API routes
 - Per-route middleware decorators
@@ -39,8 +41,8 @@ Single file change in `src/middleware.ts`. Two named constants replace the curre
 
 ## Phases at a Glance
 
-| Phase | What it delivers | Key risk |
-|---|---|---|
+| Phase                | What it delivers            | Key risk                                       |
+| -------------------- | --------------------------- | ---------------------------------------------- |
 | 1. Extend middleware | Protected page + API routes | None significant — 1 file, established pattern |
 
 **Prerequisites:** None — independent of F-01 (DB schema not needed for middleware)

@@ -28,7 +28,7 @@ Plany zbudowane na błędnym sformułowaniu problemu są doskonałymi rozwiązan
 
 Kształt, którym zajmuje się ta umiejętność, jest ogólny: użytkownik opisuje coś (obserwację, postrzegany problem, zakres, który chce podjąć) i proponuje odpowiedź (przyczynę, podejście, strukturę planu) w tym samym zdaniu. Te dwie rzeczy są traktowane jako jeden fakt. Idealny /10x-plan dostarcza wtedy idealne rozwiązanie — a rzeczywisty problem pozostaje, ponieważ ramy były błędne; plan był prawidłowy; użytkownik stracił dzień.
 
-Ta umiejętność to etap ramowania. /10x-plan odpowiada na pytanie *jak to zbudować*. /10x-frame odpowiada na pytanie *co jest właściwie właściwą rzeczą do zaplanowania*.
+Ta umiejętność to etap ramowania. /10x-plan odpowiada na pytanie _jak to zbudować_. /10x-frame odpowiada na pytanie _co jest właściwie właściwą rzeczą do zaplanowania_.
 
 ## Kiedy używać, kiedy pominąć
 
@@ -42,7 +42,7 @@ W razie wątpliwości, ta umiejętność zadaje krótką serię pytań i szybko 
 
 - `/10x-research` — szeroka eksploracja bazy kodu. Frame może przyjmować dokument badawczy jako dane wejściowe, ale go nie zastępuje.
 - `/10x-plan` — akceptuje dane wyjściowe ram jako dane wejściowe. Frame Brief JEST prawidłowym pierwszym argumentem dla /10x-plan.
-- `/10x-plan-review` — waliduje istniejący plan. Frame waliduje *założenie* zanim plan powstanie.
+- `/10x-plan-review` — waliduje istniejący plan. Frame waliduje _założenie_ zanim plan powstanie.
 
 Frame Brief jest użyteczny samodzielnie (jako artefakt dyskusji lub do określenia zakresu szybkiej poprawki) — nie wymaga, aby po nim następował /10x-plan.
 
@@ -100,7 +100,7 @@ Jeśli użytkownik nie podał jasnych początkowych ram ("coś jest nie tak, nap
 
 ### Krok 1.5: Pytania wyjaśniające przed wysyłką
 
-Ten krok zawsze jest wykonywany. Przed zbudowaniem mapy wymiarów (Krok 2) lub wysłaniem równoległych podagentów (Krok 3), zatrzymaj się na jedną rundę pytań wyjaśniających przy każdym wywołaniu. Celem jest usunięcie niejasności dotyczących *obserwacji i zakresu* — "który z tych elementów jest głównym problemem?", "czy to jedna obserwacja, czy kilka?", "czy obserwowalny jest pojedynczym objawem, czy klasą objawów?" — tak, aby mapa wymiarów była zbudowana w oparciu o skoncentrowaną obserwację, a nie wielopunktową listę zadań.
+Ten krok zawsze jest wykonywany. Przed zbudowaniem mapy wymiarów (Krok 2) lub wysłaniem równoległych podagentów (Krok 3), zatrzymaj się na jedną rundę pytań wyjaśniających przy każdym wywołaniu. Celem jest usunięcie niejasności dotyczących _obserwacji i zakresu_ — "który z tych elementów jest głównym problemem?", "czy to jedna obserwacja, czy kilka?", "czy obserwowalny jest pojedynczym objawem, czy klasą objawów?" — tak, aby mapa wymiarów była zbudowana w oparciu o skoncentrowaną obserwację, a nie wielopunktową listę zadań.
 
 Użyj AskUserQuestion z **2–3 pytaniami** w jednej rundzie. Każda opcja opisuje obserwację lub pozycję zakresu — co użytkownik faktycznie widzi, lub który fragment pracy chce najpierw zbadać — nigdy przyczynę, podejście ani poprawkę. Zawsze dołącz opcję "Nie jestem pewien / jeszcze ich nie rozdzieliłem", odzwierciedlającą zasadę pewności jako sygnału z Kroku 4.
 
@@ -116,11 +116,11 @@ Skonstruuj **mapę** wymiarów, z których może pochodzić obserwacja — dla S
 
 Jak zbudować mapę:
 
-- **Najpierw przeczytaj.** Otwórz pliki, o których wspomniał użytkownik. Otwórz sąsiednie. Śledź ścieżkę od podanej przyczyny do zaobserwowanego efektu — *czy ta ścieżka to przepływ danych w czasie wykonania, łańcuch decyzji projektowych, czy sekwencja założeń*. Wymiary wynikają z tego, co faktycznie istnieje: etapy wejścia, transformacji, stanu, efektów ubocznych; lub osie przestrzeni projektowej; lub warstwy decyzji o zakresie. Nie wymieniaj wymiarów, dla których nie widziałeś dowodów.
+- **Najpierw przeczytaj.** Otwórz pliki, o których wspomniał użytkownik. Otwórz sąsiednie. Śledź ścieżkę od podanej przyczyny do zaobserwowanego efektu — _czy ta ścieżka to przepływ danych w czasie wykonania, łańcuch decyzji projektowych, czy sekwencja założeń_. Wymiary wynikają z tego, co faktycznie istnieje: etapy wejścia, transformacji, stanu, efektów ubocznych; lub osie przestrzeni projektowej; lub warstwy decyzji o zakresie. Nie wymieniaj wymiarów, dla których nie widziałeś dowodów.
 - **Użyj podagentów, gdy powierzchnia jest duża lub nieznana.** Utwórz jednego lub dwóch podagentów Explore z promptami takimi jak: "Śledź ścieżkę od <podanej przyczyny> do <zaobserwowanego efektu>. Wymień każdy odrębny etap lub oś, przez którą przechodzi łańcuch, z odniesieniami do pliku:linii lub dokumentu:sekcji." Mapa to to, co zwracają — a nie to, co zgadłeś przed przeczytaniem.
 - **Traktuj każdy wymiar jako możliwe źródło.** Użyteczny wymiar to taki, w którym, gdyby ramy pękły w tym punkcie, zobaczyłbyś mniej więcej tę obserwację. Wymiary, które nie mogłyby wiarygodnie wywołać obserwacji, nie należą do mapy.
 
-**Przypnij obserwację do mapy**: w którym wymiarze ląduje ramowanie użytkownika? Gdzie indziej *mogłaby* pochodzić obserwacja? Ramowanie użytkownika to jeden węzeł na mapie; reszta mapy to przestrzeń hipotez.
+**Przypnij obserwację do mapy**: w którym wymiarze ląduje ramowanie użytkownika? Gdzie indziej _mogłaby_ pochodzić obserwacja? Ramowanie użytkownika to jeden węzeł na mapie; reszta mapy to przestrzeń hipotez.
 
 Przedstaw mapę z powrotem jako tekst, krótko:
 
@@ -155,7 +155,7 @@ Po powrocie wszystkich, zsyntetyzuj: które hipotezy mają dowody **silne**, **s
 
 ### Krok 4: Pytania zawężające (sokratyczne, nie dotyczące rozwiązania)
 
-Użyj AskUserQuestion. **Pytania i opcje tutaj są fundamentalnie różne od tych w /10x-plan**: w /10x-plan opcje to *wybory rozwiązania*; tutaj opcje to *rozróżnienia hipotez*. Odpowiedź użytkownika zawęża przestrzeń hipotez.
+Użyj AskUserQuestion. **Pytania i opcje tutaj są fundamentalnie różne od tych w /10x-plan**: w /10x-plan opcje to _wybory rozwiązania_; tutaj opcje to _rozróżnienia hipotez_. Odpowiedź użytkownika zawęża przestrzeń hipotez.
 
 **Zasady dotyczące pytań zawężających:**
 
@@ -196,10 +196,10 @@ Zapisz brief do `context/changes/<change-id>/frame.md` (pojedynczy artefakt na z
 
 Użyj tego szablonu:
 
-````markdown
+```markdown
 # Frame Brief: [Temat]
 
-> Etap ramowania przed /10x-plan. Ten dokument przedstawia, co *faktycznie*
+> Etap ramowania przed /10x-plan. Ten dokument przedstawia, co _faktycznie_
 > jest problemem, oddzielone od tego, co początkowo zakładano.
 
 ## Zgłoszona obserwacja
@@ -218,18 +218,18 @@ Kroku 1, bez zmian.]
 Obserwacja może pochodzić z któregokolwiek z tych wymiarów:
 
 1. **[Wymiar A]** — [co poszłoby nie tak / co zakłada ramowanie tutaj]
-2. **[Wymiar B]** — [...]  ← początkowe ramy
+2. **[Wymiar B]** — [...] ← początkowe ramy
 3. **[Wymiar C]** — [...]
 4. **[Wymiar D]** — [...]
 
 ## Badanie hipotez
 
-| Hipoteza | Dowody | Werdykt |
-| --- | --- | --- |
+| Hipoteza                        | Dowody                                      | Werdykt              |
+| ------------------------------- | ------------------------------------------- | -------------------- |
 | [Wymiar A: krótkie twierdzenie] | [plik:linia / dokument:sekcja / obserwacje] | SILNE / SŁABE / BRAK |
-| [Wymiar B: początkowe ramy] | [dowody] | SILNE / SŁABE / BRAK |
-| [Wymiar C] | [dowody] | SILNE / SŁABE / BRAK |
-| [Wymiar D] | [dowody] | SILNE / SŁABE / BRAK |
+| [Wymiar B: początkowe ramy]     | [dowody]                                    | SILNE / SŁABE / BRAK |
+| [Wymiar C]                      | [dowody]                                    | SILNE / SŁABE / BRAK |
+| [Wymiar D]                      | [dowody]                                    | SILNE / SŁABE / BRAK |
 
 ## Sygnały zawężające
 
@@ -272,7 +272,7 @@ Jeśli przeformułowanie to "brak zmian", stwierdź, że oryginalne ramy się ut
 - Pliki źródłowe: [plik:linia]
 - Powiązane badania: `context/changes/<change-id>/research.md` (jeśli istnieje)
 - Zadania badawcze: [lista identyfikatorów TaskCreate z Kroku 3]
-````
+```
 
 Zachowaj zwięzłość briefu — celuj w ~80–150 linii. Tabela hipotez jest sercem; wszystko inne ją wspiera.
 
@@ -297,6 +297,7 @@ Wydrukuj podsumowanie na jednym ekranie, a następnie zaproponuj przekazanie:
 Następnie zapytaj:
 
 AskUserQuestion:
+
 - question: "Ramy gotowe. Jak chcesz postąpić?"
   header: "Następny krok"
   options:
@@ -331,7 +332,7 @@ I wydrukuj: `→ /10x-plan <change-id> (✓ skopiowano)`
 
 3. **Brak projektowania rozwiązania.** Ta umiejętność nigdy nie wybiera podejścia do implementacji. Nie proponuje faz, zmian w plikach ani decyzji technicznych. Tworzy JEDEN artefakt: przeformułowane (lub potwierdzone) sformułowanie problemu. /10x-plan jest odpowiedzialny za rozwiązanie.
 
-4. **Pytania zawężające ≠ pytania dotyczące rozwiązania.** /10x-plan pyta "jakie podejście?". /10x-frame pyta "gdzie na mapie wymiarów znajduje się rzeczywisty problem?". Ta zasada wiąże zarówno Krok 1.5 (zawężanie zakresu/obserwacji przed wysyłką), jak i Krok 4 (zawężanie hipotez po wysyłce). Opcje opisują obserwacje lub pozycje projektowe, a nie wybory dotyczące sposobu ich rozwiązania. Jeśli zauważysz, że tworzysz pytanie, którego odpowiedź zmienia *kierunek*, przekroczyłeś terytorium /10x-plan — zatrzymaj się.
+4. **Pytania zawężające ≠ pytania dotyczące rozwiązania.** /10x-plan pyta "jakie podejście?". /10x-frame pyta "gdzie na mapie wymiarów znajduje się rzeczywisty problem?". Ta zasada wiąże zarówno Krok 1.5 (zawężanie zakresu/obserwacji przed wysyłką), jak i Krok 4 (zawężanie hipotez po wysyłce). Opcje opisują obserwacje lub pozycje projektowe, a nie wybory dotyczące sposobu ich rozwiązania. Jeśli zauważysz, że tworzysz pytanie, którego odpowiedź zmienia _kierunek_, przekroczyłeś terytorium /10x-plan — zatrzymaj się.
 
 5. **Przeczytaj materiał źródłowy, zanim sięgniesz po wcześniejsze informacje.** Materiał źródłowy oznacza kod, dokumenty, wcześniejsze decyzje lub cokolwiek, na czym faktycznie opierają się ramy. Kuszące jest rozpoznanie kształtu z danych treningowych i zaproponowanie przeformułowania przed badaniem. Nie rób tego. Hipotezy muszą pochodzić z mapy wymiarów, którą skonstruowałeś w Kroku 2 z TEGO materiału, a dowody muszą pochodzić z odczytów podagentów TEGO projektu. Pewnie brzmiące przeformułowanie bez dowodów w postaci pliku:linii lub dokumentu:sekcji to tryb awarii, któremu ta umiejętność ma zapobiegać.
 

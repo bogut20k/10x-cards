@@ -16,16 +16,17 @@ A `flashcards` table in the remote Supabase database with content columns (`id, 
 
 ## Key Decisions Made
 
-| Decision | Choice | Why (1 sentence) | Source |
-|---|---|---|---|
-| SR state location | Inline columns in `flashcards` | S-02 queries need no JOIN — simpler queries and less code | Plan |
-| SR algorithm | FSRS (ts-fsrs compatible) | Modern algorithm, maintained TypeScript library, better scheduling than SM-2 | Plan |
-| Migration deploy | `supabase db push` via CLI | Matches CLAUDE.md convention; migration is version-controlled in `supabase/migrations/` | Plan |
-| RLS scope | Single `FOR ALL` policy with USING + WITH CHECK | USING alone doesn't block writes — both clauses required | Plan |
+| Decision          | Choice                                          | Why (1 sentence)                                                                        | Source |
+| ----------------- | ----------------------------------------------- | --------------------------------------------------------------------------------------- | ------ |
+| SR state location | Inline columns in `flashcards`                  | S-02 queries need no JOIN — simpler queries and less code                               | Plan   |
+| SR algorithm      | FSRS (ts-fsrs compatible)                       | Modern algorithm, maintained TypeScript library, better scheduling than SM-2            | Plan   |
+| Migration deploy  | `supabase db push` via CLI                      | Matches CLAUDE.md convention; migration is version-controlled in `supabase/migrations/` | Plan   |
+| RLS scope         | Single `FOR ALL` policy with USING + WITH CHECK | USING alone doesn't block writes — both clauses required                                | Plan   |
 
 ## Scope
 
 **In scope:**
+
 - `flashcards` table with content + FSRS columns
 - RLS enabled, single policy scoping all operations to `auth.uid() = user_id`
 - `updated_at` auto-update trigger
@@ -33,6 +34,7 @@ A `flashcards` table in the remote Supabase database with content columns (`id, 
 - `supabase/migrations/` directory created
 
 **Out of scope:**
+
 - Separate decks/collections table
 - `flashcard_review_state` separate table
 - Soft delete / audit log
@@ -44,8 +46,8 @@ Single SQL migration file at `supabase/migrations/20260618000000_flashcard_schem
 
 ## Phases at a Glance
 
-| Phase | What it delivers | Key risk |
-|---|---|---|
+| Phase                     | What it delivers                         | Key risk                                                             |
+| ------------------------- | ---------------------------------------- | -------------------------------------------------------------------- |
 | 1. Migration file + apply | flashcards table live in remote Supabase | `supabase db push` requires Supabase CLI installed and authenticated |
 
 **Prerequisites:** Supabase CLI installed (`npm install supabase --save-dev` or global), authenticated (`supabase login`)

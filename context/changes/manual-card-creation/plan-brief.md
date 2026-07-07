@@ -16,13 +16,13 @@ Na `/dashboard`: formularz z polami Przód i Tył → zapis → inline baner suk
 
 ## Key Decisions Made
 
-| Decision | Choice | Why |
-|---|---|---|
-| Lokalizacja formularza | Dashboard (/dashboard) | Jedno centrum akcji zamiast osobnej strony |
-| Po zapisie | Inline baner + clear form | Płynniejszy UX przy tworzeniu wielu fiszek |
-| Lista kart | Tak — SSR + optymistyczny update | Spełnia "zobaczyć natychmiast w kolekcji" |
-| Nawigacja AI | Link "Generuj z AI" | Odkrywalność funkcji AI |
-| Podział faz | Dwie fazy | Testowalna jednostkowo forma (Phase 1) przed listą (Phase 2) |
+| Decision               | Choice                           | Why                                                          |
+| ---------------------- | -------------------------------- | ------------------------------------------------------------ |
+| Lokalizacja formularza | Dashboard (/dashboard)           | Jedno centrum akcji zamiast osobnej strony                   |
+| Po zapisie             | Inline baner + clear form        | Płynniejszy UX przy tworzeniu wielu fiszek                   |
+| Lista kart             | Tak — SSR + optymistyczny update | Spełnia "zobaczyć natychmiast w kolekcji"                    |
+| Nawigacja AI           | Link "Generuj z AI"              | Odkrywalność funkcji AI                                      |
+| Podział faz            | Dwie fazy                        | Testowalna jednostkowo forma (Phase 1) przed listą (Phase 2) |
 
 ## Scope
 
@@ -36,10 +36,10 @@ Nowy React island `ManualCardForm` montowany na dashboardzie z `client:load`. Ph
 
 ## Phases at a Glance
 
-| Phase | What it delivers | Key risk |
-|---|---|---|
-| 1. ManualCardForm Island | Formularz + submit + inline sukces + link AI | Spójność stylów z istniejącym UI |
-| 2. Dashboard Enhancement | SSR lista kart + live update po zapisie | Supabase query w Astro frontmatter |
+| Phase                    | What it delivers                             | Key risk                           |
+| ------------------------ | -------------------------------------------- | ---------------------------------- |
+| 1. ManualCardForm Island | Formularz + submit + inline sukces + link AI | Spójność stylów z istniejącym UI   |
+| 2. Dashboard Enhancement | SSR lista kart + live update po zapisie      | Supabase query w Astro frontmatter |
 
 **Prerequisites:** F-01 (done ✓), `POST /api/flashcards` endpoint (done ✓, S-01 Phase 3)
 **Estimated effort:** ~1 sesja, 2 fazy

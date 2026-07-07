@@ -18,13 +18,13 @@ K:\@Claude-Code-Workspace\
 
 Working directory: `10x-astro-starter/`. Node.js v22.14.0 (see `.nvmrc`).
 
-| Command | Purpose |
-| --- | --- |
-| `npm run dev` | Dev server — Cloudflare workerd runtime |
-| `npm run build` | Production build (SSR via `@astrojs/cloudflare`) |
-| `npm run lint` | ESLint with type-checked rules |
-| `npm run lint:fix` | Auto-fix lint issues |
-| `npm run format` | Prettier (astro + tailwindcss plugins) |
+| Command            | Purpose                                          |
+| ------------------ | ------------------------------------------------ |
+| `npm run dev`      | Dev server — Cloudflare workerd runtime          |
+| `npm run build`    | Production build (SSR via `@astrojs/cloudflare`) |
+| `npm run lint`     | ESLint with type-checked rules                   |
+| `npm run lint:fix` | Auto-fix lint issues                             |
+| `npm run format`   | Prettier (astro + tailwindcss plugins)           |
 
 Environment: copy `.env.example` → `.dev.vars` for Cloudflare local dev. `SUPABASE_URL` and `SUPABASE_KEY` are the only required secrets.
 
@@ -35,6 +35,7 @@ Astro 6 full-SSR (`output: "server"`) deployed on Cloudflare Workers. React 19 i
 **Auth** is Supabase-based with cookie sessions (`@supabase/ssr`). The middleware at `src/middleware.ts` resolves `context.locals.user` on every request and guards routes listed in `PROTECTED_ROUTES`. Auth API endpoints live in `src/pages/api/auth/`.
 
 **Key conventions inside the sub-project:**
+
 - Path alias `@/*` → `src/*`
 - Conditional class merging: always use `cn()` from `@/lib/utils`, never manual string concatenation
 - shadcn/ui components in `src/components/ui/` ("new-york" variant); add with `npx shadcn@latest add [name]`
@@ -55,17 +56,17 @@ Lekcja koncentruje się na rozróżnianiu badań wewnętrznych od zewnętrznych 
 
 ### Router zadań - Od czego zacząć
 
-| Umiejętność | Kiedy jej używać |
-| --- | --- |
-| **Badania wewnętrzne (fokus lekcji)** | |
-| `/10x-research <change-id>` | Potrzebujesz dowodów z istniejącej bazy kodu — wzorców, konwencji, punktów integracji lub istniejących implementacji. Uruchamia równoległe sub-agenty w repozytorium i zapisuje ustrukturyzowane wyniki do `research.md`. |
-| **Badania zewnętrzne (fokus lekcji)** | |
-| exa.ai | Potrzebujesz natywnego dla AI wyszukiwania w sieci w celu porównania bibliotek, najlepszych praktyk lub kontekstu ekosystemu, na które baza kodu nie może odpowiedzieć. |
-| Context7 (`resolve-library-id` → `get-library-docs`) | Potrzebujesz aktualnej dokumentacji dla konkretnej biblioteki lub frameworka. Najpierw rozwiązuje ID biblioteki, a następnie pobiera odpowiednie strony dokumentacji. |
-| **Kadrowanie koła zapasowego** | |
-| `/10x-frame <change-id>` | Plan nie zbiega się, plan nie przynosi oczekiwanych rezultatów, lub uporczywe odchylenia ciągle psują implementację. Użyj jako wyjścia awaryjnego dla oddzielnego problemu (zademonstrowane na przykładzie Space Explorers), a nie jako rytuału przed badaniami. |
-| **Planowanie i wykonanie** | |
-| `/10x-plan <change-id>` / `/10x-implement <change-id> phase <n>` | Użyj tego samego łańcucha planowania i wykonania z Lekcji 2, teraz z dowodami z badań wstępnych zasilającymi plan. |
+| Umiejętność                                                      | Kiedy jej używać                                                                                                                                                                                                                                                 |
+| ---------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Badania wewnętrzne (fokus lekcji)**                            |                                                                                                                                                                                                                                                                  |
+| `/10x-research <change-id>`                                      | Potrzebujesz dowodów z istniejącej bazy kodu — wzorców, konwencji, punktów integracji lub istniejących implementacji. Uruchamia równoległe sub-agenty w repozytorium i zapisuje ustrukturyzowane wyniki do `research.md`.                                        |
+| **Badania zewnętrzne (fokus lekcji)**                            |                                                                                                                                                                                                                                                                  |
+| exa.ai                                                           | Potrzebujesz natywnego dla AI wyszukiwania w sieci w celu porównania bibliotek, najlepszych praktyk lub kontekstu ekosystemu, na które baza kodu nie może odpowiedzieć.                                                                                          |
+| Context7 (`resolve-library-id` → `get-library-docs`)             | Potrzebujesz aktualnej dokumentacji dla konkretnej biblioteki lub frameworka. Najpierw rozwiązuje ID biblioteki, a następnie pobiera odpowiednie strony dokumentacji.                                                                                            |
+| **Kadrowanie koła zapasowego**                                   |                                                                                                                                                                                                                                                                  |
+| `/10x-frame <change-id>`                                         | Plan nie zbiega się, plan nie przynosi oczekiwanych rezultatów, lub uporczywe odchylenia ciągle psują implementację. Użyj jako wyjścia awaryjnego dla oddzielnego problemu (zademonstrowane na przykładzie Space Explorers), a nie jako rytuału przed badaniami. |
+| **Planowanie i wykonanie**                                       |                                                                                                                                                                                                                                                                  |
+| `/10x-plan <change-id>` / `/10x-implement <change-id> phase <n>` | Użyj tego samego łańcucha planowania i wykonania z Lekcji 2, teraz z dowodami z badań wstępnych zasilającymi plan.                                                                                                                                               |
 
 ### Dyscyplina badawcza
 

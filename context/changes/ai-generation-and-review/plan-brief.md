@@ -16,22 +16,23 @@ Zalogowany użytkownik wchodzi na `/generate`, wkleja tekst (max 2000 znaków), 
 
 ## Key Decisions Made
 
-| Decision | Choice | Why |
-|---|---|---|
-| AI provider | Anthropic Claude | Znany SDK w tym środowisku; dobra jakość strukturyzowanego tekstu |
-| Model | claude-haiku-4-5-20251001 | Szybki i tani — NFR ≤10s łatwy do spełnienia |
-| UX flow | Jedna strona /generate | Prostszy state management; brak redirect między stronami |
-| Generowanie | Wait for all, pokaż naraz | Prostszy kod; brak SSE na Workers; NFR i tak spełniony |
-| Edycja | Inline (klik w kartę) | Zero dodatkowych kliknięć; naturalny flow przed zapisem |
-| Akceptacja | Zapisz wszystkie + X per karta | PRD: 75% akceptowanych bez edycji — szybki happy path |
-| Limit tekstu | 2000 znaków, AI decyduje 3–20 kart | Zgodne z NFR ≤10s; walidacja po stronie klienta i serwera |
-| Błąd AI | Error na stronie, formularz zostaje | Użytkownik nie traci tekstu, może spróbować ponownie |
-| Ostrzeżenie AI | Dismissible banner nad listą | Spełnia guardrail z PRD, nienatarczywy |
-| Po zapisie | Redirect /dashboard z ?saved=N | Naturalne zakończenie flow |
+| Decision       | Choice                              | Why                                                               |
+| -------------- | ----------------------------------- | ----------------------------------------------------------------- |
+| AI provider    | Anthropic Claude                    | Znany SDK w tym środowisku; dobra jakość strukturyzowanego tekstu |
+| Model          | claude-haiku-4-5-20251001           | Szybki i tani — NFR ≤10s łatwy do spełnienia                      |
+| UX flow        | Jedna strona /generate              | Prostszy state management; brak redirect między stronami          |
+| Generowanie    | Wait for all, pokaż naraz           | Prostszy kod; brak SSE na Workers; NFR i tak spełniony            |
+| Edycja         | Inline (klik w kartę)               | Zero dodatkowych kliknięć; naturalny flow przed zapisem           |
+| Akceptacja     | Zapisz wszystkie + X per karta      | PRD: 75% akceptowanych bez edycji — szybki happy path             |
+| Limit tekstu   | 2000 znaków, AI decyduje 3–20 kart  | Zgodne z NFR ≤10s; walidacja po stronie klienta i serwera         |
+| Błąd AI        | Error na stronie, formularz zostaje | Użytkownik nie traci tekstu, może spróbować ponownie              |
+| Ostrzeżenie AI | Dismissible banner nad listą        | Spełnia guardrail z PRD, nienatarczywy                            |
+| Po zapisie     | Redirect /dashboard z ?saved=N      | Naturalne zakończenie flow                                        |
 
 ## Scope
 
 **In scope:**
+
 - `npm install @anthropic-ai/sdk`
 - `src/types.ts` — FlashcardDraft, Flashcard
 - `astro.config.mjs` — ANTHROPIC_API_KEY w env schema
@@ -42,6 +43,7 @@ Zalogowany użytkownik wchodzi na `/generate`, wkleja tekst (max 2000 znaków), 
 - `src/pages/dashboard.astro` — success banner po zapisie
 
 **Out of scope:**
+
 - Streaming (SSE/chunked)
 - Per-card checkboxy
 - Auto-retry
@@ -70,11 +72,11 @@ Zalogowany użytkownik wchodzi na `/generate`, wkleja tekst (max 2000 znaków), 
 
 ## Phases at a Glance
 
-| Phase | What it delivers | Key risk |
-|---|---|---|
-| 1. AI Generation Endpoint | SDK + env + types + `/api/flashcards/generate` | Claude response nie jest validnym JSON — obsłużone przez try/catch |
-| 2. Generate Page + Form UI | `/generate` page + formularz z loaderem i error state | Styling spójny z istniejącym design systemem |
-| 3. Review UI + Save | Karty inline edit/delete + `/api/flashcards` + dashboard banner | Zablokowane przez F-01 (tabela flashcards musi istnieć) |
+| Phase                      | What it delivers                                                | Key risk                                                           |
+| -------------------------- | --------------------------------------------------------------- | ------------------------------------------------------------------ |
+| 1. AI Generation Endpoint  | SDK + env + types + `/api/flashcards/generate`                  | Claude response nie jest validnym JSON — obsłużone przez try/catch |
+| 2. Generate Page + Form UI | `/generate` page + formularz z loaderem i error state           | Styling spójny z istniejącym design systemem                       |
+| 3. Review UI + Save        | Karty inline edit/delete + `/api/flashcards` + dashboard banner | Zablokowane przez F-01 (tabela flashcards musi istnieć)            |
 
 **Prerequisites:** F-00 done ✓ (middleware). F-01 must be complete before Phase 3.
 **Estimated effort:** ~2 sesje; Faza 1+2 niezależne od F-01, Faza 3 czeka na F-01.

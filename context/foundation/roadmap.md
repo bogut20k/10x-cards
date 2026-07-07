@@ -23,27 +23,27 @@ Student uczący się regularnie ma duże partie tekstu do przyswojenia i wie, ż
 
 **S-01 + S-04: Pierwsza pełna pętla generowania i powtórek** — jeśli użytkownik może w jednej sesji wkleić tekst, dostać fiszki od AI, zaakceptować je i natychmiast zacząć sesję powtórek, rdzeń hipotezy produktu jest zweryfikowany.
 
-> *Gwiazda przewodnia* (north star) oznacza tutaj: najmniejszy przepływ end-to-end, którego shipping udowadnia, że produkt robi to, do czego jest zbudowany. Umieszczona tak wcześnie jak pozwalają zależności — wszystkie inne slajsy mają sens tylko pod warunkiem, że ta pętla działa.
+> _Gwiazda przewodnia_ (north star) oznacza tutaj: najmniejszy przepływ end-to-end, którego shipping udowadnia, że produkt robi to, do czego jest zbudowany. Umieszczona tak wcześnie jak pozwalają zależności — wszystkie inne slajsy mają sens tylko pod warunkiem, że ta pętla działa.
 
 ## At a glance
 
-| ID   | Change ID                | Outcome (user can …)                                         | Prerequisites | PRD refs                        | Status   |
-| ---- | ------------------------ | ------------------------------------------------------------ | ------------- | ------------------------------- | -------- |
-| F-00 | gate-product-routes      | (foundation) ochrona tras produktowych w middleware          | —             | NFR (bezpieczeństwo)            | done     |
-| F-01 | flashcard-schema-and-rls | (foundation) schemat fiszek i stanu SR w DB + RLS            | —             | NFR (prywatność), FR-002, FR-005 | done     |
-| S-01 | ai-generation-and-review | wkleić tekst, dostać fiszki od AI i zaakceptować/edytować je | F-01          | FR-001, FR-002, FR-003, US-01   | done        |
-| S-02 | flashcard-edit-and-delete| edytować i usuwać zapisane fiszki                            | F-01, S-01    | FR-006                          | done     |
-| S-03 | manual-card-creation     | ręcznie utworzyć fiszkę (przód + tył)                        | F-01          | FR-004                          | in-progress |
-| S-04 | spaced-repetition-session| przeprowadzić sesję powtórek opartą na algorytmie SR         | F-01, S-01    | FR-005, US-01                   | proposed |
+| ID   | Change ID                 | Outcome (user can …)                                         | Prerequisites | PRD refs                         | Status      |
+| ---- | ------------------------- | ------------------------------------------------------------ | ------------- | -------------------------------- | ----------- |
+| F-00 | gate-product-routes       | (foundation) ochrona tras produktowych w middleware          | —             | NFR (bezpieczeństwo)             | done        |
+| F-01 | flashcard-schema-and-rls  | (foundation) schemat fiszek i stanu SR w DB + RLS            | —             | NFR (prywatność), FR-002, FR-005 | done        |
+| S-01 | ai-generation-and-review  | wkleić tekst, dostać fiszki od AI i zaakceptować/edytować je | F-01          | FR-001, FR-002, FR-003, US-01    | done        |
+| S-02 | flashcard-edit-and-delete | edytować i usuwać zapisane fiszki                            | F-01, S-01    | FR-006                           | done        |
+| S-03 | manual-card-creation      | ręcznie utworzyć fiszkę (przód + tył)                        | F-01          | FR-004                           | in-progress |
+| S-04 | spaced-repetition-session | przeprowadzić sesję powtórek opartą na algorytmie SR         | F-01, S-01    | FR-005, US-01                    | proposed    |
 
 ## Streams
 
 Navigation aid — groups items that share a Prerequisites chain. Canonical ordering still lives in the dependency graph below; this table is the proposed reading order across parallel tracks.
 
-| Stream | Theme                   | Chain                     | Note                                                                              |
-| ------ | ----------------------- | ------------------------- | --------------------------------------------------------------------------------- |
+| Stream | Theme                   | Chain                    | Note                                                                              |
+| ------ | ----------------------- | ------------------------ | --------------------------------------------------------------------------------- |
 | A      | Core pętla              | `F-01` → `S-01` → `S-04` | Gwiazda przewodnia; shipping tej sekwencji = zweryfikowana hipoteza produktu.     |
-| B      | Tworzenie i zarządzanie | `S-02` / `S-03`           | Oba wymagają F-01 (Stream A); S-02 dodatkowo S-01 — dołącza do Streamu A po S-01. |
+| B      | Tworzenie i zarządzanie | `S-02` / `S-03`          | Oba wymagają F-01 (Stream A); S-02 dodatkowo S-01 — dołącza do Streamu A po S-01. |
 
 ## Baseline
 

@@ -36,7 +36,7 @@ Examples:
 You can list active changes with: `ls context/changes/`
 ```
 
-   Następnie **poczekaj**, aż użytkownik poda argument.
+Następnie **poczekaj**, aż użytkownik poda argument.
 
 ## Analiza argumentów
 
@@ -103,10 +103,10 @@ Zbierz następujące ostrzeżenia, a następnie przedstaw je wszystkie naraz z j
 
 1. **Sprawdzenie statusu**: odczytaj `change.md.status`. Jeśli NIE jest w `{implemented, impl_reviewed}`, dodaj do kolejki: `Status is "<status>"; expected "implemented" or "impl_reviewed".`
 2. **Sprawdzenie oczekującego postępu**: przeanalizuj sekcję `## Progress` pliku `context/changes/<change-id>/plan.md` (jeśli `plan.md` istnieje). Dla każdego bloku `### Phase N:`, zidentyfikuj jego podsekcje `#### Automated` i `#### Manual` i policz wiersze `- [ ]` pod każdą z nich oddzielnie. Niech `<X>` = całkowita liczba oczekujących automatycznych we wszystkich fazach, `<Y>` = całkowita liczba oczekujących ręcznych we wszystkich fazach, `<N>` = `<X> + <Y>`.
-
    - **Jeśli plan używa podsekcji Auto/Manual** (dowolny blok `### Phase N:` zawiera nagłówek `#### Automated` lub `#### Manual`) i `<N> > 0`, dodaj do kolejki: `<N> Progress items still pending (<X> automated, <Y> manual): <lista tokenów "N.M <title>" oddzielonych przecinkami, obcięta do 5 z "…" jeśli dłuższa>.` Uporządkuj połączoną listę tokenów najpierw według elementów automatycznych (w kolejności dokumentu), a następnie według elementów ręcznych (w kolejności dokumentu); limit obcięcia do 5 dotyczy połączonej listy.
    - **Starsze rozwiązanie awaryjne**: jeśli żaden blok `### Phase N:` w Progress nie zawiera nagłówka `#### Automated` ani `#### Manual`, wróć do oryginalnego zachowania — policz wiersze `- [ ]` pod podnagłówkami `### Phase`; jeśli jakieś pozostaną, dodaj do kolejki: `<N> Progress items still pending: <lista tokenów "N.M <title>" oddzielonych przecinkami, obcięta do 5 z "…" jeśli dłuższa>.` (bez rozbicia w nawiasach). Zachowuje to zerową zmianę zachowania dla planów utworzonych przed workflow-v2.
    - Jeśli brakuje `plan.md`, dodaj do kolejki: `No plan.md found in change folder.` i pomiń liczenie postępu.
+
 3. **Sprawdzenie brakującego impl-review**: glob `context/changes/<change-id>/reviews/impl-review*.md`. Jeśli żaden nie pasuje, dodaj do kolejki: `No impl-review found at reviews/impl-review*.md.`
 4. **Sprawdzenie brakującego SHA**: przeanalizuj sekcję `## Progress` pliku `plan.md` (jeśli istnieje). Policz wiersze `- [x]`, których linia NIE kończy się na ` — <sha>`, gdzie `<sha>` to 7+ znaków szesnastkowych (tj. wyrażenie regularne ` — [0-9a-f]{7,}$` nie pasuje). Jeśli liczba jest różna od zera, dodaj do kolejki: `<N> Progress rows missing SHA suffix: <tokeny "N.M <title>" oddzielone przecinkami, obcięte do 5 z "…" jeśli dłuższe>.` Wiersze bez SHA są uzasadnione dla faz z pustym diffem i dla planów, które zostały ukończone przed wprowadzeniem kontraktu SHA — jest to miękki sygnał, a nie wada. Pomiń cicho, jeśli brakuje `plan.md` (sprawdzenie oczekującego postępu już objęło ten przypadek).
 
@@ -131,7 +131,7 @@ Następnie użyj `AskUserQuestion`. **Tylko ręczne zachęcenie**: jeśli powyż
     description: `Don't archive. Suggest /10x-implement <change-id> next.`
   - label: `Cancel`
     description: `Don't archive. Exit cleanly without further action.`
-  multiSelect: false
+    multiSelect: false
 
 - **Continue archiving** → przejdź do „Przenieś i oznacz” poniżej.
 - **Resume implementation** → wydrukuj `→ /10x-implement <change-id>` i skopiuj to do schowka za pomocą `pbcopy 2>/dev/null || clip.exe 2>/dev/null || xclip -selection clipboard 2>/dev/null || true` (lub `Set-Clipboard` w PowerShell) (najlepszy wysiłek, wieloplatformowy). ZATRZYMAJ.
@@ -160,7 +160,6 @@ Jeśli nie ma ostrzeżeń w kolejce, pomiń monit i przejdź bezpośrednio.
 4. **Przygotuj znacznik do zmiany nazwy.** Edycja w kroku 2 zmodyfikowała `change.md` w drzewie roboczym, ale `git mv` tylko przygotowuje zmianę nazwy z zawartością pliku HEAD. Uruchom `git add "$DEST/change.md"`, aby znacznik frontmatter trafił do tego samego zatwierdzenia co zmiana nazwy.
 
 5. **Zamknij pasujący element roadmapy** — najlepszy wysiłek; ten krok nigdy nie blokuje, nigdy nie cofa i nigdy nie monituje. Roadmapa jest opcjonalna; większość zmian nie będzie do niej prowadzić.
-
    1. `test -f context/foundation/roadmap.md`. Jeśli brak, pomiń ten krok cicho.
    2. Sprawdź, czy plik jest już brudny: `ROADMAP_PREDIRTY=$(git status --porcelain context/foundation/roadmap.md 2>/dev/null)`. (Używane w podkroku 7 do podjęcia decyzji, czy przygotować go do zatwierdzenia archiwum.)
    3. Odczytaj `context/foundation/roadmap.md`. Poszukaj `<change-id>` użytego jako `Change ID`:
@@ -168,7 +167,8 @@ Jeśli nie ma ostrzeżeń w kolejce, pomiń monit i przejdź bezpośrednio.
       - oraz w treściach `## Foundations` / `## Slices` — blok `### <ID>: …`, który zawiera linię `- **Change ID:** <change-id>`.
 
       `<ID>` to lokalny identyfikator tego elementu roadmapy (`F-NN` lub `S-NN`); `<Outcome>` to tekst jego linii `- **Outcome:**` (zachowaj początkowe `(foundation) `, jeśli występuje).
-   4. **Brak dopasowania** → wydrukuj `ℹ context/foundation/roadmap.md has no item with Change ID "<change-id>" — roadmap left untouched.` i pomiń resztę tego kroku. Dopasowanie jest tylko dokładnym ciągiem znaków; fragment roadmapy może generować kilka zmian, więc bliskie dopasowanie celowo *nie* jest zamykane.
+
+   4. **Brak dopasowania** → wydrukuj `ℹ context/foundation/roadmap.md has no item with Change ID "<change-id>" — roadmap left untouched.` i pomiń resztę tego kroku. Dopasowanie jest tylko dokładnym ciągiem znaków; fragment roadmapy może generować kilka zmian, więc bliskie dopasowanie celowo _nie_ jest zamykane.
    5. **Znaleziono dopasowanie** → zastosuj trzy edycje poniżej za pomocą narzędzia Edit. Każda jest niezależna i stanowi najlepszy wysiłek: jeśli cel nie znajduje się tam, gdzie umieszcza go szablon `/10x-roadmap` (ręcznie edytowana roadmapa, starszy format), pomiń tę podedycję, kontynuuj i zanotuj, co zostało pominięte — nigdy nie przerywaj archiwizacji z powodu kształtu roadmapy. Dotknij tylko pól wymienionych tutaj; pozostaw `Outcome`, `Prerequisites`, `Parallel with`, `Risk` itp. bez zmian.
       1. **`## At a glance`** — w dopasowanym wierszu tabeli ustaw komórkę kolumny **Status** na `done`.
       2. **Treść elementu** — w bloku `### <ID>: …` przepisz linię `- **Status:**` na `- **Status:** done`.
@@ -179,6 +179,7 @@ Jeśli nie ma ostrzeżeń w kolejce, pomiń monit i przejdź bezpośrednio.
          ```
 
          `<today>` to `date -u +%F` (`YYYY-MM-DD`); `<CREATED>` to wartość obliczona w kroku 1 „Oblicz miejsce docelowe archiwum”. Jeśli roadmapa nie ma nagłówka `## Done`, dodaj nagłówek i ten punkt na końcu pliku.
+
    6. Zaktualizuj frontmatter roadmapy: ustaw `updated: <today as YYYY-MM-DD>`. Pozostaw wszystkie inne klucze (`created`, `version`, `status`, `prd_version`, `main_goal`, `top_blocker`, …) bez zmian. Jeśli plik nie ma frontmattera YAML, pomiń ten podkrok.
    7. **Przygotuj go do zatwierdzenia archiwum** — tylko jeśli `git` jest dostępny **i** `ROADMAP_PREDIRTY` (podkrok 2) był pusty. Następnie uruchom `git add context/foundation/roadmap.md`, aby zamknięcie roadmapy trafiło do tego samego zatwierdzenia co zmiana nazwy + znacznik. Jeśli `ROADMAP_PREDIRTY` nie był pusty, plik miał już niezatwierdzone edycje; pozostaw zamknięcie roadmapy w drzewie roboczym i wydrukuj `⚠ context/foundation/roadmap.md had pre-existing uncommitted changes — closed roadmap item <ID> in the working tree but did NOT stage it. Commit it yourself.` Jeśli `git` jest niedostępny, edycja pozostaje w drzewie roboczym (wstępne sprawdzenie już ostrzegło).
    8. Zapamiętaj `<ID>` i `<Outcome>` dla danych wyjściowych potwierdzenia.

@@ -125,7 +125,6 @@ Po zaimplementowaniu fazy:
 - Zaktualizuj swój postęp w swoich zadaniach i w sekcji `## Progress` planu.
 - **Modyfikuj TYLKO sekcję `## Progress`.** Bloki faz (Overview, Changes Required, Success Criteria) są tylko do odczytu. Użyj Edit, aby zmienić `- [ ] N.M <title>` na `- [x] N.M <title>` w Progress, gdy każdy krok zostanie ukończony. NIE edytuj punktorów bloku faz, NIE dodawaj znaczników postępu w komentarzach HTML na dole planu i NIE zapisuj żadnego pliku stanu pomocniczego.
 - **Uruchom rytuał zatwierdzania na koniec fazy**: Po pomyślnym przejściu wszystkich automatycznych sprawdzeń dla fazy, przejdź przez ten sekwencyjny rytuał, aby utworzyć jeden commit Conventional-Commits i zapisać zamykający krótki SHA z powrotem do każdego wiersza Progress zmienionego podczas fazy.
-
   1. **Bramka ręcznego potwierdzenia.** Poinformuj człowieka, że automatyczna weryfikacja zakończyła się pomyślnie i wymień elementy ręcznej weryfikacji z planu. Zatrzymaj się tutaj. Nie kontynuuj, dopóki człowiek nie potwierdzi, że testy ręczne zakończyły się sukcesem. Użyj tego formatu:
 
      ```
@@ -151,8 +150,7 @@ Po zaimplementowaniu fazy:
 
   2. **Oblicz zestaw do przygotowania.** Weź zestaw zmienionych plików utrzymywany podczas fazy (patrz "Śledzenie plików zmienionych podczas fazy" powyżej) i połącz go z `{context/changes/<change-id>/plan.md}`. Plik planu jest zawsze przygotowywany, ponieważ każda faza generuje co najmniej jedną edycję w sekcji `## Progress`.
 
-  3. **Wykryj niezwiązane brudne ścieżki.** Uruchom `git status --porcelain` i przetnij z ścieżkami *poza* zestawem do przygotowania. Jeśli zestaw brudnych, ale nietkniętych plików nie jest pusty, przedstaw problematyczne ścieżki i użyj `AskUserQuestion`:
-
+  3. **Wykryj niezwiązane brudne ścieżki.** Uruchom `git status --porcelain` i przetnij z ścieżkami _poza_ zestawem do przygotowania. Jeśli zestaw brudnych, ale nietkniętych plików nie jest pusty, przedstaw problematyczne ścieżki i użyj `AskUserQuestion`:
      - question: "<N> unrelated path(s) are dirty. How should I handle them?"
        header: "Dirty paths"
        options:
@@ -162,7 +160,7 @@ Po zaimplementowaniu fazy:
          description: "Add the unrelated paths to this commit. You take responsibility for the broader scope."
        - label: "Abort"
          description: "Stop the phase commit. Resolve the dirty paths first, then re-run the ritual."
-       multiSelect: false
+         multiSelect: false
 
      Jeśli zestaw brudnych, ale nietkniętych plików jest pusty, pomiń ten krok.
 
@@ -177,7 +175,6 @@ Po zaimplementowaniu fazy:
      Ustaw `SHA=""` i przejdź do kroku 8.
 
   6. **Zaproponuj wiadomość Conventional-Commits.** Zbuduj linię tematu w formie `<type>(<change-id>): <phase title> (p<N>)`, gdzie `<type>` to jeden z `feat / fix / chore / refactor / docs` wybrany na podstawie charakteru fazy (np. `feat` dla nowego zachowania widocznego dla użytkownika, `chore` dla edycji promptów/dokumentów, `refactor` dla restrukturyzacji bez zmiany zachowania). Tytuł fazy jest znaczącą częścią i prowadzi; sufiks `(p<N>)` zawiera indeks fazy. Zbuduj krótką treść zawierającą listę zmienionych plików, plus linię `Refs:` z "Śledzenie odniesień do problemów/zadań dla commitów", jeśli ma zastosowanie. Użyj `AskUserQuestion`:
-
      - question: "Approve commit message?"
        header: "Commit msg"
        options:
@@ -187,7 +184,7 @@ Po zaimplementowaniu fazy:
          description: "Override the subject; keep the body."
        - label: "Override entirely"
          description: "Replace both subject and body."
-       multiSelect: false
+         multiSelect: false
 
   7. **Zatwierdź za pomocą heredoc.** Uruchom `git commit` zgodnie z globalnym protokołem wiadomości commitu:
 
@@ -206,7 +203,6 @@ Po zaimplementowaniu fazy:
   8. **Zapisz krótki SHA.** Uruchom `git rev-parse --short HEAD` i zapisz jako `SHA`. Pomiń ten krok, jeśli `SHA=""` zostało ustawione w kroku 5.
 
   9. **Zapisz SHA z powrotem do Progress.** Dla każdego wiersza Progress zmienionego podczas tej fazy, uruchom ukierunkowaną edycję:
-
      - Znajdź: `- [x] N.M <title>` (bez istniejącego sufiksu ` — <sha>` na końcu linii)
      - Zastąp: `- [x] N.M <title> — <SHA>`
 
@@ -238,6 +234,7 @@ Po zaimplementowaniu fazy:
 
   **Jeśli użytkownik zdecyduje się wyczyścić**: Skopiuj polecenie wznowienia do schowka i wyświetl je:
   1. Kopiuj:
+
      ```bash
      echo -n "/10x-implement <change-id> phase [next-phase-number]" | pbcopy 2>/dev/null || echo -n "/10x-implement <change-id> phase [next-phase-number]" | clip.exe 2>/dev/null || echo -n "/10x-implement <change-id> phase [next-phase-number]" | xclip -selection clipboard 2>/dev/null || true
      ```
@@ -246,6 +243,7 @@ Po zaimplementowaniu fazy:
      # PowerShell (Windows)
      Set-Clipboard "/10x-implement <change-id> phase [next-phase-number]"
      ```
+
   2. Wyświetl:
      ```
      → /10x-implement <change-id> phase [next-phase-number] (✓ copied)
@@ -282,7 +280,6 @@ Fazy z pustym diffem (tylko weryfikacja ręczna lub fazy adaptowane bez operacji
 Gdy każdy `- [ ]` w całej sekcji `## Progress` jest teraz `- [x]`:
 
 1. **Obronne wyświetlanie oczekujących elementów.** Przeskanuj całą sekcję `## Progress` po raz ostatni w poszukiwaniu wierszy `- [ ]`. W normalnym przebiegu jest to operacja bez efektu — warunek wyzwalający "Po wszystkich fazach" to już "każdy `- [ ]` jest `- [x]`", więc skanowanie nie powinno nic znaleźć. Istnieje po to, aby wszelkie nieoczekiwane pozostałości były jawne, a nie cicho utracone (np. jeśli częściowe uruchomienie, ręczna edycja lub ścieżka wznowienia ominęła wyzwalacz). Jeśli liczba jest różna od zera, wymień każdy wiersz jako `<phase>.<index> <title>` pogrupowany według podsekcji Automated vs Manual w kolejności dokumentu, a następnie zapytaj za pomocą `AskUserQuestion`:
-
    - question: "<N> Progress item(s) still pending. How to proceed?"
      header: "Stragglers"
      options:
@@ -290,7 +287,7 @@ Gdy każdy `- [ ]` w całej sekcji `## Progress` jest teraz `- [x]`:
        description: "STOP without flipping change.md.status. Address the stragglers manually, then re-enter the epilogue path."
      - label: "Proceed to epilogue"
        description: "Flip status: implemented and run the epilogue commit anyway. Stragglers will surface as warnings under /10x-archive."
-     multiSelect: false
+       multiSelect: false
 
    W przypadku "Pause": ZATRZYMAJ NATYCHMIAST. NIE aktualizuj `change.md`, NIE uruchamiaj commitu epilogu. W przypadku "Proceed to epilogue": kontynuuj z krokami 2–4 poniżej. Jeśli liczba wynosi zero, pomiń ten krok i kontynuuj.
 

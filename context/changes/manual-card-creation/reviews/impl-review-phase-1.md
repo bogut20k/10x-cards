@@ -1,4 +1,5 @@
 <!-- IMPL-REVIEW-REPORT -->
+
 # Przegląd implementacji: Manual Card Creation
 
 - **Plan**: context/changes/manual-card-creation/plan.md
@@ -9,14 +10,14 @@
 
 ## Werdykty
 
-| Wymiar | Werdykt |
-|---|---|
-| Zgodność z planem | WARNING |
-| Dyscyplina zakresu | WARNING |
+| Wymiar                  | Werdykt |
+| ----------------------- | ------- |
+| Zgodność z planem       | WARNING |
+| Dyscyplina zakresu      | WARNING |
 | Bezpieczeństwo i jakość | WARNING |
-| Architektura | WARNING |
-| Spójność wzorców | WARNING |
-| Kryteria sukcesu | PASS |
+| Architektura            | WARNING |
+| Spójność wzorców        | WARNING |
+| Kryteria sukcesu        | PASS    |
 
 ## Wyniki automatyczne
 

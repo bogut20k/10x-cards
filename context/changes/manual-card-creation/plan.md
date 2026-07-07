@@ -22,6 +22,7 @@ Build the S-03 vertical slice: dashboard jako centrum — formularz ręcznego tw
 ## Desired End State
 
 Zalogowany użytkownik na `/dashboard`:
+
 1. Widzi formularz "Utwórz fiszkę" z polami Przód i Tył
 2. Wypełnia pola i klika "Zapisz fiszkę"
 3. Widzî baner sukcesu "Fiszka zapisana!" i pusty formularz gotowy na kolejną fiszkę
@@ -61,6 +62,7 @@ Nowy komponent React `ManualCardForm` z formularzem ręcznego tworzenia fiszki. 
 **Intent**: Island zarządzający formularzem przód/tył — submit do API, inline baner sukcesu, clear formularza po zapisie, link do /generate.
 
 **Contract**:
+
 - Props: brak (Phase 1); Phase 2 doda `initialCards: Flashcard[]`
 - State: `front` (string), `back` (string), `isLoading` (boolean), `success` (boolean), `error` (string | null)
 - Textarea "Przód": controlled, `rows={3}`, placeholder "Pytanie lub pojęcie..."
@@ -117,12 +119,18 @@ Rozszerzenie dashboardu o SSR fetch kolekcji użytkownika i przekazanie do islan
 **Intent**: Pobrać fiszki zalogowanego użytkownika z Supabase w server-side frontmatter i przekazać do island.
 
 **Contract**: W frontmatter:
+
 ```typescript
 const supabase = createClient(Astro.request.headers, Astro.cookies);
 const { data: flashcards } = supabase
-  ? await supabase.from("flashcards").select("id, front, back, created_at").eq("user_id", user.id).order("created_at", { ascending: false })
+  ? await supabase
+      .from("flashcards")
+      .select("id, front, back, created_at")
+      .eq("user_id", user.id)
+      .order("created_at", { ascending: false })
   : { data: [] };
 ```
+
 Przekazać jako prop: `<ManualCardForm initialCards={flashcards ?? []} client:load />`
 
 #### 2. Rozszerzenie ManualCardForm o listę kart
@@ -132,6 +140,7 @@ Przekazać jako prop: `<ManualCardForm initialCards={flashcards ?? []} client:lo
 **Intent**: Dodać `initialCards` prop i sekcję listy fiszek poniżej formularza. Po zapisie nowa fiszka dokładana na początku listy bez przeładowania.
 
 **Contract**:
+
 - Dodać import `Flashcard` z `@/types`
 - Props: `{ initialCards?: Flashcard[] }`
 - Nowy state: `cards` (Flashcard[]) inicjalizowany z `initialCards ?? []`

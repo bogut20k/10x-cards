@@ -55,13 +55,16 @@ Użytkownik loguje się przez email + hasło lub OAuth (np. Google). Płaski mod
 ## Success Criteria
 
 ### Primary
+
 - Użytkownik może w jednej sesji: zarejestrować się, wkleić tekst, otrzymać wygenerowane przez AI fiszki, zaakceptować lub edytować je, a następnie rozpocząć sesję powtórek — wszystko bez opuszczania aplikacji.
 
 ### Secondary
+
 - 75% fiszek wygenerowanych przez AI jest akceptowane przez użytkownika bez edycji lub z minimalną edycją.
 - 75% fiszek w systemie pochodzi z generowania AI (nie z ręcznego tworzenia).
 
 ### Guardrails
+
 - Fiszki użytkownika nie mogą zniknąć ani zostać utracone — utrata danych dyskwalifikuje narzędzie do nauki.
 - AI informuje użytkownika o ryzyku halucynacji / braku pewności co do wygenerowanej treści; użytkownik nie trafi na fałszywe fakty bez ostrzeżenia.
 - Sesja powtórek działa w pełni nawet gdy AI API jest niedostępne — core użyteczność nie zależy od zewnętrznego serwisu.
@@ -69,24 +72,29 @@ Użytkownik loguje się przez email + hasło lub OAuth (np. Google). Płaski mod
 ## Functional Requirements
 
 ### Autentykacja
+
 - FR-001: Użytkownik może zarejestrować się i zalogować do aplikacji (email + hasło lub OAuth). Priority: must-have
   > Socrates: Brak kontrargumentu — fiszki są persystentne i per-user; auth jest architektonicznie konieczny. FR stoi bez zmian.
 
 ### Generowanie fiszek
+
 - FR-002: Użytkownik może wkleić dowolny tekst i zlecić AI wygenerowanie zestawu fiszek na jego podstawie. Priority: must-have
   > Socrates: Brak kontrargumentu — AI generation to core hipoteza produktu; bez niej nie ma co testować. FR stoi bez zmian.
 - FR-003: Użytkownik może przejrzeć fiszki wygenerowane przez AI, zaakceptować je zbiorczo lub edytować / usunąć pojedyncze przed zapisem. Priority: must-have
   > Socrates: Brak kontrargumentu — review przed zapisem jest guardrailem przed złymi fiszkami i konieczny do pomiaru kryterium 75% akceptacji. FR stoi bez zmian.
 
 ### Tworzenie ręczne
+
 - FR-004: Użytkownik może ręcznie utworzyć fiszkę (przód + tył) bez użycia AI. Priority: must-have
   > Socrates: Brak kontrargumentu — ręczne tworzenie jest siatką bezpieczeństwa gdy AI zawodzi lub temat jest zbyt specyficzny. FR stoi bez zmian.
 
 ### Zarządzanie fiszkami
+
 - FR-006: Użytkownik może edytować i usuwać zapisane fiszki. Priority: must-have
   > Socrates: Brak kontrargumentu — edycja i usuwanie to podstawowe operacje; brak spowoduje frustrację gdy AI wygeneruje błąd. FR stoi bez zmian.
 
 ### Powtórki
+
 - FR-005: Użytkownik może przeprowadzić sesję powtórek swoich fiszek opartą na gotowym algorytmie spaced repetition. Priority: must-have
   > Socrates: Brak kontrargumentu — spaced repetition to core wartość aplikacji; bez niego to notatnik. FR stoi bez zmian.
 
@@ -99,6 +107,7 @@ Użytkownik loguje się przez email + hasło lub OAuth (np. Google). Płaski mod
 - **Then** otrzymuje listę fiszek do przeglądu, akceptuje je i natychmiast może rozpocząć sesję powtórek
 
 #### Acceptance Criteria
+
 - Wygenerowane fiszki są widoczne do przeglądu przed zapisem
 - Użytkownik może zaakceptować całość jednym kliknięciem lub edytować/usunąć poszczególne
 - Po akceptacji fiszki trafiają do systemu i od razu są dostępne w sesji powtórek
@@ -129,4 +138,3 @@ Wyjście widoczne dla użytkownika: kolejność fiszek w sesji powtórek jest wy
 ## Quality cross-check
 
 Wszystkie elementy obecne. Quality check status: accepted. Brak gaps — shape-notes finalizowane bez ostrzeżeń.
-

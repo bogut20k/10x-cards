@@ -15,6 +15,7 @@ Create the `flashcards` table in Supabase with FSRS spaced repetition state colu
 ## Desired End State
 
 A `flashcards` table exists in the remote Supabase database with:
+
 - Content columns matching `src/types.ts:Flashcard` (`id, user_id, front, back, created_at, updated_at`)
 - FSRS SR state columns inline (`stability, difficulty, elapsed_days, scheduled_days, reps, lapses, state, last_review, due`)
 - RLS enabled: each user can only SELECT/INSERT/UPDATE/DELETE their own rows

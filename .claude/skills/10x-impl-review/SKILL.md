@@ -20,10 +20,12 @@ allowed-tools:
 Porównaj rzeczywistą pracę implementacyjną z oryginalnym planem, aby wychwycić odchylenia, niebezpieczne decyzje, naruszenia architektury i niewłaściwe użycie wzorców, zanim się skumulują.
 
 Dwie ziarnistości:
+
 - **Przegląd fazy**: po pojedynczej fazie — szybki, skupiony na zmianach w tej fazie
 - **Pełny przegląd planu**: po wszystkich fazach — kompleksowe sprawdzenie
 
 Dwa tryby:
+
 - **Świeży przegląd**: analiza → ustalenia → interaktywne sortowanie
 - **Wznowienie sortowania**: załaduj zapisany raport i przejdź do sortowania poszczególnych problemów
 
@@ -55,6 +57,7 @@ TaskCreate: "Przegląd implementacji" / activeForm "Ładowanie kontekstu"
    Jeśli zakres nie może być czysto określony, wróć do commitów, których komunikaty odwołują się do planu/funkcji.
 
 Porównaj listę zmienionych plików z listą plików planu:
+
 - **W planie ORAZ w diffie** → oczekiwana zmiana, zweryfikuj zgodność treści z zamierzeniem
 - **W diffie, ale NIE w planie** → nieplanowana zmiana, zbadaj i oznacz
 - **W planie, ale NIE w diffie** → potencjalnie brakująca implementacja
@@ -72,6 +75,7 @@ Uruchom **dwa** podagenty jednocześnie. Każdy otrzymuje ukierunkowany kontekst
 Daj mu: tekst "Changes Required" dla przeglądanych faz, listę ścieżek plików do odczytania.
 
 Instrukcje: dla każdej zaplanowanej zmiany, przeczytaj rzeczywisty plik i zweryfikuj zgodność implementacji z zamierzeniem. Sprawdź:
+
 - Zmiany zaimplementowane inaczej niż zaplanowano (niezgodność intencji, nie formatowania)
 - Zaplanowane elementy pominięte bez dokumentacji
 - Dodatki nieopisane w planie (rozszerzenie zakresu)
@@ -111,6 +115,7 @@ Dla każdej przeglądanej fazy:
 TaskUpdate: activeForm "Kompilowanie ustaleń"
 
 Każde ustalenie zawiera:
+
 - **ID**: F1, F2, F3…
 - **Ważność**: CRITICAL / WARNING / OBSERVATION (jak źle, jeśli zignorowane)
 - **Wpływ**: LOW / MEDIUM / HIGH (ile uwagi wymaga decyzja)
@@ -124,10 +129,10 @@ Każde ustalenie zawiera:
 
 Ortogonalny do ważności. CRITICAL z LOW wpływem (oczywista jednowierszowa poprawka) jest tania; WARNING z HIGH wpływem (przebudowa architektury) wymaga starannego przemyślenia.
 
-| Wpływ | Znaczenie |
-|---|---|
-| 🏃 **NISKI** | Szybka decyzja. Poprawka jest oczywista i wąsko zakrojona. Bezpieczne do grupowania. |
-| 🔎 **ŚREDNI** | Warto się zatrzymać. Prawdziwy kompromis lub nietrywialna edycja — pomyśl przed podjęciem decyzji. |
+| Wpływ         | Znaczenie                                                                                                 |
+| ------------- | --------------------------------------------------------------------------------------------------------- |
+| 🏃 **NISKI**  | Szybka decyzja. Poprawka jest oczywista i wąsko zakrojona. Bezpieczne do grupowania.                      |
+| 🔎 **ŚREDNI** | Warto się zatrzymać. Prawdziwy kompromis lub nietrywialna edycja — pomyśl przed podjęciem decyzji.        |
 | 🔬 **WYSOKI** | Stawka architektoniczna. Szeroki promień rażenia, strategiczne implikacje lub niejasna najlepsza ścieżka. |
 
 ### Opcje naprawy
@@ -137,6 +142,7 @@ Domyślnie **jedna** poprawka. Oferuj dwie tylko wtedy, gdy istnieje prawdziwy k
 **Ustalenia o NISKIM wpływie**: tylko `Fix: [jedna linia]`. Hałas nie jest pomocny, gdy odpowiedź jest oczywista.
 
 **Ustalenia o ŚREDNIM/WYSOKIM wpływie**: każda opcja otrzymuje:
+
 ```
 [1-zdaniowe podejście] · Siła: [zaleta, najlepiej oparta na dowodach z kodu/planu] · Kompromis: [koszt lub ryzyko] · Pewność: HIGH|MED|LOW — [1-liniowe dlaczego] · Martwy punkt: [czego nie zweryfikowaliśmy, lub "Brak znaczących"]
 ```
@@ -146,6 +152,7 @@ Oferując dwie opcje, oznacz dokładnie jedną `⭐ Recommended`.
 ### Werdykty wymiarów
 
 PASS / WARNING / FAIL na wymiar:
+
 - **Zgodność z planem** — zaplanowane zmiany zaimplementowane zgodnie z opisem? FAIL w przypadku MISSING lub poważnego DRIFT.
 - **Dyscyplina zakresu** — granice "nie robimy" przestrzegane? WARNING, jeśli istnieją dodatkowe zmiany, ale są nieszkodliwe.
 - **Bezpieczeństwo i jakość** — bezpieczeństwo, wydajność, niezawodność, bezpieczeństwo danych. FAIL w przypadku każdego CRITICAL ustalenia.
@@ -261,7 +268,7 @@ Zwykły tekst, rysowanie ramek. Wymiary PASS pojawiają się tylko w tabeli werd
 
 ### Zapisywanie raportu (zawsze)
 
-**Każda ścieżka przez tę umiejętność utrwala raport i oznacza zmianę** — Triage teraz, Triage później i Done wszystkie zapisują plik. To pozwala `/10x-archive` i `/10x-status` zobaczyć przegląd i utrzymuje poprawność `change.md.status`. Zrób to *przed* przedstawieniem opcji kontynuacji — nigdy warunkowo i nigdy tylko w gałęziach "zapisz".
+**Każda ścieżka przez tę umiejętność utrwala raport i oznacza zmianę** — Triage teraz, Triage później i Done wszystkie zapisują plik. To pozwala `/10x-archive` i `/10x-status` zobaczyć przegląd i utrzymuje poprawność `change.md.status`. Zrób to _przed_ przedstawieniem opcji kontynuacji — nigdy warunkowo i nigdy tylko w gałęziach "zapisz".
 
 1. **Zapisz plik raportu** do `context/changes/<change-id>/reviews/impl-review.md` (lub `context/changes/<change-id>/reviews/impl-review-phase-N.md` dla przeglądu ograniczonego do fazy), używając poniższego formatu. Utwórz katalog `reviews/`, jeśli nie istnieje.
 2. **Oznacz `change.md`**: ustaw `status: impl_reviewed` i `updated: <dzisiaj>`. Raz, tutaj — niezależnie od tego, którą opcję kontynuacji wybierze użytkownik. (Jeśli pole `change.md` jest już `impl_reviewed`, po prostu odśwież `updated`.)
@@ -269,6 +276,7 @@ Zwykły tekst, rysowanie ramek. Wymiary PASS pojawiają się tylko w tabeli werd
 
 ```markdown
 <!-- IMPL-REVIEW-REPORT -->
+
 # Przegląd implementacji: [Tytuł planu]
 
 - **Plan**: [ścieżka pliku planu]
@@ -279,14 +287,14 @@ Zwykły tekst, rysowanie ramek. Wymiary PASS pojawiają się tylko w tabeli werd
 
 ## Werdykty
 
-| Wymiar | Werdykt |
-|-----------|---------|
-| Zgodność z planem | PASS/WARNING/FAIL |
-| Dyscyplina zakresu | PASS/WARNING/FAIL |
+| Wymiar                  | Werdykt           |
+| ----------------------- | ----------------- |
+| Zgodność z planem       | PASS/WARNING/FAIL |
+| Dyscyplina zakresu      | PASS/WARNING/FAIL |
 | Bezpieczeństwo i jakość | PASS/WARNING/FAIL |
-| Architektura | PASS/WARNING/FAIL |
-| Spójność wzorców | PASS/WARNING/FAIL |
-| Kryteria sukcesu | PASS/WARNING/FAIL |
+| Architektura            | PASS/WARNING/FAIL |
+| Spójność wzorców        | PASS/WARNING/FAIL |
+| Kryteria sukcesu        | PASS/WARNING/FAIL |
 
 ## Ustalenia
 
@@ -372,6 +380,7 @@ Jeśli wejście nastąpiło przez zapisany plik: przeczytaj go, przeanalizuj nag
 Przejdź przez ustalenia w kolejności ważności (CRITICAL → WARNING → OBSERVATION). Dla każdego:
 
 **Z 2 opcjami naprawy:**
+
 ```
 question: "F[N] — [tytuł]\n\nWażność: [ikona ważności] [WAŻNOŚĆ]\nWpływ: [ikona wpływu] [POZIOM] — [znaczenie]\nWymiar: [wymiar]\nLokalizacja: [lokalizacja]\n\nSzczegóły: [szczegóły]\n\n[Blok poprawki A]\n\n[Blok poprawki B]"
 header: "Ustalenie [bieżące] z [całkowita pozostała liczba]"
@@ -388,6 +397,7 @@ multiSelect: false
 ```
 
 **Z 1 opcją naprawy:**
+
 ```
 question: "F[N] — [tytuł]\n\nWażność: [ikona ważności] [WAŻNOŚĆ]\nWpływ: [ikona wpływu] [POZIOM] — [znaczenie]\nWymiar: [wymiar]\nLokalizacja: [lokalizacja]\n\nSzczegóły: [szczegóły]\n\n[Blok poprawki]"
 header: "Ustalenie [bieżące] z [całkowita pozostała liczba]"
@@ -404,6 +414,7 @@ multiSelect: false
 ```
 
 **Obsługa odpowiedzi:**
+
 - **Zastosuj poprawkę A/B / Napraw teraz**: pokaż dokładną zmianę kodu przed/po. Krótkie potwierdzenie ("Zastosować to?"), a następnie edytuj. Oznacz FIXED (zapisz, która opcja, np. "Fixed via Fix A").
 - **Napraw inaczej**: zapytaj o preferowane podejście, zastosuj, oznacz FIXED.
 - **Zapisz jako lekcję**: wstępnie wypełnij cztery pola wpisu lekcji bezpośrednio z ustalenia — `Context` z lokalizacji ustalenia, `Problem` ze szczegółów ustalenia, `Rule` i `Applies to` pozostaw jako puste miejsca do wypełnienia przez użytkownika. Pokaż proponowany wpis jako kompletny blok markdown i poproś użytkownika o edycję / potwierdzenie za pomocą AskUserQuestion ("Zatwierdzić ten wpis?" / "Edytuj przed zapisaniem" / "Anuluj"). Po potwierdzeniu, dołącz wpis jako nową sekcję H2 do `context/foundation/lessons.md` — jeśli plik nie istnieje, utwórz go najpierw z tym kanonicznym 5-liniowym nagłówkiem (brak oddzielnego pliku szablonu; nagłówek jest osadzony w tekście):
@@ -416,6 +427,7 @@ multiSelect: false
   ```
 
   Przepływ wstępnego wypełniania, a następnie potwierdzania jest kluczowym elementem UX; użytkownik musi zobaczyć cały proponowany wpis z wstępnie wypełnionym Context/Problem i mieć możliwość edycji Rule i Applies-to przed dodaniem. Po pomyślnym dodaniu, **zawsze** zadaj pytanie uzupełniające za pomocą AskUserQuestion: "Lekcja zapisana. Czy zastosować również poprawkę do bieżącego kodu?" z opcjami "Tak — napraw teraz" / "Nie — tylko lekcja". **Nigdy nie pomijaj tego pytania ani nie decyduj w imieniu użytkownika** — niezależnie od tego, czy poprawka jest trywialna, poza zakresem, czy obejmuje wiele plików, decyzja należy do użytkownika. Jeśli tak: pokaż zmianę kodu przed/po, zastosuj, oznacz `FIXED + ACCEPTED-AS-RULE: <tytuł reguły>`. Jeśli nie: oznacz `ACCEPTED-AS-RULE: <tytuł reguły>` (ustalenie pozostaje nienaprawione, reguła jest zapisana do przyszłej pracy).
+
 - **Pomiń** → SKIPPED. Przejdź dalej, nie dyskutuj.
 - **Inne (dowolny tekst)**: zinterpretuj intencje użytkownika. Typowe intencje: "napraw inaczej" (zwłaszcza w kontekście podwójnej poprawki) → zapytaj o preferowane podejście, zastosuj, oznacz FIXED; "zaakceptuj ryzyko" → oznacz ACCEPTED z uzasadnieniem użytkownika; "odrzuć"/"nie zgadzam się" → oznacz DISMISSED.
 

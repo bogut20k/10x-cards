@@ -24,6 +24,7 @@ Build the S-01 vertical slice: a `/generate` page where the user pastes text, Cl
 ## Desired End State
 
 A logged-in user on `/generate`:
+
 1. Types/pastes text (max 2000 chars) and clicks "Generuj"
 2. Sees a loading spinner while Claude Haiku processes
 3. Sees 3–20 generated flashcards (front/back) below the form, with a dismissible AI warning banner
@@ -89,6 +90,7 @@ Install AI SDKs, register env vars in Astro's env schema and local secrets, defi
 **Intent**: Define `FlashcardDraft` (generation/review shape) and `Flashcard` (DB shape after save) used across the endpoint, the UI island, and future slices.
 
 **Contract**:
+
 ```typescript
 export interface FlashcardDraft {
   front: string;
@@ -110,6 +112,7 @@ export interface Flashcard extends FlashcardDraft {
 **Intent**: Register all AI-related env vars as optional server secrets. All are `optional: true` because which vars are required depends on `AI_PROVIDER` — build-time enforcement would be too strict for a runtime-configurable provider.
 
 **Contract**: Add to the existing `env` → `schema` block:
+
 ```typescript
 ANTHROPIC_API_KEY: envField.string({ context: "server", access: "secret", optional: true }),
 AI_PROVIDER: envField.string({ context: "server", access: "secret", optional: true }),
@@ -124,6 +127,7 @@ OPENROUTER_MODEL: envField.string({ context: "server", access: "secret", optiona
 **Intent**: Provide actual keys for Cloudflare workerd local dev. File is gitignored.
 
 **Contract**:
+
 ```
 AI_PROVIDER=openrouter          # or "anthropic"
 ANTHROPIC_API_KEY=<key>         # required if AI_PROVIDER=anthropic
@@ -140,6 +144,7 @@ OPENROUTER_MODEL=meta-llama/llama-3.3-70b-instruct:free,...  # comma-separated f
 **Intent**: Provider abstraction that selects Anthropic or OpenRouter based on `AI_PROVIDER` env var and exposes a single `generateFlashcards(text)` function. OpenRouter path iterates a comma-separated model list and skips to the next model on any error except auth errors (401/403), providing resilience against model unavailability and rate limits.
 
 **Contract**:
+
 - Export: `export async function generateFlashcards(text: string): Promise<FlashcardDraft[]>`
 - `AI_PROVIDER === "openrouter"`: use `openai` package with `baseURL: "https://openrouter.ai/api/v1"`, iterate `OPENROUTER_MODEL` list; on `AuthenticationError` or `PermissionDeniedError` throw immediately; on any other error continue to next model
 - `AI_PROVIDER === "anthropic"` (default): use `@anthropic-ai/sdk`, model `claude-haiku-4-5-20251001`, max_tokens 2048
@@ -153,6 +158,7 @@ OPENROUTER_MODEL=meta-llama/llama-3.3-70b-instruct:free,...  # comma-separated f
 **Intent**: Thin POST endpoint — validates input, delegates to `generateFlashcards()`, returns `{ cards }` or structured error.
 
 **Contract**:
+
 - Export: `export const POST: APIRoute`
 - Validation: `text` non-empty string, `text.length <= 2000`; return 400 on failure
 - Call: `const cards = await generateFlashcards(text)`
@@ -201,6 +207,7 @@ Create the `/generate` page shell and the `GenerateForm` React island. Phase 2 s
 **Intent**: Island managing the text input → generate API call → results state. Phase 2 delivers the form half; Phase 3 adds the review half below.
 
 **Contract**:
+
 - State: `text` (string), `isLoading` (boolean), `error` (string | null), `cards` (FlashcardDraft[] | null)
 - Textarea: controlled, `maxLength={2000}`, shows `{text.length}/2000` counter below; counter uses warning color (e.g. Tailwind `text-amber-400`) when `text.length >= 1900`
 - Submit button: disabled when `isLoading || text.trim().length === 0`; shows `<Loader2 className="animate-spin" />` (Lucide) when loading, otherwise "Generuj"
@@ -249,6 +256,7 @@ Extend `GenerateForm` to render generated cards below the form: dismissible AI w
 **Intent**: When `cards` state is non-null, render the review section below the form with the AI banner, editable cards, and save button.
 
 **Contract**:
+
 - AI banner: rendered above cards when `!bannerDismissed`; `bannerDismissed` boolean state; X button sets it to true; text: "AI może popełniać błędy — sprawdź fiszki przed zapisem"
 - Card list: `cards.map((card, i) => ...)` — each card shows `front` / `back` text
 - Inline edit: `editingIndex` (number | null) state; clicking a card's body sets `editingIndex = i`; when editing, render two textareas (front, back) with current values; on blur or Escape key → exit edit and update the corresponding entry in `cards` array
@@ -264,6 +272,7 @@ Extend `GenerateForm` to render generated cards below the form: dismissible AI w
 **Intent**: POST endpoint that bulk-inserts the reviewed flashcard drafts into the `flashcards` table for the authenticated user. Requires F-01 schema to exist.
 
 **Contract**:
+
 - Export: `export const POST: APIRoute`
 - Auth: extract `user.id` from `context.locals.user` (guaranteed by middleware)
 - Request: `await context.request.json()` → `{ cards: FlashcardDraft[] }`

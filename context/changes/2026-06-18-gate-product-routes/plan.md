@@ -17,6 +17,7 @@ The middleware at `src/middleware.ts` guards only `["/dashboard"]` via `startsWi
 ## Desired End State
 
 `src/middleware.ts` guards two categories:
+
 - **Page routes**: `/dashboard`, `/flashcards`, `/generate`, `/review` — unauthenticated → redirect to `/auth/signin`
 - **API routes**: all `/api/*` except `/api/auth/*` — unauthenticated → redirect to `/auth/signin`
 
@@ -49,6 +50,7 @@ Update `src/middleware.ts` to protect four page routes and all non-auth API rout
 **Intent**: Replace the single `PROTECTED_ROUTES` constant with two named constants (page routes list + public API prefix), then extend the guard condition to cover both page and API protection in one redirect check.
 
 **Contract**:
+
 - `PROTECTED_PAGE_ROUTES` array: `["/dashboard", "/flashcards", "/generate", "/review"]`
 - Public API exception expressed as the prefix `"/api/auth"` (all auth endpoints share this prefix)
 - Guard logic: unauthenticated request hits redirect when **either** `PROTECTED_PAGE_ROUTES.some(r => pathname.startsWith(r))` **or** `pathname.startsWith("/api/") && !pathname.startsWith("/api/auth")`

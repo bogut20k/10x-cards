@@ -108,12 +108,12 @@ https://dash.cloudflare.com/profile/api-tokens → **"Edit Cloudflare Workers"**
 
 ### 2b. Add GitHub Repository Secrets ✅
 
-| Secret Name | Value |
-|---|---|
-| `CLOUDFLARE_API_TOKEN` | Token from Step 2a |
+| Secret Name             | Value                             |
+| ----------------------- | --------------------------------- |
+| `CLOUDFLARE_API_TOKEN`  | Token from Step 2a                |
 | `CLOUDFLARE_ACCOUNT_ID` | Account ID from `wrangler whoami` |
-| `SUPABASE_URL` | Supabase project URL |
-| `SUPABASE_KEY` | Supabase anon key |
+| `SUPABASE_URL`          | Supabase project URL              |
+| `SUPABASE_KEY`          | Supabase anon key                 |
 
 ### 2c. Set Cloudflare Workers Runtime Secrets ✅
 
@@ -143,6 +143,7 @@ git push origin master   # triggers Deploy workflow
 ```
 
 **CLI fallback:**
+
 ```bash
 npm run build
 npx wrangler deploy
@@ -153,6 +154,7 @@ npx wrangler deploy
 ## Phase 4 — Verification ✅
 
 Auth flow tested and working:
+
 1. Sign up → confirmation email sent to real email address ✅
 2. Confirm email → link points to `https://10x-cards.bogut20k.workers.dev` ✅
 3. Sign in / sign out ✅
@@ -166,10 +168,12 @@ Deployed URL: `https://10x-cards.bogut20k.workers.dev`
 Supabase must have the production URL as `site_url` — otherwise confirmation emails link to `localhost`.
 
 Set in Supabase Dashboard → Authentication → URL Configuration:
+
 - **Site URL**: `https://10x-cards.bogut20k.workers.dev`
 - **Redirect URLs**: `https://10x-cards.bogut20k.workers.dev/**`
 
 Local `supabase/config.toml` is kept in sync with these values. Push config changes with:
+
 ```bash
 npx supabase config push --project-ref uebytioeeilxnsurhrwg
 ```
@@ -215,13 +219,13 @@ Preview deployments are publicly accessible. Before seeding real user data, rest
 
 ## Risk Register Coverage
 
-| Risk | How Addressed |
-|---|---|
-| `disable_nodejs_process_v2` missing → opaque 500s (H/H) | Phase 1a: flag added to `wrangler.jsonc` ✅ |
-| `wrangler pages deploy` used instead of `wrangler deploy` (H/H) | Phase 1b: `command: deploy` in deploy.yml ✅ |
-| `SUPABASE_*` undefined at runtime (H/H) | Phase 2c: `wrangler secret put` ✅ |
-| Supabase `site_url` points to localhost → broken email links (H/H) | Phase 4b: site_url updated in Supabase ✅ |
-| Preview URLs public by default (M/M) | Phase 5: Cloudflare Access (pending) |
+| Risk                                                               | How Addressed                                |
+| ------------------------------------------------------------------ | -------------------------------------------- |
+| `disable_nodejs_process_v2` missing → opaque 500s (H/H)            | Phase 1a: flag added to `wrangler.jsonc` ✅  |
+| `wrangler pages deploy` used instead of `wrangler deploy` (H/H)    | Phase 1b: `command: deploy` in deploy.yml ✅ |
+| `SUPABASE_*` undefined at runtime (H/H)                            | Phase 2c: `wrangler secret put` ✅           |
+| Supabase `site_url` points to localhost → broken email links (H/H) | Phase 4b: site_url updated in Supabase ✅    |
+| Preview URLs public by default (M/M)                               | Phase 5: Cloudflare Access (pending)         |
 
 ---
 
@@ -236,10 +240,10 @@ Preview deployments are publicly accessible. Before seeding real user data, rest
 
 ## Critical Files
 
-| File | Status |
-|---|---|
-| `wrangler.jsonc` | Updated ✅ |
-| `.github/workflows/deploy.yml` | Created ✅ |
-| `supabase/config.toml` | Synced with production ✅ |
-| `.github/workflows/ci.yml` | No change needed |
-| `astro.config.mjs` | No change needed |
+| File                           | Status                    |
+| ------------------------------ | ------------------------- |
+| `wrangler.jsonc`               | Updated ✅                |
+| `.github/workflows/deploy.yml` | Created ✅                |
+| `supabase/config.toml`         | Synced with production ✅ |
+| `.github/workflows/ci.yml`     | No change needed          |
+| `astro.config.mjs`             | No change needed          |

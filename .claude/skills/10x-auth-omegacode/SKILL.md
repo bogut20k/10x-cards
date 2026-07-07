@@ -17,6 +17,7 @@ allowed-tools:
 # 10x Auth — automatyczne logowanie przez magic link
 
 Skill wywołuje `C:\Users\Radoslaw\auth10x.ps1`, który:
+
 1. Łączy się z Microsoft Graph API (M365, konto `rk@omegacode.pl`)
 2. Uruchamia `10x auth --email rk@omegacode.pl` w osobnym oknie PowerShell
 3. Polluje inbox co kilka sekund, szukając emaila od `noreply@notifications.przeprogramowani.pl`
@@ -78,19 +79,23 @@ Jeśli użytkownik podał argument `--email inny@email.com`, przekaż go:
 ### Krok 4 — Interpretacja wyniku
 
 **Sukces** (exit code 0, output zawiera "Gotowe"):
+
 ```
 Autoryzacja zakończona. 10x auth powinien mieć ważny token.
 Sprawdź: 10x auth --status
 ```
 
 **Błąd Graph API / token wygasł** (output zawiera "AADSTS" lub "InteractionRequired"):
+
 ```
 Token M365 wygasł lub wymaga ponownego logowania.
 Skrypt otworzy przeglądarkę — zaloguj się na rk@omegacode.pl i zaakceptuj Mail.Read.
 ```
+
 Uruchom skrypt ponownie — `Connect-MgGraph` otworzy przeglądarkę automatycznie.
 
 **Timeout** (output zawiera "Timeout"):
+
 ```
 Email z magic linkiem nie dotarł w 60 sekund.
 Możliwe przyczyny:
@@ -100,6 +105,7 @@ Możliwe przyczyny:
 ```
 
 **Outlook / Graph niedostępny**:
+
 ```
 Błąd połączenia z Microsoft Graph.
 Sprawdź połączenie internetowe i spróbuj ponownie.

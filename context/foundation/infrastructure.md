@@ -23,18 +23,19 @@ The two concrete risks to mitigate before first deploy: add `disable_nodejs_proc
 
 ### Scoring matrix
 
-| Platform | CLI-first | Managed/Serverless | Agent docs | Stable deploy API | MCP/Integration | **Total** |
-|---|---|---|---|---|---|---|
-| **Cloudflare Workers + Pages** | Pass | Pass | Pass | Pass | Pass | **5 Pass** |
-| Railway | Pass | Pass | Partial | Pass | Partial | **3P / 2Pt** |
-| Render | Partial | Pass | Pass | Pass | Partial | **3P / 2Pt** |
-| Fly.io | Pass | Partial | Partial | Pass | Partial | **2P / 3Pt** |
-| Vercel | Pass | Pass | Pass | Pass | Partial | — (dropped) |
-| Netlify | Pass | Pass | Pass | Pass | Pass | — (dropped) |
+| Platform                       | CLI-first | Managed/Serverless | Agent docs | Stable deploy API | MCP/Integration | **Total**    |
+| ------------------------------ | --------- | ------------------ | ---------- | ----------------- | --------------- | ------------ |
+| **Cloudflare Workers + Pages** | Pass      | Pass               | Pass       | Pass              | Pass            | **5 Pass**   |
+| Railway                        | Pass      | Pass               | Partial    | Pass              | Partial         | **3P / 2Pt** |
+| Render                         | Partial   | Pass               | Pass       | Pass              | Partial         | **3P / 2Pt** |
+| Fly.io                         | Pass      | Partial            | Partial    | Pass              | Partial         | **2P / 3Pt** |
+| Vercel                         | Pass      | Pass               | Pass       | Pass              | Partial         | — (dropped)  |
+| Netlify                        | Pass      | Pass               | Pass       | Pass              | Pass            | — (dropped)  |
 
 **Hard filter applied (Q1 — persistent connections required):** Vercel and Netlify dropped — neither supports persistent WebSocket connections natively.
 
 **Partial score notes:**
+
 - Railway agent docs: SKILL.md + agent skills present, but no confirmed `llms.txt` / `llms-full.txt`
 - Railway MCP: Beta / work-in-progress as of 2026-06-09
 - Render CLI-first: CLI + deploy hooks exist but more limited than wrangler/railway for agent-driven ops
@@ -109,27 +110,29 @@ In retrospect, the edge runtime was over-engineered for an MVP that only needed 
 
 ## Risk Register
 
-| Risk | Source | Likelihood | Impact | Mitigation |
-|---|---|---|---|---|
-| AI endpoint CPU exceeds 10 ms free-tier limit | Devil's advocate | M | L | Upgrade to paid ($5/m) proactively; monitor with `wrangler tail --status error` |
-| `disable_nodejs_process_v2` undocumented gotcha breaks Astro 6 SSR | Unknown unknowns | H | H | Add `compatibility_flags = ["disable_nodejs_process_v2"]` to `wrangler.toml` before first deploy |
-| `wrangler deploy` vs `wrangler pages deploy` causes deploy to wrong target | Unknown unknowns | H | M | Use `wrangler pages deploy ./dist --project-name 10x-cards` exclusively — never bare `wrangler deploy` |
-| `SUPABASE_URL` / `SUPABASE_KEY` undefined in production (`.dev.vars` not deployed) | Unknown unknowns | H | H | Run `wrangler pages secret put SUPABASE_URL` and `wrangler pages secret put SUPABASE_KEY` before first production deploy; verify with `wrangler pages secret list` |
-| Preview URLs are public by default, exposing per-account flashcard data | Unknown unknowns | M | M | Enable Cloudflare Access on `*.10x-cards.pages.dev` before seeding any real user data |
-| npm package uses Node.js API unavailable in workerd, fails at runtime not buildtime | Pre-mortem | L | M | Audit `package.json` for packages that use `fs`, `child_process`, or native C++ bindings; test with `npm run dev` (workerd parity) before adding new dependencies |
-| Vendor lock-in: migration to Node.js platform requires adapter swap | Devil's advocate | L | L | Keep `cloudflare:*` imports isolated to adapter boundary files; core business logic stays in framework-agnostic modules |
+| Risk                                                                                | Source           | Likelihood | Impact | Mitigation                                                                                                                                                         |
+| ----------------------------------------------------------------------------------- | ---------------- | ---------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| AI endpoint CPU exceeds 10 ms free-tier limit                                       | Devil's advocate | M          | L      | Upgrade to paid ($5/m) proactively; monitor with `wrangler tail --status error`                                                                                    |
+| `disable_nodejs_process_v2` undocumented gotcha breaks Astro 6 SSR                  | Unknown unknowns | H          | H      | Add `compatibility_flags = ["disable_nodejs_process_v2"]` to `wrangler.toml` before first deploy                                                                   |
+| `wrangler deploy` vs `wrangler pages deploy` causes deploy to wrong target          | Unknown unknowns | H          | M      | Use `wrangler pages deploy ./dist --project-name 10x-cards` exclusively — never bare `wrangler deploy`                                                             |
+| `SUPABASE_URL` / `SUPABASE_KEY` undefined in production (`.dev.vars` not deployed)  | Unknown unknowns | H          | H      | Run `wrangler pages secret put SUPABASE_URL` and `wrangler pages secret put SUPABASE_KEY` before first production deploy; verify with `wrangler pages secret list` |
+| Preview URLs are public by default, exposing per-account flashcard data             | Unknown unknowns | M          | M      | Enable Cloudflare Access on `*.10x-cards.pages.dev` before seeding any real user data                                                                              |
+| npm package uses Node.js API unavailable in workerd, fails at runtime not buildtime | Pre-mortem       | L          | M      | Audit `package.json` for packages that use `fs`, `child_process`, or native C++ bindings; test with `npm run dev` (workerd parity) before adding new dependencies  |
+| Vendor lock-in: migration to Node.js platform requires adapter swap                 | Devil's advocate | L          | L      | Keep `cloudflare:*` imports isolated to adapter boundary files; core business logic stays in framework-agnostic modules                                            |
 
 ## Getting Started
 
 These steps assume the 10x-astro-starter is already scaffolded with `@astrojs/cloudflare` (confirmed in tech-stack.md). Steps are Astro 6 + wrangler-specific, not generic.
 
 1. **Install and authenticate wrangler** (if not already):
+
    ```
    npm install -g wrangler
    wrangler login
    ```
 
 2. **Add the process v2 compatibility flag** to `wrangler.toml` (or create it at project root if absent):
+
    ```toml
    name = "10x-cards"
    compatibility_date = "2024-09-23"
@@ -138,16 +141,19 @@ These steps assume the 10x-astro-starter is already scaffolded with `@astrojs/cl
    ```
 
 3. **Set production secrets** (do this before first deploy):
+
    ```
    wrangler pages secret put SUPABASE_URL --project-name 10x-cards
    wrangler pages secret put SUPABASE_KEY --project-name 10x-cards
    ```
 
 4. **Build and deploy**:
+
    ```
    npm run build
    wrangler pages deploy ./dist --project-name 10x-cards
    ```
+
    On first run, wrangler will prompt to create the Pages project — accept with the default name `10x-cards`.
 
 5. **Verify** — tail live logs while exercising the deployed URL:
@@ -159,6 +165,7 @@ These steps assume the 10x-astro-starter is already scaffolded with `@astrojs/cl
 ## Out of Scope
 
 The following were not evaluated in this research:
+
 - Docker image configuration
 - CI/CD pipeline setup (GitHub Actions auto-deploy is specified in tech-stack.md — configure separately)
 - Production-scale architecture (multi-region, HA, DR)
