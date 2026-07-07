@@ -32,7 +32,7 @@ Student uczący się regularnie ma duże partie tekstu do przyswojenia i wie, ż
 | F-00 | gate-product-routes      | (foundation) ochrona tras produktowych w middleware          | —             | NFR (bezpieczeństwo)            | done     |
 | F-01 | flashcard-schema-and-rls | (foundation) schemat fiszek i stanu SR w DB + RLS            | —             | NFR (prywatność), FR-002, FR-005 | done     |
 | S-01 | ai-generation-and-review | wkleić tekst, dostać fiszki od AI i zaakceptować/edytować je | F-01          | FR-001, FR-002, FR-003, US-01   | done        |
-| S-02 | flashcard-edit-and-delete| edytować i usuwać zapisane fiszki                            | F-01, S-01    | FR-006                          | proposed |
+| S-02 | flashcard-edit-and-delete| edytować i usuwać zapisane fiszki                            | F-01, S-01    | FR-006                          | done     |
 | S-03 | manual-card-creation     | ręcznie utworzyć fiszkę (przód + tył)                        | F-01          | FR-004                          | proposed |
 | S-04 | spaced-repetition-session| przeprowadzić sesję powtórek opartą na algorytmie SR         | F-01, S-01    | FR-005, US-01                   | proposed |
 
@@ -106,7 +106,7 @@ Foundations below assume these are present and do NOT re-scaffold them.
 - **Blockers:** —
 - **Unknowns:** —
 - **Risk:** Usunięcie fiszki powinno usunąć też jej stan SR (orphan records); wymagana kaskada w migracji lub soft delete — szczegół do rozstrzygnięcia w `/10x-plan flashcard-edit-and-delete`.
-- **Status:** proposed
+- **Status:** done ✓
 
 ### S-03: Ręczne tworzenie fiszek
 
