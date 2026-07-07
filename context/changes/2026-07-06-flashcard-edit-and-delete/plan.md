@@ -257,13 +257,13 @@ Dodanie shared nav baru do `Layout.astro` widocznego gdy użytkownik jest zalogo
 
 #### Ręczne
 
-- [ ] 1.3 GET `/api/flashcards` (zalogowany) → 200 z tablicą flashcards
-- [ ] 1.4 GET `/api/flashcards` (niezalogowany) → 401
-- [ ] 1.5 PATCH `/api/flashcards/<id>` z poprawnym body → 200 z zaktualizowaną fiszką
-- [ ] 1.6 PATCH z pustym `front` → 400
-- [ ] 1.7 PATCH z `front` > 500 znaków → 400
-- [ ] 1.8 DELETE `/api/flashcards/<id>` → 204
-- [ ] 1.9 DELETE cudzej fiszki → 404
+- [x] 1.3 GET `/api/flashcards` (zalogowany) → 200 z tablicą flashcards
+- [x] 1.4 GET `/api/flashcards` (niezalogowany) → 401
+- [x] 1.5 PATCH `/api/flashcards/<id>` z poprawnym body → 200 z zaktualizowaną fiszką
+- [x] 1.6 PATCH z pustym `front` → 400
+- [x] 1.7 PATCH z `front` > 500 znaków → 400
+- [x] 1.8 DELETE `/api/flashcards/<id>` → 204
+- [x] 1.9 DELETE cudzej fiszki → 404
 
 ### Faza 2: FlashcardList island + strona /flashcards
 
@@ -274,15 +274,15 @@ Dodanie shared nav baru do `Layout.astro` widocznego gdy użytkownik jest zalogo
 
 #### Ręczne
 
-- [ ] 2.3 `/flashcards` renderuje listę fiszek zalogowanego użytkownika
-- [ ] 2.4 Zmiana sortowania filtruje listę client-side
-- [ ] 2.5 Klik karta → textareas z aktualną zawartością
-- [ ] 2.6 Edycja + Zapisz → karta aktualizuje się inline
-- [ ] 2.7 Edycja z pustym `front` → przycisk Zapisz zablokowany
-- [ ] 2.8 Klik X → karta znika + toast Cofnij przez 5s
-- [ ] 2.9 Klik Cofnij → karta wraca, DELETE nie wysłany
-- [ ] 2.10 Po 5s bez Cofnij → karta trwale usunięta
-- [ ] 2.11 Brak fiszek → empty state z linkami
+- [x] 2.3 `/flashcards` renderuje listę fiszek zalogowanego użytkownika
+- [x] 2.4 Zmiana sortowania filtruje listę client-side
+- [x] 2.5 Klik karta → textareas z aktualną zawartością
+- [x] 2.6 Edycja + Zapisz → karta aktualizuje się inline
+- [x] 2.7 Edycja z pustym `front` → przycisk Zapisz zablokowany
+- [x] 2.8 Klik X → karta znika + toast Cofnij przez 5s
+- [x] 2.9 Klik Cofnij → karta wraca, DELETE nie wysłany
+- [x] 2.10 Po 5s bez Cofnij → karta trwale usunięta
+- [x] 2.11 Brak fiszek → empty state z linkami (SKIP — 7 kart w DB)
 
 ### Faza 3: Globalny nav bar
 
@@ -293,7 +293,7 @@ Dodanie shared nav baru do `Layout.astro` widocznego gdy użytkownik jest zalogo
 
 #### Ręczne
 
-- [ ] 3.3 Nav bar widoczny na `/dashboard`, `/generate`, `/flashcards`
-- [ ] 3.4 Nav bar niewidoczny na `/auth/signin`
-- [ ] 3.5 Wylogowanie z nav baru działa
-- [ ] 3.6 Dashboard nie pokazuje duplikatu emaila/logout
+- [x] 3.3 Nav bar widoczny na `/dashboard`, `/generate`, `/flashcards`
+- [x] 3.4 Nav bar niewidoczny na `/auth/signin`
+- [x] 3.5 Wylogowanie z nav baru działa
+- [x] 3.6 Dashboard nie pokazuje duplikatu emaila/logout

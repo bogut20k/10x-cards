@@ -9,6 +9,7 @@ interface Props {
 
 const { title = "10x Astro Starter" } = Astro.props;
 const user = Astro.locals.user;
+const showNav = !!user && !Astro.url.pathname.startsWith("/auth/");
 ---
 
 <!doctype html>
@@ -37,7 +38,7 @@ const user = Astro.locals.user;
       ))
     }
     {
-      user && (
+      showNav && (
         <nav class="border-b border-white/10 bg-white/10 backdrop-blur-xl">
           <div class="mx-auto flex max-w-2xl items-center justify-between px-4 py-3">
             <div class="flex items-center gap-1">
