@@ -1,0 +1,1 @@
+ALTER TABLE flashcards ADD COLUMN learning_steps INTEGER NOT NULL DEFAULT 0;
