@@ -309,39 +309,39 @@ Stylowanie: Tailwind, `cn()` z `@/lib/utils`, `Button` z `@/components/ui/button
 
 #### Automatyczne
 
-- [x] 1.1 Migracja applies czysto (apply_migration MCP)
-- [x] 1.2 `npm ls ts-fsrs` pokazuje zainstalowany pakiet
-- [x] 1.3 `npm run lint` przechodzi
-- [x] 1.4 `npm run build` przechodzi (nowe typy)
+- [x] 1.1 Migracja applies czysto (apply_migration MCP) — ee3cc1b
+- [x] 1.2 `npm ls ts-fsrs` pokazuje zainstalowany pakiet — ee3cc1b
+- [x] 1.3 `npm run lint` przechodzi — ee3cc1b
+- [x] 1.4 `npm run build` przechodzi (nowe typy) — ee3cc1b
 
 #### Ręczne
 
-- [x] 1.5 Kolumna `learning_steps` widoczna w Supabase Table Editor
+- [x] 1.5 Kolumna `learning_steps` widoczna w Supabase Table Editor — ee3cc1b
 
 ### Phase 2: Backend API
 
 #### Automatyczne
 
-- [ ] 2.1 `npm run lint` przechodzi dla nowych plików API
-- [ ] 2.2 `npm run build` przechodzi
+- [x] 2.1 `npm run lint` przechodzi dla nowych plików API
+- [x] 2.2 `npm run build` przechodzi
 
 #### Ręczne
 
-- [ ] 2.3 GET /api/review/session zwraca karty z preview
-- [ ] 2.4 POST /api/review aktualizuje due i pola SR w DB
+- [x] 2.3 GET /api/review/session zwraca karty z preview
+- [x] 2.4 POST /api/review aktualizuje due i pola SR w DB
 
 ### Phase 3: Frontend
 
 #### Automatyczne
 
-- [ ] 3.1 `npm run lint` przechodzi
-- [ ] 3.2 `npm run build` przechodzi
+- [x] 3.1 `npm run lint` przechodzi
+- [x] 3.2 `npm run build` przechodzi
 
 #### Ręczne
 
-- [ ] 3.3 /review ładuje się, pokazuje przód pierwszej karty
-- [ ] 3.4 Flip działa (klik + Spacja)
-- [ ] 3.5 4 przyciski z interwałami widoczne po flipie
-- [ ] 3.6 Ocena przechodzi do następnej karty
-- [ ] 3.7 Klawisze 1-4 działają jako skróty
-- [ ] 3.8 Ekran "Gotowe na dziś!" z czasem powrotu
+- [x] 3.3 /review ładuje się, pokazuje przód pierwszej karty
+- [x] 3.4 Flip działa (klik + Spacja)
+- [x] 3.5 4 przyciski z interwałami widoczne po flipie
+- [x] 3.6 Ocena przechodzi do następnej karty
+- [x] 3.7 Klawisze 1-4 działają jako skróty
+- [x] 3.8 Ekran "Gotowe na dziś!" z czasem powrotu
