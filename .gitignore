@@ -1,3 +1,6 @@
+# local MCP config (contains API keys)
+.mcp.json
+
 # build output
 dist/
 
@@ -27,3 +30,5 @@ pnpm-debug.log*
 # jetbrains setting folder
 .idea/
 test-output/*.*
+.vscode/*.*
+.claude/*.*

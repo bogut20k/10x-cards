@@ -34,7 +34,7 @@ Student uczący się regularnie ma duże partie tekstu do przyswojenia i wie, ż
 | S-01 | ai-generation-and-review  | wkleić tekst, dostać fiszki od AI i zaakceptować/edytować je | F-01          | FR-001, FR-002, FR-003, US-01    | done        |
 | S-02 | flashcard-edit-and-delete | edytować i usuwać zapisane fiszki                            | F-01, S-01    | FR-006                           | done        |
 | S-03 | manual-card-creation      | ręcznie utworzyć fiszkę (przód + tył)                        | F-01          | FR-004                           | done        |
-| S-04 | spaced-repetition-session | przeprowadzić sesję powtórek opartą na algorytmie SR         | F-01, S-01    | FR-005, US-01                    | proposed    |
+| S-04 | srs-review-session        | przeprowadzić sesję powtórek opartą na algorytmie SR         | F-01, S-01    | FR-005, US-01                    | open        |
 
 ## Streams
 
@@ -123,7 +123,7 @@ Foundations below assume these are present and do NOT re-scaffold them.
 ### S-04: Sesja powtórek (spaced repetition)
 
 - **Outcome:** użytkownik może przeprowadzić sesję powtórek swoich fiszek, gdzie algorytm spaced repetition (metoda optymalizująca harmonogram powtórek — decyduje kiedy pokazać każdą fiszkę, minimalizując liczbę sesji potrzebnych do zapamiętania) wyznacza kolejność, a użytkownik ocenia każdą fiszkę (łatwa / trudna / nie pamiętam).
-- **Change ID:** spaced-repetition-session
+- **Change ID:** srs-review-session
 - **PRD refs:** FR-005, US-01
 - **Prerequisites:** F-01, S-01
 - **Parallel with:** S-02
@@ -131,7 +131,7 @@ Foundations below assume these are present and do NOT re-scaffold them.
 - **Unknowns:**
   - Która gotowa biblioteka SR zostanie użyta (np. `ts-fsrs` dla FSRS, implementacja SM-2)? — Owner: user. Block: no.
 - **Risk:** Sesja powtórek musi działać gdy AI API jest niedostępne (NFR); implementacja nie może być sprzężona z logiką S-01 — osobny endpoint, osobny flow.
-- **Status:** proposed
+- **Status:** open
 
 ## Backlog Handoff
 
@@ -141,7 +141,7 @@ Foundations below assume these are present and do NOT re-scaffold them.
 | S-01       | ai-generation-and-review  | Generowanie fiszek przez AI + przegląd przed zapisem | no                    | Zablokowane: wybór dostawcy AI API (Q-01)                    |
 | S-02       | flashcard-edit-and-delete | Edycja i usuwanie zapisanych fiszek                  | no                    | Wymaga ukończenia F-01 + S-01                                |
 | S-03       | manual-card-creation      | Ręczne tworzenie fiszki (przód + tył)                | no                    | Wymaga ukończenia F-01; może być planowane równolegle z S-01 |
-| S-04       | spaced-repetition-session | Sesja powtórek (algorytm spaced repetition)          | no                    | Wymaga ukończenia S-01                                       |
+| S-04       | srs-review-session        | Sesja powtórek (algorytm spaced repetition)          | no                    | Wymaga ukończenia S-01                                       |
 
 ## Open Roadmap Questions
 
