@@ -334,14 +334,14 @@ Stylowanie: Tailwind, `cn()` z `@/lib/utils`, `Button` z `@/components/ui/button
 
 #### Automatyczne
 
-- [x] 3.1 `npm run lint` przechodzi
-- [x] 3.2 `npm run build` przechodzi
+- [x] 3.1 `npm run lint` przechodzi — c2ac3b0
+- [x] 3.2 `npm run build` przechodzi — c2ac3b0
 
 #### Ręczne
 
-- [x] 3.3 /review ładuje się, pokazuje przód pierwszej karty
-- [x] 3.4 Flip działa (klik + Spacja)
-- [x] 3.5 4 przyciski z interwałami widoczne po flipie
-- [x] 3.6 Ocena przechodzi do następnej karty
-- [x] 3.7 Klawisze 1-4 działają jako skróty
-- [x] 3.8 Ekran "Gotowe na dziś!" z czasem powrotu
+- [x] 3.3 /review ładuje się, pokazuje przód pierwszej karty — c2ac3b0
+- [x] 3.4 Flip działa (klik + Spacja) — c2ac3b0
+- [x] 3.5 4 przyciski z interwałami widoczne po flipie — c2ac3b0
+- [x] 3.6 Ocena przechodzi do następnej karty — c2ac3b0
+- [x] 3.7 Klawisze 1-4 działają jako skróty — c2ac3b0
+- [x] 3.8 Ekran "Gotowe na dziś!" z czasem powrotu — c2ac3b0
