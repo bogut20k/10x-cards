@@ -9,7 +9,7 @@ import cloudflare from "@astrojs/cloudflare";
 // https://astro.build/config
 export default defineConfig({
   output: "server",
-  server: { port: 4322 },
+  server: { port: 4321 },
   integrations: [react(), sitemap()],
   vite: {
     plugins: [tailwindcss()],

@@ -4,7 +4,7 @@ import { createClient } from "@/lib/supabase";
 export const PATCH: APIRoute = async (context) => {
   const user = context.locals.user;
   if (!user) {
-    return new Response(JSON.stringify({ error: "Unauthorized" }), {
+    return new Response(JSON.stringify({ error: "Nieautoryzowany dostęp." }), {
       status: 401,
       headers: { "Content-Type": "application/json" },
     });
@@ -67,7 +67,7 @@ export const PATCH: APIRoute = async (context) => {
 export const DELETE: APIRoute = async (context) => {
   const user = context.locals.user;
   if (!user) {
-    return new Response(JSON.stringify({ error: "Unauthorized" }), {
+    return new Response(JSON.stringify({ error: "Nieautoryzowany dostęp." }), {
       status: 401,
       headers: { "Content-Type": "application/json" },
     });

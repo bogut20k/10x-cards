@@ -54,6 +54,7 @@ export const POST: APIRoute = async (context) => {
       .from("flashcards")
       .select("id, due, stability, difficulty, scheduled_days, learning_steps, reps, lapses, state, last_review")
       .eq("id", card_id)
+      .eq("user_id", user.id)
       .single();
 
     if (fetchError) {
@@ -93,7 +94,8 @@ export const POST: APIRoute = async (context) => {
         state: updated.state,
         last_review: updated.last_review ? updated.last_review.toISOString() : null,
       })
-      .eq("id", card_id);
+      .eq("id", card_id)
+      .eq("user_id", user.id);
 
     if (updateError) {
       return new Response(JSON.stringify({ error: "Błąd aktualizacji fiszki." }), {
@@ -106,7 +108,8 @@ export const POST: APIRoute = async (context) => {
       status: 200,
       headers: { "Content-Type": "application/json" },
     });
-  } catch {
+  } catch (e) {
+    console.error(e);
     return new Response(JSON.stringify({ error: "Błąd serwera." }), {
       status: 500,
       headers: { "Content-Type": "application/json" },

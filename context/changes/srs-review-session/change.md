@@ -1,9 +1,9 @@
 ---
 change_id: srs-review-session
 title: Spaced repetition review session
-status: implemented
+status: impl_reviewed
 created: 2026-07-14
-updated: 2026-07-15
+updated: 2026-07-21
 archived_at: null
 ---
 

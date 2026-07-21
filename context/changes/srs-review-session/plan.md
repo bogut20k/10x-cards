@@ -290,6 +290,14 @@ Stylowanie: Tailwind, `cn()` z `@/lib/utils`, `Button` z `@/components/ui/button
 - Użytkownik bez fiszek → empty state bez `next_due`
 - Błąd sieci w trakcie POST → błąd nie blokuje UI (pokaż toast lub prosty komunikat)
 
+## Aneks — zmiany integracyjne
+
+Zmiany dokonane poza zakresem faz 1–3, odkryte podczas implementacji:
+
+- `src/pages/dashboard.astro`: Dodano kafel "Sesja powtórek" (href="/review") jako pierwszy element gridu. Grid zmieniony z `grid-cols-1 sm:grid-cols-2` na `grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4` (4 kafle: Fiszki, Sesja powtórek, Nowa fiszka, Import AI). Zmiana wymagana do integracji nowej funkcji z dashboardem.
+
+---
+
 ## Referencje
 
 - Badania: `context/changes/srs-review-session/research.md`

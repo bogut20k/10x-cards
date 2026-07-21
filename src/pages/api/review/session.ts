@@ -139,7 +139,8 @@ export const GET: APIRoute = async (context) => {
       status: 200,
       headers: { "Content-Type": "application/json" },
     });
-  } catch {
+  } catch (e) {
+    console.error(e);
     return new Response(JSON.stringify({ error: "Błąd serwera." }), {
       status: 500,
       headers: { "Content-Type": "application/json" },

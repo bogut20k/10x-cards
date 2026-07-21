@@ -63,19 +63,13 @@ export default function ReviewSession() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [nextDue, setNextDue] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [redirectPath, setRedirectPath] = useState<string | null>(null);
-
-  useEffect(() => {
-    if (redirectPath) {
-      window.location.href = redirectPath;
-    }
-  }, [redirectPath]);
+  const [isRating, setIsRating] = useState(false);
 
   useEffect(() => {
     fetch("/api/review/session")
       .then((r) => {
         if (r.redirected) {
-          setRedirectPath("/auth/signin");
+          window.location.href = "/auth/signin";
           return null;
         }
         return r.json() as Promise<{ cards?: FlashcardForReview[]; next_due?: string | null; error?: string }>;
@@ -98,28 +92,42 @@ export default function ReviewSession() {
 
   const rate = useCallback(
     async (rating: ReviewRating) => {
+      if (isRating) return;
+      setIsRating(true);
       const card = cards[currentIndex];
 
-      const res = await fetch("/api/review", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ card_id: card.id, rating }),
-      });
+      try {
+        const res = await fetch("/api/review", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ card_id: card.id, rating }),
+        });
 
-      if (res.redirected) {
-        setRedirectPath("/auth/signin");
-        return;
-      }
+        if (res.redirected) {
+          window.location.href = "/auth/signin";
+          return;
+        }
 
-      const nextIndex = currentIndex + 1;
-      if (nextIndex < cards.length) {
-        setCurrentIndex(nextIndex);
-        setPhase("front");
-      } else {
-        setPhase("done");
+        if (!res.ok) {
+          const data = (await res.json()) as { error?: string };
+          setError(data.error ?? "Błąd zapisu oceny.");
+          return;
+        }
+
+        const nextIndex = currentIndex + 1;
+        if (nextIndex < cards.length) {
+          setCurrentIndex(nextIndex);
+          setPhase("front");
+        } else {
+          setPhase("done");
+        }
+      } catch {
+        setError("Błąd połączenia. Spróbuj ponownie.");
+      } finally {
+        setIsRating(false);
       }
     },
-    [cards, currentIndex],
+    [cards, currentIndex, isRating],
   );
 
   useEffect(() => {
@@ -233,8 +241,9 @@ export default function ReviewSession() {
               <button
                 key={rating}
                 onClick={() => void rate(rating)}
+                disabled={isRating}
                 className={cn(
-                  "flex flex-col items-center gap-1 rounded-xl border px-2 py-3 text-xs font-medium transition-colors",
+                  "flex flex-col items-center gap-1 rounded-xl border px-2 py-3 text-xs font-medium transition-colors disabled:opacity-50",
                   colorClass,
                 )}
               >
