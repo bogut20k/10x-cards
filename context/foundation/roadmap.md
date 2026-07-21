@@ -131,7 +131,7 @@ Foundations below assume these are present and do NOT re-scaffold them.
 - **Unknowns:**
   - Która gotowa biblioteka SR zostanie użyta (np. `ts-fsrs` dla FSRS, implementacja SM-2)? — Owner: user. Block: no.
 - **Risk:** Sesja powtórek musi działać gdy AI API jest niedostępne (NFR); implementacja nie może być sprzężona z logiką S-01 — osobny endpoint, osobny flow.
-- **Status:** open
+- **Status:** done ✓ (commit 0b99b0e, 2026-07-21; BOG-8 closed)
 
 ## Backlog Handoff
 

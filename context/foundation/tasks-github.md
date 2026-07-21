@@ -33,8 +33,8 @@ Mapowanie roadmapowych Change ID na GitHub Issues. Aktualizuj status po zamknię
 | — | ai-generation-and-review  | Generowanie fiszek przez AI + przegląd przed zapisem | ✅      | S-01 done                                   |
 | — | flashcard-edit-and-delete | Edycja i usuwanie zapisanych fiszek                  | ✅      | S-02 done                                   |
 | — | manual-card-creation      | Ręczne tworzenie fiszki (przód + tył)                | ✅      | S-03 done                                   |
-| — | srs-review-session        | Sesja powtórek (algorytm spaced repetition)          | 🔄      | S-04; open; wymaga S-01; biblioteka SR do wyboru  |
+| — | srs-review-session        | Sesja powtórek (algorytm spaced repetition)          | ✅      | S-04 done; BOG-8 closed; commit 0b99b0e |
 
 ## Następny krok
 
-Otworzyć issue dla **S-04 `spaced-repetition-session`** i uruchomić `/10x-plan spaced-repetition-session`.
+Wszystkie zaplanowane slices (S-01–S-04) ukończone. Kolejny krok: wybrać kolejny roadmap item lub zacząć Moduł 3 (testy).

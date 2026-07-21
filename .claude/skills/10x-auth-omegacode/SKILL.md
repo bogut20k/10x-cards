@@ -1,118 +1,114 @@
 ---
 name: 10x-auth-omegacode
 description: >
-  Automatyzuje logowanie do 10x-cli przez magic link. Uruchamia skrypt auth10x.ps1,
-  który wywołuje `10x auth --email rk@omegacode.pl`, pobiera magic link z Outlooka
-  przez Microsoft Graph API i automatycznie go otwiera w przeglądarce.
-  Przy pierwszym uruchomieniu otworzy okno przeglądarki do zalogowania M365 —
-  to jednorazowe; potem token jest cache'owany.
+  Automatyzuje logowanie do 10x-cli przez magic link. Uruchamia równolegle
+  `10x auth --email rk@omegacode.pl` oraz skrypt Playwright który czyta Outlooka
+  przez outlook.office.com, wykrywa nowy mail od noreply@notifications.przeprogramowani.pl,
+  klika link, przenosi mail do kosza i zamyka Chrome.
+  Sesja Chrome jest zapisana — pierwsze uruchomienie wymaga ręcznego logowania 2FA.
   Trigger phrases: "zaloguj 10x", "10x auth", "auth 10x", "zaloguj się do 10x",
   "odśwież token 10x", "10x login".
-argument-hint: "[--email adres@email.com]"
 allowed-tools:
   - PowerShell
   - Bash
 ---
 
-# 10x Auth — automatyczne logowanie przez magic link
+# 10x Auth — automatyczne logowanie przez magic link (Playwright)
 
-Skill wywołuje `C:\Users\Radoslaw\auth10x.ps1`, który:
-
-1. Łączy się z Microsoft Graph API (M365, konto `rk@omegacode.pl`)
-2. Uruchamia `10x auth --email rk@omegacode.pl` w osobnym oknie PowerShell
-3. Polluje inbox co kilka sekund, szukając emaila od `noreply@notifications.przeprogramowani.pl`
-4. Wyciąga magic link i otwiera go w przeglądarce
-5. `10x auth` w tle dostaje token i kończy autoryzację
-
-## Pierwsze uruchomienie (brak cached tokena Graph)
-
-Przeglądarka otworzy się automatycznie z ekranem logowania Microsoft 365.
-Użytkownik loguje się na `rk@omegacode.pl` i akceptuje uprawnienie `Mail.Read`.
-Token jest cache'owany przez MSAL — kolejne uruchomienia są w pełni automatyczne.
+Skill uruchamia dwa procesy równolegle:
+1. `10x auth --email rk@omegacode.pl` — wysyła żądanie magic linka
+2. `outlook-magic-link.cjs` — Playwright otwiera Outlook w Chrome, szuka nowego maila od `noreply@notifications.przeprogramowani.pl`, klika link, przenosi mail do kosza, zamyka Chrome
 
 ## Workflow
 
-### Krok 1 — Sprawdź czy skrypt istnieje
+### Krok 0 — Ustal email
+
+Jeśli użytkownik podał email jako argument (np. `/10x-auth-omegacode inny@email.com`), użyj go.
+W przeciwnym razie użyj domyślnego: `rk@omegacode.pl`.
+
+Dalej w tym skilla `<EMAIL>` oznacza ustalony email.
+
+### Krok 1 — Poinformuj użytkownika
+
+> Wysyłam magic link na **<EMAIL>** i uruchamiam Outlook — poczekaj do 3 minut.
+
+### Krok 2 — Sprawdź czy skrypt Playwright istnieje
 
 ```powershell
-Test-Path "C:\Users\Radoslaw\auth10x.ps1"
+Test-Path "C:\Users\Radoslaw\.claude\.global\10x-auth-omegacode\outlook-magic-link.cjs"
 ```
 
-Jeśli zwróci `False`:
-
+Jeśli `False` — STOP:
 ```
-Skrypt C:\Users\Radoslaw\auth10x.ps1 nie istnieje.
-Odtwórz go z pamięci projektu: context projektu 10x-auth-automation.
+Skrypt outlook-magic-link.cjs nie istnieje w C:\Users\Radoslaw\.claude\.global\10x-auth-omegacode\.
 ```
 
-STOP.
+### Krok 3 — Uruchom oba procesy równolegle
 
-### Krok 2 — Sprawdź czy moduły Graph są zainstalowane
-
+**Playwright (czyta Outlooka i klika link):**
 ```powershell
-$missing = @("Microsoft.Graph.Authentication","Microsoft.Graph.Mail") | Where-Object {
-    -not (Get-Module -ListAvailable -Name $_ -ErrorAction SilentlyContinue)
-}
-$missing
+Start-Process powershell -WindowStyle Minimized -ArgumentList "-Command", "node 'C:\Users\Radoslaw\.claude\.global\10x-auth-omegacode\outlook-magic-link.cjs'"
 ```
 
-Jeśli lista nie jest pusta — zainstaluj brakujące moduły:
-
+**Magic link (wyślij żądanie — użyj <EMAIL>):**
 ```powershell
-Install-Module $missing -Scope CurrentUser -Force -AllowClobber
+$env:NODE_OPTIONS="--use-system-ca"; 10x auth --email <EMAIL>
 ```
 
-### Krok 3 — Uruchom skrypt
+Uruchom oba — nie czekaj aż jeden skończy.
 
-Uruchom skrypt i przekaż output na bieżąco:
+### Krok 4 — Monitoruj wynik
 
-```powershell
-& "C:\Users\Radoslaw\auth10x.ps1"
+Sprawdzaj output `10x auth` co kilka sekund. Sukces gdy zwróci:
+```json
+{"status":"ok","data":{"authenticated":true,"email":"<EMAIL>"}}
 ```
 
-Jeśli użytkownik podał argument `--email inny@email.com`, przekaż go:
+### Krok 5 — Interpretacja wyniku i push notification
 
-```powershell
-& "C:\Users\Radoslaw\auth10x.ps1" -Email "inny@email.com"
+**Sukces** (`authenticated: true`):
+
+Wywołaj `PushNotification` z message: `10x auth OK — zalogowany jako <EMAIL>`
+
+Następnie odpowiedz:
+```
+Autoryzacja zakończona — 10x CLI zalogowany jako <EMAIL>.
 ```
 
-### Krok 4 — Interpretacja wyniku
+**Pierwsze uruchomienie / sesja Chrome wygasła:**
 
-**Sukces** (exit code 0, output zawiera "Gotowe"):
+Wywołaj `PushNotification` z message: `10x auth — wymagane 2FA dla <EMAIL>`
 
+Następnie odpowiedz:
 ```
-Autoryzacja zakończona. 10x auth powinien mieć ważny token.
-Sprawdź: 10x auth --status
-```
-
-**Błąd Graph API / token wygasł** (output zawiera "AADSTS" lub "InteractionRequired"):
-
-```
-Token M365 wygasł lub wymaga ponownego logowania.
-Skrypt otworzy przeglądarkę — zaloguj się na rk@omegacode.pl i zaakceptuj Mail.Read.
+W oknie Chrome zaloguj się na <EMAIL> (z 2FA).
+Sesja zostanie zapisana — kolejne uruchomienia są automatyczne.
 ```
 
-Uruchom skrypt ponownie — `Connect-MgGraph` otworzy przeglądarkę automatycznie.
+**Timeout Playwright** (output zawiera "Timeout"):
 
-**Timeout** (output zawiera "Timeout"):
+Wywołaj `PushNotification` z message: `10x auth TIMEOUT — email nie dotarł dla <EMAIL>`
 
+Następnie odpowiedz:
 ```
-Email z magic linkiem nie dotarł w 60 sekund.
+Email z magic linkiem nie dotarł w 180 sekund.
 Możliwe przyczyny:
-- AVG zablokował `10x auth` (sprawdź wyjątki AVG)
-- Email trafił do folderu Spam
-- 10x CLI nie wysłało żądania (sprawdź nowe okno PowerShell)
+- AVG zablokował 10x auth — sprawdź/wyłącz tymczasowo AVG
+- Outlook nie jest zalogowany — zamknij Chrome i uruchom ponownie
 ```
 
-**Outlook / Graph niedostępny**:
+**Błąd NODE_OPTIONS / TLS:**
 
+Wywołaj `PushNotification` z message: `10x auth BŁĄD TLS dla <EMAIL> — sprawdź NODE_OPTIONS`
+
+Następnie odpowiedz:
 ```
-Błąd połączenia z Microsoft Graph.
-Sprawdź połączenie internetowe i spróbuj ponownie.
+Uruchom: $env:NODE_OPTIONS="--use-system-ca"; 10x auth --email <EMAIL>
+AVG wymaga tej flagi do poprawnej weryfikacji certyfikatów.
 ```
 
 ## Guardrails
 
-- Skill używa wyłącznie `Mail.Read` — nie modyfikuje, nie usuwa, nie wysyła emaili.
-- Nie zapisuje żadnych plików poza cache tokenów MSAL (zarządzanym przez system).
-- Jeśli skrypt nie istnieje, STOP — nie odtwarzaj go bez potwierdzenia użytkownika.
+- Playwright używa wyłącznie `outlook.office.com` — nie modyfikuje danych, tylko czyta inbox i przenosi mail do Deleted Items
+- Mail jest przenoszony do kosza (Deleted Items), nie usuwany permanentnie
+- Sesja Chrome zapisana w `~/.outlook-magic-link-session` — nie udostępniaj tego katalogu
