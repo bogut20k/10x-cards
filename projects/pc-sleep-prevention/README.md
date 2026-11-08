@@ -10,11 +10,11 @@ naciska klawisz F15 (`keybd_event`), co zeruje systemowy licznik bezczynności (
 Nie zmienia ustawień zasilania. Po ustaniu aktywności Claude systemowy licznik (1 h) usypia PC ok. 65 min później.
 Do sprawdzenia: działanie na zablokowanym ekranie oraz czy F15 nie wywołuje akcji w jakiejś aplikacji (np. skróty w grach/makra).
 
-## Uruchomienie
-1. Skopiuj do `C:\Tools\claude-awake.ps1`.
-2. Test: `powershell -ExecutionPolicy Bypass -File C:\Tools\claude-awake.ps1`
-3. Autostart: Harmonogram zadań → wyzwalacz "Przy logowaniu" →
-   `powershell.exe -WindowStyle Hidden -ExecutionPolicy Bypass -File C:\Tools\claude-awake.ps1`
+## Uruchomienie (szybko)
+Pobierz folder z repo na PC, w PowerShellu:
+`powershell -ExecutionPolicy Bypass -File .\install.ps1`
+Kopiuje skrypt do `%LOCALAPPDATA%\claude-awake`, rejestruje zadanie `ClaudeAwake` (start przy logowaniu, ukryte) i od razu je uruchamia.
+Sprawdzenie: `Get-ScheduledTask ClaudeAwake`. Usunięcie: `Unregister-ScheduledTask ClaudeAwake -Confirm:$false`.
 
 ## Do zrobienia / przypomnienie na nową sesję
 - [ ] Sprawdzić `powercfg /requests` podczas zadania zleconego z telefonu – czy Claude Desktop sam blokuje uśpienie.
