@@ -1,7 +1,7 @@
-# Instalator: kopiuje claude-awake.ps1 do %LOCALAPPDATA%\claude-awake, rejestruje zadanie
+# Instalator: kopiuje claude-awake.ps1 do %USERPROFILE%\.claude\claude-awake, rejestruje zadanie
 # "ClaudeAwake" uruchamiane przy logowaniu (ukryte) i od razu je startuje. Admin niepotrzebny.
 $src  = Join-Path $PSScriptRoot 'claude-awake.ps1'
-$dest = Join-Path $env:LOCALAPPDATA 'claude-awake'
+$dest = Join-Path $env:USERPROFILE '.claude\claude-awake'
 New-Item -ItemType Directory -Force $dest | Out-Null
 Copy-Item $src $dest -Force
 $script = Join-Path $dest 'claude-awake.ps1'

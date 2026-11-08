@@ -13,7 +13,7 @@ Do sprawdzenia: działanie na zablokowanym ekranie oraz czy F15 nie wywołuje ak
 ## Uruchomienie (szybko)
 Pobierz folder z repo na PC, w PowerShellu:
 `powershell -ExecutionPolicy Bypass -File .\install.ps1`
-Kopiuje skrypt do `%LOCALAPPDATA%\claude-awake`, rejestruje zadanie `ClaudeAwake` (start przy logowaniu, ukryte) i od razu je uruchamia.
+Kopiuje skrypt do `%USERPROFILE%\.claude\claude-awake`, rejestruje zadanie `ClaudeAwake` (start przy logowaniu, ukryte) i od razu je uruchamia.
 Sprawdzenie: `Get-ScheduledTask ClaudeAwake`. Usunięcie: `Unregister-ScheduledTask ClaudeAwake -Confirm:$false`.
 
 ## Do zrobienia / przypomnienie na nową sesję
