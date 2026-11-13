@@ -1,0 +1,12 @@
+{
+  "hooks": {
+    "PermissionRequest": [
+      {
+        "matcher": "",
+        "hooks": [
+          { "type": "command", "command": "python \"E:\\@ PROGRAMOWANIE\\.claude\\hooks\\ntfy_permission.py\"", "timeout": 130 }
+        ]
+      }
+    ]
+  }
+}
